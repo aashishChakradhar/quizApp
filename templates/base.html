@@ -19,39 +19,37 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent" style="height:50px">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
+                            <li class="nav-item" style="width: max-content">
                                 <a class="nav-link active" aria-current="page" href="/" style="color: aliceblue;">Home</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" style="width: max-content">
                                 <a class="nav-link" href="about" style="color: aliceblue;">About Us</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="services" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: aliceblue;">
+                                <a class="nav-link dropdown-toggle" href="services" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: aliceblue; width: max-content">
                                     Services
                                 </a>
-                                <ul class="dropdown-menu">
+                                <ul class="dropdown-menu" style = "background-color : #9A5928;">
                                     <li><a class="dropdown-item" href="#" style="color: aliceblue;">Ebooks</a></li>
                                     <li><a class="dropdown-item" href="#" style="color: aliceblue;">Journals</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="#" style="color: aliceblue;">My Issues</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="question" style="color: aliceblue;">Contact Us</a>
+                            <li class="nav-item" style="width: max-content">
+                                <a class="nav-link" href="contact" style="color: aliceblue;">Contact Us</a>
                             </li>
-                            {% comment %} <li class="nav-item">
-                                <a class="nav-link disabled" aria-disabled="true">Log</a>
-                            </li> {% endcomment %}
+                            <li class="nav-item" style="width: max-content">
+                                <a class="nav-link" href="question" style="color: aliceblue;">Question</a>
+                            </li>
+                        </ul>
+                        <ul style=" list-style-type: none">
                             <form action="/admin/login">
-                                <li>
-                                    <button class="btn btn-link" type="signin" style="color: #9A5928;background: navajowhite;border-color: antiquewhite;margin-left: 969px;margin-top: 1px;">Signin</button>
+                                <li >
+                                    <button class="btn btn-link" type="signin" style="color: #9A5928;background: navajowhite;border-color: antiquewhite; margin-top: 17px;">Signin</button>
                                 </li>
                             </form>
                         </ul>
-                        {% comment %} <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Mybooks" aria-label="Search" style="color: #9A5928; background: navajowhite; border-color: antiquewhite;">
-                            <button class="btn btn-outline-success" type="submit" style="color: #9A5928; background: navajowhite; border-color: antiquewhite;">Search</button>
-                        </form> {% endcomment %}
                     </div>
                 </div>
             </nav>
