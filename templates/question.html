@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block title %}Question{% endblock title %} 
 {% block body %}
-    {% comment %} <div class="container-fluid " style="padding-inline: 15px">
-        <img src="/static/image/contact.jfif" class="d-block w-100" alt="..." height=650px>
-    </div> {% endcomment %}
+    <div class="container-fluid " style="padding-inline: 15px">
+        <img src="/static/image/question2.jpg" class="d-block w-100" alt="..." height=650px>
+    </div>
     <div class="container" style=" max-width: 1000px; margin-bottom:25px">
         <h1 style= "text-align: center">
             Add Question
         </h1>
-        <form method="POST" action="/contact">
+        <form method="POST" action="/question">
             {% csrf_token %}
 
             <div class="mb-3">
