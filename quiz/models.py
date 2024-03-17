@@ -10,6 +10,7 @@ class Contact(models.Model):
     date = models.DateField()
 
 class Question(models.Model):
+    category = models.CharField(max_length=20, default = 'None')
     question = models.CharField(max_length=100)
     correct_answer = models.CharField(max_length=20)
     option_1 = models.CharField(max_length=20)

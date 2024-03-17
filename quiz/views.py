@@ -19,11 +19,12 @@ def contact(request):
     return render (request,'contact.html')
 def question(request):
     if request.method == 'POST':
+        category = request.POST.get('category')
         question = request.POST.get('question')
         correct_answer = request.POST.get('correct_answer')
         option_1 = request.POST.get('option_1')
         option_2 = request.POST.get('option_2')
         option_3 = request.POST.get('option_3')
-        question = Question(question=question, correct_answer=correct_answer, option_1=option_1, option_2=option_2,option_3=option_3)
+        question = Question(catagory=category, question=question, correct_answer=correct_answer, option_1=option_1, option_2=option_2,option_3=option_3)
         question.save()
     return render (request,'question.html')
