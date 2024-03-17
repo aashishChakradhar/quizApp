@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from quiz import views
 
 admin.site.site_header = "My Quiz Admin"
-admin.site.site_title = "My Quiz Admin Portal"
-admin.site.index_title = "Welcome to My Quiz"
+admin.site.site_title = "Admin Portal"
+admin.site.index_title = "My Quiz"
 
 
 urlpatterns = [

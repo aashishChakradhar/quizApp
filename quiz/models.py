@@ -8,6 +8,9 @@ class Contact(models.Model):
     email = models.CharField(max_length=50)
     comment = models.TextField()
     date = models.DateField()
+    def __str__(self):
+        return self.fname
+    
 
 class Question(models.Model):
     category = models.CharField(max_length=20, default = 'None')
@@ -16,3 +19,5 @@ class Question(models.Model):
     option_1 = models.CharField(max_length=20)
     option_2 = models.CharField(max_length=20)
     option_3 = models.CharField(max_length=20)
+    def __str__(self):
+        return self.category
