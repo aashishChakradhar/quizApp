@@ -1,12 +1,12 @@
 from django.shortcuts import render,redirect,HttpResponse
+from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth.models import User
+from django.contrib import messages
 from datetime import datetime
 from quiz.models import Contact, Question
-from django.contrib import messages
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
-from django.contrib.auth import logout,login
 
 # Create your views here.
+
 def index(request):
     if request.user.is_anonymous:
         return redirect("/login")
@@ -15,6 +15,7 @@ def index(request):
 def loginUser(request):
     # user: @ashish00
     # password: 123@Happy@123
+    
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -32,7 +33,6 @@ def loginUser(request):
 
 def logoutUser(request):
     logout(request)
-    messages.success(request, "Logout Successful!")
     return redirect ('/login')
 
 def about(request):
@@ -47,7 +47,7 @@ def contact(request):
         comment = request.POST.get('comment')
         contact = Contact(fname = fname, lname = lname, email = email, phone=phone, comment = comment, date = datetime.today())
         contact.save()
-        messages.success(request, "Your Message Has Been Sent.")
+        messages.success(request, "Your Message Has Been Revieved!")
     return render (request,'contact.html')
 
 def question(request):
@@ -60,5 +60,5 @@ def question(request):
         option_3 = request.POST.get('option_3')
         question = Question(category=category, question=question, correct_answer=correct_answer, option_1=option_1, option_2=option_2,option_3=option_3)
         question.save()
-        messages.success(request, "Your Question Has Been Inserted.")
+        messages.success(request, "Your Question Has Been Successfully Added!")
     return render (request,'question.html')
