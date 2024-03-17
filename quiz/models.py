@@ -11,7 +11,6 @@ class Contact(models.Model):
     def __str__(self):
         return self.fname
     
-
 class Question(models.Model):
     category = models.CharField(max_length=20, default = 'None')
     question = models.CharField(max_length=100)
