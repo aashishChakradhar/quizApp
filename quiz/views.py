@@ -1,13 +1,37 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render,redirect,HttpResponse
 from datetime import datetime
 from quiz.models import Contact, Question
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 # Create your views here.
-def home(request):
-    return render (request,'home.html')
+def index(request):
+    if request.user.is_anonymous:
+        return redirect("/login")
+    return render (request,'index.html')
+
+def login(request):
+    # user: @ashish00
+    # password: 123@Happy@123
+    if request.method == "POST":
+        user_name = request.POST.get('user_name')
+        password = request.POST.get('password')
+        # check if user is valid
+        user = authenticate(username="user_name", password="password")
+        if user is not None:
+            # A backend authenticated the credentials
+            return rediret('/')
+        else:
+            # No backend authenticated the credentials
+            return render (request,'login.html')
+    return render (request,'login.html')
+
+def logout(request):
+    return render (request,'index.html')
+
 def about(request):
     return render (request,'about.html')
+
 def contact(request):
     if request.method == "POST":
         fname = request.POST.get('fname')
