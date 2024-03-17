@@ -3,31 +3,37 @@ from datetime import datetime
 from quiz.models import Contact, Question
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from django.contrib.auth import logout,login
 
 # Create your views here.
 def index(request):
     if request.user.is_anonymous:
         return redirect("/login")
-    return render (request,'index.html')
+    return render (request,"index.html")
 
-def login(request):
+def loginUser(request):
     # user: @ashish00
     # password: 123@Happy@123
     if request.method == "POST":
-        user_name = request.POST.get('user_name')
+        username = request.POST.get('username')
         password = request.POST.get('password')
+        print(username,password)
         # check if user is valid
-        user = authenticate(username="user_name", password="password")
+        user = authenticate(username=username, password=password)
         if user is not None:
             # A backend authenticated the credentials
-            return rediret('/')
+            login(request,user)
+            return redirect("/")
         else:
             # No backend authenticated the credentials
-            return render (request,'login.html')
+            return render (request,"login.html")
     return render (request,'login.html')
 
-def logout(request):
-    return render (request,'index.html')
+def logoutUser(request):
+    logout(request)
+    messages.success(request, "Logout Successful!")
+    return redirect ('/login')
 
 def about(request):
     return render (request,'about.html')
