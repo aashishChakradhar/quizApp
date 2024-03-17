@@ -12,6 +12,19 @@ def index(request):
         return redirect("/login")
     return render (request,"index.html")
 
+def register(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+        firstName = request.POST.get('firstName')
+        lastName = request.POST.get('lastName')
+        user = User.objects.create_user(username, email, password)
+        user.first_name=firstName
+        user.last_name=lastName
+        user.save()
+    return render (request,'register.html')
+
 def loginUser(request):
     # user: @ashish00
     # password: 123@Happy@123
@@ -19,7 +32,6 @@ def loginUser(request):
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print(username,password)
         # check if user is valid
         user = authenticate(username=username, password=password)
         if user is not None:
