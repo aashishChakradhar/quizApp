@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}quiz app{% endblock title %}
+{% block body %}
+<div class='container mt-5 p-5'>
+    <div class='col-md-6  mx-auto'>
+        <form >
+            <div class="form-group">
+                <label>Select Category</label>
+                <select name='category' class='form-control'>
+                    <option value='choose'>Choose</option>
+                    {% for category in categories %}
+                        <option value="{{category.category_name}}">{{category.category_name}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+            <button class='btn btn-danger'>submit</button>
+        </form>
+    </div>
+</div>
+{% endblock body %}
