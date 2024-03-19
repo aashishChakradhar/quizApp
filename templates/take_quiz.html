@@ -3,7 +3,7 @@
 {% block body %}
 <div class='container mt-5 p-5'>
     <div class='col-md-6  mx-auto'>
-        <form >
+        <form method="POST">
             <div class="form-group">
                 <label>Select Category</label>
                 <select name='category' class='form-control'>
@@ -13,7 +13,7 @@
                     {%endfor%}
                 </select>
             </div>
-            <button class='btn btn-danger'>submit</button>
+            <button class='btn btn-danger' action='submit'>submit</button>
         </form>
     </div>
 </div>
