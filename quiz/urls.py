@@ -12,7 +12,7 @@ urlpatterns = [
     # path('question', views.question, name='question'),
     
     # learning about the quiz app
-    path('quiz',views.quiz,name='quiz'),
-    path('take-quiz',views.takequiz,name='take_quiz'),
-    path('api/get-quiz/',views.get_quiz,name='get_quiz')
+    path('home',views.home,name='home'),
+    path('api/get-quiz/',views.get_quiz,name='get_quiz'),
+    path('quiz/',views.quiz,name='quiz'),
 ]

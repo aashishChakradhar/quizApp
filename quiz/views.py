@@ -79,15 +79,15 @@ def contact(request):
 
 
 #learnig about the app
-def quiz(request):
+def home(request):
     context = {'categories':Category.objects.all()}
     if request.GET.get('category'):
         return redirect(f"/quiz/?category={request.GET.get('category')}")
-    return render(request,'quiz.html',context)
+    return render(request,'home.html',context)
 
-def takequiz(request):
-    
-    return render(request, 'take_quiz.html')
+def quiz(request):
+    context = {'category':request.GET.get('category')}
+    return render(request, 'quiz.html', context)
     
 #for createing an api
 def get_quiz(request):

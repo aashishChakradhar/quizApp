@@ -40,7 +40,7 @@ class Question(BaseModel):
     category = models.ForeignKey(Category, related_name='category', on_delete=models.CASCADE)
     question=models.CharField(max_length=100)
     marks=models.IntegerField(default=5)
-    def __str__(self):
+    def __str__(self)->str:
         return self.question
     def get_answers(self):
         answer_objs = list(Answer.objects.filter(question=self))

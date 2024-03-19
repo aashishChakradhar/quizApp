@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block title %}home{% endblock title %} 
+{% block body %}
+<div id="app">
+    {% comment %} [[new_task]] {% endcomment %}
+    [[question.question]]
+</div>
+
+<div class="container mt-5 p-5">
+  <div class="col-md-6 mx-auto">
+    <form>
+      {% csrf_token %}
+      <div class="form-group">
+        <label>Select Your category for quiz</label>
+        <select name="category" class="form-control">
+          <option value="choose">Choose</option>
+          {% for category in categories %}
+          <option value="{{category.category_name}}">
+            {{category.category_name}}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <button class="btn btn-danger">submit</button>
+    </form>
+  </div>
+</div>
+{% endblock body %}
