@@ -65,14 +65,18 @@
           font-size: 3.5rem;
         }
       }
+      img{
+        margin: 0px;
+        height:200px;
+        width:200px;
+      }
     </style>
-  </head>
 
   <body class="text-center">
     <main class="form-signin">
       <form action="/login" method="POST">
         {% csrf_token %}
-        <img class="mb-4" src="/static/image/question_bg.png" alt="" width="250" height="250" />
+        <img src="/static/image/login.png" alt="login"  />
         <h1 class="h3 mb-3 fw-normal">Log In</h1>
 
         <div class="form-floating">
