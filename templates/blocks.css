@@ -1,0 +1,50 @@
+body {
+    background-color: white;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  
+  div {
+    border:5px orange solid;
+    width:25%;
+    margin:5px;
+    padding:5px;
+  }
+
+  #one{
+    position: fixed;
+    top: 30%;
+    right: 0px;
+    border-color:red;
+  }
+
+  #two{
+    position: fixed;
+    top: 10%;
+    right: 0%;
+    border-color:blue;
+  }
+
+  #three{
+    position: fixed;
+    top: 30%;
+    left: 0%;
+    border-color:yellow;
+  }
+
+  #four{
+    position: fixed;
+    top: 10%;
+    left: 0%;
+  }
+
+  a{
+    position:fixed;
+    color: #FFFFFF;
+    background-color: #0a4b33;
+    font-size:14px;
+    font-family:'Roboto', Corbel, Avenir, 'Lucida Grande', 'Lucida Sans', sans-serif;
+    padding:10px;
+    margin:10px;
+    top:0%;
+    left:50%;
+  }
