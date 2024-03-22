@@ -9,7 +9,7 @@ urlpatterns = [
     path('signup', views.register, name='signup'),
     path('about', views.about, name='about'),
     path('contact', views.contact, name='contact'),
-    # path('question', views.question, name='question'),
+    path('add_question', views.add_question, name='add_question'),
     
     # learning about the quiz app
     path('home',views.home,name='home'),
