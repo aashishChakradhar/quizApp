@@ -1,36 +1,57 @@
-{% extends "base.html" %} {% block title %}quiz{% endblock title %} 
+{% extends "base.html" %}
 {% block body %}
-<div class="container mt-5 p-5">
-  <div class="col-md-6 mx-auto">
-    <h3>Test Your Quiz</h3>
-    <div v-for="question in questions">
-        <hr>
-        <div id = 'app'>[[new_task]]</div>
-        <div class="form-check">
-        <input
-            class="form-check-input"
-            type="radio"
-            name="flexRadioDefault"
-            id="flexRadioDefault1"
-        />
-        <label class="form-check-label" for="flexRadioDefault1">
-            Default radio
-        </label>
+    <div id="app">
+        <div class="container mt-5 p-5">
+            <div class="col-md-6 mx-auto">
+                <h3>Choose the correct answer</h3>
+                <div v-for=" question in questions">
+                    <hr>
+                    <p>
+                        [[question.question]]
+                    </p>
+
+                    <div class="form-check" v-for="answer in question.answer">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            [[answer.answer]]
+                        </label>
+                    </div>
+                    <hr>
+                </div>
+
+            </div>
         </div>
-        <div class="form-check">
-        <input
-            class="form-check-input"
-            type="radio"
-            name="flexRadioDefault"
-            id="flexRadioDefault2"
-            checked
-        />
-        <label class="form-check-label" for="flexRadioDefault2">
-            Default checked radio
-        </label>
     </div>
-    <hr/>
-    </div>
-  </div>
-</div>
+    
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            delimiters: ['[[', ']]'],
+            data() {
+                return {
+                    category: '{{category}}',
+                    questions: [],
+                }
+            },
+            methods: {
+                getQuestions(){
+                    var _this = this
+                    fetch(`/api/get-quiz/?category=${_this.category}`)
+                    .then(response => response.json())
+                    .then(result =>{
+                        console.log(result)
+                        _this.questions = result.data
+                    })
+                }
+            },
+            created() {
+                this.getQuestions()
+            },
+        });
+    </script>
 {% endblock body %}
