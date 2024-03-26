@@ -4,8 +4,8 @@
         <div class="container mt-5 p-5">
             <div class="col-md-6 mx-auto">
                 <h3>Choose the correct answer</h3>
+                <hr>
                 <div v-for=" question in questions">
-                    <hr>
                     <p>
                         [[question.question]]
                     </p>
@@ -22,51 +22,8 @@
             </div>
         </div>
     </div>
-    
-
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
-    <script>
-        var app = new Vue({
-            el: '#app',
-            delimiters: ['[[', ']]'],
-            data() {
-                return {
-                    category: '{{category}}',
-                    questions: [],
-                }
-            },
-            methods: {
-                getQuestions(){
-                    var _this = this
-                    fetch(`/api/get-quiz/?category=${_this.category}`)
-                    .then(response => response.json())
-                    .then(result =>{
-                        console.log(result)
-                        _this.questions = result.data
-                    })
-                },
-                checkAnswer(event,uid){
-                    this.questions.map(question=>{
-                        for(var i=0;i<question.answers.length;i++){
-                            if(answer.answer == event.target.value){
-                                if(answer.answer.is_correct){
-                                    console.log('Your answer is correct')
-                                }
-                                else{
-                                    console.log('Your answer is incorrect')
-                                }
-                            }
-                        }
-                    })
-                    console.log(event.target.value,uid)
-                }
-            },
-            created() {
-                this.getQuestions()
-            },
-        });
-    </script>
 {% endblock body %}
+
+
+
+

@@ -18,6 +18,9 @@
 
   <body>
     <div>
+      {% comment %} 
+        this section is used for headder  
+      {% endcomment %}
       <nav class="navbar navbar-expand-lg bg-body-tertiary" style="padding-inline: 15px">
         <div class="container-fluid" style="background-color : #9A5928;">
           <a class="navbar-brand" href="/" style="color: #FFDEAD">My Quiz</a>
@@ -29,23 +32,6 @@
               </li>
               <li class="nav-item" style="width: max-content">
                 <a class="nav-link" href="about" style="color: aliceblue;">About Us</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="services" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: aliceblue; width: max-content">Services</a>
-                <ul class="dropdown-menu" style="background-color : #9A5928;">
-                  <li>
-                    <a class="dropdown-item" href="#" style="color: aliceblue;">Ebooks</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#" style="color: aliceblue;">Journals</a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider" />
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#" style="color: aliceblue;">My Issues</a>
-                  </li>
-                </ul>
               </li>
               <li class="nav-item" style="width: max-content">
                 <a class="nav-link" href="contact" style="color: aliceblue;">Contact Us</a>
@@ -73,52 +59,71 @@
     </div>
 
     {% block body %}
-
+      {% comment %} 
+        this section is used for body 
+      {% endcomment %}
     {% endblock %}
     
 
-    
+    {% comment %} 
+      this section is used for footer 
+    {% endcomment %}
     <div class="container">
       <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
           <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
           <li class="nav-item"><a href="about" class="nav-link px-2 text-muted">About Us</a></li>
           <li class="nav-item"><a href="contact" class="nav-link px-2 text-muted">Contact</a></li>
-          <li class="nav-item"><a href="contact" class="nav-link px-2 text-muted">FAQs</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
         </ul>
         <p class="text-center text-muted">&copy; 2024 Aashish Chakradhar</p>
       </footer>
     </div>
 
 
-    
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            delimiters: ['[[', ']]'],
+            data() {
+                return {
+                    category: '{{category}}',
+                    questions: [],
+                }
+            },
+            methods: {
+                getQuestions(){
+                    var _this = this
+                    fetch(`/api/get-quiz/?category=${_this.category}`)
+                    .then(response => response.json())
+                    .then(result =>{
+                        console.log(result)
+                        _this.questions = result.data
+                    })
+                },
+                checkAnswer(event,uid){
+                    this.questions.map(question=>{
+                        answer=question.answer
+                        for(var i=0;i<answer?.length;i++){
+                            if(answer[i].answer == event.target.value){
+                                if(answer[i].is_correct){
+                                    console.log('Your answer is correct')
+                                }
+                                else{
+                                    console.log('Your answer is incorrect')
+                                }
+                            }
+                        }
+                    })
+                    console.log(event.target.value,uid)
+                }
+            },
+            created() {
+                this.getQuestions()
+            },
+        });
+    </script>
 
-    {% comment %} <script>
-      el: '#app',
-    delimiters: ['[[', ']]'],
-    data() {
-      return {
-        category : '{{category}}',
-        questions :[]
-      }
-    },
-    methods:{
-      getQuestions(){
-        var _this = this
-        fetch('/api/get-quiz/?category=${_this.category}')
-        .then(response => response.json())
-        .then(result =>{
-          console.log(result)
-          _this.questions = result.data
-        })
-      }
-    },
-    created() {
-      this.getQuestions()
-      console.log('Page Loaded')
-    }
-    </script> {% endcomment %}
   </body>
 </html>
 
