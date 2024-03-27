@@ -6,10 +6,18 @@ import uuid
 class Contact(models.Model):
     fname = models.CharField(max_length=25)
     lname = models.CharField(max_length=25)
-    phone = models.CharField(max_length=12)
+    phone = models.CharField(max_length=10)
     email = models.CharField(max_length=50)
     comment = models.TextField()
     date = models.DateField()
+    # def __init__(self,fname,lname,phone,comment,email,date):
+    #     self.fname=fname.upper()
+    #     self.lname=lname.upper()
+    #     self.phone=phone
+    #     self.email=email
+    #     self.comment=comment.upper()
+    #     self.date=date
+        
     def __str__(self):
         return self.fname
     
@@ -32,7 +40,7 @@ class BaseModel(models.Model):
         abstract=True
 
 class Category(BaseModel):
-    category_name = models.CharField(max_length=15)
+    category_name = models.CharField(max_length=15, default='Uncatogarized')
     def __str__(self):
         return self.category_name
     

@@ -9,14 +9,6 @@ import random
 
 # Create your views here.
 
-def index(request):
-    if request.user.is_anonymous:
-        return redirect("/login")
-    if request.user.is_superuser:
-        return render (request,"add_question.html")
-    else:
-        return render (request,"index.html")
-
 def register(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -52,6 +44,14 @@ def logoutUser(request):
     logout(request)
     return redirect ('/login')
 
+def index(request):
+    if request.user.is_anonymous:
+        return redirect("/login")
+    if request.user.is_superuser:
+        return render (request,"add_question.html")
+    else:
+        return render (request,"index.html")
+
 def about(request):
     return render (request,'about.html')
 
@@ -81,7 +81,7 @@ def add_question(request):
             ]
             marks = request.POST.get('marks')
             
-            category,created=Category.objects.get_or_create(category_name=category_name)
+            category=Category(category_name=category_name)
             question = Question(category=category, question=question, marks=marks)
             question.save()
             category.save()
@@ -91,9 +91,17 @@ def add_question(request):
                 answer.save()
             
             messages.success(request, "Your Question Has Been Successfully Added!")
-        return render (request,'question.html',context)
+        return render (request,'add_question.html',context)
     else: return render (request,'index.html')
 
+def add_category(request):
+    if request.user.is_superuser:
+        if request.method == 'POST':
+            category_name = request.POST.get('new_category')
+            category=Category(category_name=category_name)
+            category.save()
+        return render (request,'add_category.html')
+    else: return render (request,'index.html')
 
 #learnig about the app
 def get_category(request):

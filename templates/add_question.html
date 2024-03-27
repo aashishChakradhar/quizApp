@@ -8,15 +8,17 @@
     <div class="container-fluid " style="padding-inline: 15px">
         <img src="/static/image/question_bg.png" style="height:600px; margin-left:30%" />
     </div>
-    <div class="container" style=" max-width: 1000px; margin-bottom:5%; margin-left:20%">
+
+    <div class="container" style=" max-width: 50%; margin-bottom:5%; margin-left:25%">
         <h1 style= "text-align: center">
             Add Question
         </h1>
+        <a class="btn btn-lg btn-primary" style="margin-left: 76%" href="/add_category" role="button">Add New Topic</a>
         <form method="POST" action="/add_question">
             {% csrf_token %}
             
             <div class="mb-3">
-                <label for="category" class="form-label">Choose Category</label>
+                <label for="category" class="form-label">Choose Topic</label>
                 <select name="category" class="form-control">
                     <option value="choose">Choose</option>
                     {% for category in categories %}
@@ -27,10 +29,7 @@
                 </select>
             </div>
             
-            {% comment %} <div class="mb-3">
-                <label for="category" class="form-label">New Category</label>
-                <input type="text" class="form-control" id="category" name="category" placeholder="Category">
-            </div> {% endcomment %}
+            
 
             <div class="mb-3">
                 <label for="question" class="form-label">Question</label>
