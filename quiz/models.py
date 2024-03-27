@@ -59,4 +59,4 @@ class Records(BaseModel):
     category=models.ForeignKey(Category,related_name='category_records',on_delete=models.CASCADE)
     score=models.IntegerField()
     def __str__(self):
-        return self.username
+        return (self.user_name)

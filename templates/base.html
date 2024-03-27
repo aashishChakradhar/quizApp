@@ -90,6 +90,7 @@
       </footer>
     </div>
 
+
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
     <script>
       var app = new Vue({
@@ -112,12 +113,14 @@
                 })
             },
             checkAnswer(event,uid){
+              var obtained=0
                 this.questions.map(question=>{
                     answer=question.answer
                     for(var i=0;i<answer?.length;i++){
                         if(answer[i].answer == event.target.value){
                             if(answer[i].is_correct){
-                                console.log('Your answer is correct')
+                              
+                              console.log('Your answer is correct',obtained += question.marks)
                             }
                             else{
                                 console.log('Your answer is incorrect')

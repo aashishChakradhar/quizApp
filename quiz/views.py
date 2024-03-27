@@ -80,7 +80,6 @@ def add_question(request):
                 (request.POST.get('answer4'), False),
             ]
             marks = request.POST.get('marks')
-            
             category=Category(category_name=category_name)
             question = Question(category=category, question=question, marks=marks)
             question.save()
@@ -89,7 +88,6 @@ def add_question(request):
             for answer_individual, is_correct in answer_data:
                 answer=Answer(question=question,answer=answer_individual,is_correct=is_correct)
                 answer.save()
-            
             messages.success(request, "Your Question Has Been Successfully Added!")
         return render (request,'add_question.html',context)
     else: return render (request,'index.html')
@@ -112,8 +110,22 @@ def get_category(request):
 
 def quiz(request):
     context = {'category':request.GET.get('category')}
-    return render(request, 'take_quiz.html', context)
-    
+    if request.method=='POST':
+        category_name=request.POST.get('category')
+        category=Category(category_name=category_name)
+        current_user = request.user
+        score=10
+        record=Records(user_name=current_user,score=score,category=category)
+        category.save()
+        record.save()
+    return render(request, 'take_quiz.html',context)
+
+def add_record(request):
+    current_user = request.user
+    # category_id=request.fetch()
+    # record=Records(user_name=current_user,score=marks,category=category_id)
+    return HttpResponse(current_user)
+
 #for createing an api
 def get_quiz(request):
     try:
