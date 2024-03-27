@@ -12,7 +12,7 @@ urlpatterns = [
     path('add_question', views.add_question, name='add_question'),
     
     # learning about the quiz app
-    path('home',views.home,name='home'),
+    path('get-category',views.get_category,name='get_category'),
     path('api/get-quiz/',views.get_quiz,name='get_quiz'),
     path('quiz/',views.quiz,name='quiz'),
 ]
