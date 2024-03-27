@@ -10,26 +10,9 @@ class Contact(models.Model):
     email = models.CharField(max_length=50)
     comment = models.TextField()
     date = models.DateField()
-    # def __init__(self,fname,lname,phone,comment,email,date):
-    #     self.fname=fname.upper()
-    #     self.lname=lname.upper()
-    #     self.phone=phone
-    #     self.email=email
-    #     self.comment=comment.upper()
-    #     self.date=date
         
     def __str__(self):
         return self.fname
-    
-# class Question(models.Model):
-#     category = models.CharField(max_length=20, default = 'None')
-#     question = models.CharField(max_length=100)
-#     correct_answer = models.CharField(max_length=20)
-#     option_1 = models.CharField(max_length=20)
-#     option_2 = models.CharField(max_length=20)
-#     option_3 = models.CharField(max_length=20)
-#     def __str__(self):
-#         return self.category
 
 # learning about the quiz app
 class BaseModel(models.Model):
@@ -70,3 +53,10 @@ class Answer(BaseModel):
     is_correct=models.BooleanField(default=False)
     def __str__(self):
         return self.answer
+    
+class Records(BaseModel):
+    user_name=models.CharField(max_length=150)
+    category=models.ForeignKey(Category,related_name='category_records',on_delete=models.CASCADE)
+    score=models.IntegerField()
+    def __str__(self):
+        return self.username
