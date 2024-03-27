@@ -8,11 +8,20 @@
         <h1 style= "text-align: center">
             Add Question
         </h1>
-        <form method="POST" action="/question">
+        <form method="POST" action="/add_question">
             {% csrf_token %}
-
+            
+            
+            <select name="category" class="form-control">
+                <option value="choose">Choose</option>
+                {% for category in categories %}
+                <option value="{{category.category_name}}">
+                    {{category.category_name}}
+                </option>
+                {% endfor %}
+            </select>
             <div class="mb-3">
-                <label for="category" class="form-label">Category</label>
+                <label for="category" class="form-label">New Category</label>
                 <input type="text" class="form-control" id="category" name="category" placeholder="Category">
             </div>
 
@@ -23,22 +32,26 @@
 
             <div class="mb-3">
                 <label for="correct_answer" class="form-label">Correct answer</label>
-                <input type="text" class="form-control" id="correct_answer" name="correct_answer" placeholder="Correct Answer">
+                <input type="text" class="form-control" id="answer1" name="answer1" placeholder="Correct Answer">
             </div>
 
             <div class="mb-3">
-                <label for="option_1" class="form-label">Option 1</label>
-                <input type="text" class="form-control" id="option_1" name="option_1" placeholder="Option 1">
+                <label for="answer2" class="form-label">Option 1</label>
+                <input type="text" class="form-control" id="answer2" name="answer2" placeholder="Option 1">
             </div>
 
             <div class="mb-3">
-                <label for="option_2" class="form-label">Option 2</label>
-                <input type="text" class="form-control" id="option_2" name="option_2" placeholder="Option 2">
+                <label for="answer3" class="form-label">Option 2</label>
+                <input type="text" class="form-control" id="answer3" name="answer3" placeholder="Option 2">
             </div>
 
             <div class="mb-3">
-                <label for="option_3" class="form-label">Option 3</label>
-                <input type="text" class="form-control" id="option_3" name="option_3" placeholder="Option 3">
+                <label for="answer4" class="form-label">Option 3</label>
+                <input type="text" class="form-control" id="answer4" name="answer4" placeholder="Option 3">
+            </div>
+            <div class="mb-3">
+                <label for="marks" class="form-label">Marks</label>
+                <input type="number" class="form-control" id="marks" name="marks" placeholder="Marks">
             </div>
             
             <button type="submit" class="btn btn-primary">Submit</button>

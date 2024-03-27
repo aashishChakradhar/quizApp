@@ -8,7 +8,7 @@
 {%load static%}
 <html lang="en">
   <head>
-    <link rel="shortcut icon" type="image/png" href="{% static 'image/favicon.jpg' %}"/>
+    <link rel="shortcut icon" type="image/png" href="{% static 'image/favicon.ico' %}"/>
     <title>
       {% block title %}
       {% endblock %} | My Quiz
@@ -57,14 +57,13 @@
         {% endfor %}
       {% endif %}
     </div>
-
+    
     {% block body %}
       {% comment %} 
         this section is used for body 
       {% endcomment %}
     {% endblock %}
     
-
     {% comment %} 
       this section is used for footer 
     {% endcomment %}
@@ -79,48 +78,47 @@
       </footer>
     </div>
 
-
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
     <script>
-        var app = new Vue({
-            el: '#app',
-            delimiters: ['[[', ']]'],
-            data() {
-                return {
-                    category: '{{category}}',
-                    questions: [],
-                }
+      var app = new Vue({
+        el: '#app',
+        delimiters: ['[[', ']]'],
+        data() {
+            return {
+                category: '{{category}}',
+                questions: [],
+            }
+        },
+        methods: {
+            getQuestions(){
+                var _this = this
+                fetch(`/api/get-quiz/?category=${_this.category}`)
+                .then(response => response.json())
+                .then(result =>{
+                    console.log(result)
+                    _this.questions = result.data
+                })
             },
-            methods: {
-                getQuestions(){
-                    var _this = this
-                    fetch(`/api/get-quiz/?category=${_this.category}`)
-                    .then(response => response.json())
-                    .then(result =>{
-                        console.log(result)
-                        _this.questions = result.data
-                    })
-                },
-                checkAnswer(event,uid){
-                    this.questions.map(question=>{
-                        answer=question.answer
-                        for(var i=0;i<answer?.length;i++){
-                            if(answer[i].answer == event.target.value){
-                                if(answer[i].is_correct){
-                                    console.log('Your answer is correct')
-                                }
-                                else{
-                                    console.log('Your answer is incorrect')
-                                }
+            checkAnswer(event,uid){
+                this.questions.map(question=>{
+                    answer=question.answer
+                    for(var i=0;i<answer?.length;i++){
+                        if(answer[i].answer == event.target.value){
+                            if(answer[i].is_correct){
+                                console.log('Your answer is correct')
+                            }
+                            else{
+                                console.log('Your answer is incorrect')
                             }
                         }
-                    })
-                    console.log(event.target.value,uid)
-                }
-            },
-            created() {
-                this.getQuestions()
-            },
+                    }
+                })
+                console.log(event.target.value,uid)
+            }
+        },
+        created() {
+            this.getQuestions()
+        },
         });
     </script>
 

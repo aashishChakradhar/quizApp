@@ -65,17 +65,38 @@ def contact(request):
     return render (request,'contact.html')
 
 def add_question(request):
-    # if request.method == 'POST':
-    #     category = request.POST.get('category')
-    #     question = request.POST.get('question')
-    #     correct_answer = request.POST.get('correct_answer')
-    #     option_1 = request.POST.get('option_1')
-    #     option_2 = request.POST.get('option_2')
-    #     option_3 = request.POST.get('option_3')
-    #     question = Question(category=category, question=question, correct_answer=correct_answer, option_1=option_1, option_2=option_2,option_3=option_3)
-    #     question.save()
-    #     messages.success(request, "Your Question Has Been Successfully Added!")
-    return render (request,'question.html')
+    context = {'categories':Category.objects.all()}
+    if request.method == 'POST':
+        
+        
+        category_name = request.POST.get('category')
+        question = request.POST.get('question')
+        answer1=request.POST.get('answer1')
+        answer2=request.POST.get('answer2')
+        answer3=request.POST.get('answer3')
+        answer4=request.POST.get('answer4')
+        marks = request.POST.get('marks')
+        
+        
+        # basemodel=BaseModel()
+        category,created=Category.objects.get_or_create(category_name=category_name)
+        question = Question(category=category, question=question, marks=marks)
+        
+        answer1=Answer(question=question,answer=answer1,is_correct=True)
+        answer2=Answer(question=question,answer=answer2,is_correct=False)
+        answer3=Answer(question=question,answer=answer3,is_correct=False)
+        answer4=Answer(question=question,answer=answer4,is_correct=False)
+        
+        # basemodel.save()
+        question.save()
+        category.save()
+        answer1.save()
+        answer2.save()
+        answer3.save()
+        answer4.save()
+        
+        messages.success(request, "Your Question Has Been Successfully Added!")
+    return render (request,'question.html',context)
 
 
 #learnig about the app
@@ -83,7 +104,7 @@ def home(request):
     context = {'categories':Category.objects.all()}
     if request.GET.get('category'):
         return redirect(f"/quiz/?category={request.GET.get('category')}")
-    return render(request,'home.html',context)
+    else:return render(request,'home.html',context)
 
 def quiz(request):
     context = {'category':request.GET.get('category')}
