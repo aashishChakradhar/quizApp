@@ -57,6 +57,6 @@ class Answer(BaseModel):
 class Records(BaseModel):
     user_name=models.CharField(max_length=150)
     category=models.ForeignKey(Category,related_name='category_records',on_delete=models.CASCADE)
-    score=models.IntegerField()
+    score=models.IntegerField(default=0)
     def __str__(self):
         return (self.user_name)

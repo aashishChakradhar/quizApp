@@ -111,13 +111,15 @@ def get_category(request):
 def quiz(request):
     context = {'category':request.GET.get('category')}
     if request.method=='POST':
-        category_name=request.POST.get('category')
-        category=Category(category_name=category_name)
+        category_name = request.POST.get('category_record')
+        return HttpResponse(category_name)
         current_user = request.user
         score=10
-        record=Records(user_name=current_user,score=score,category=category)
-        category.save()
+        
+        record=Records(category_id=category_name,user_name=current_user,score=score)
+        # category.save()
         record.save()
+        return render(request, 'about.html')
     return render(request, 'take_quiz.html',context)
 
 def add_record(request):
