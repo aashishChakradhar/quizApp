@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block title %}take_quiz{% endblock title %}
 {% block body %}
+
+{{categorys.category_name}} hello there {{categorys.category_name}} <br>
+
     <div id="app">
         <form method="POST" action="/quiz/">
             {% csrf_token %}
@@ -10,38 +13,34 @@
                         <h3>Choose the correct answer</h3>
                         <hr>
                     </div>
-                    {% comment %} <div>
-                        {% for categoryes in category_context%}
-                            {% if question.category == categoryes %}
-                                <input type="hidden" :value="categoryes.category_name" name="category_record" id="category_record">
-                            {% endif %}
-                        {% endfor %}
-                    </div> {% endcomment %}
-                    <div v-for=" question in questions">
-                        
-                        <div style="width:100%;"> 
-                            <span style="font-weight: bold; margin-left: 0%;">
-                                {{category}}:
-                            </span>
-                            <span style="margin-left:2%;">
-                                [[question.question]]
-                            </span>
-                            <span style="font-weight: bold; margin-left:96%">
-                                [ [[question.marks]] ]
-                            </span>
-                        </div>
-                        <div>
-                            <div class="form-check" v-for="answer in question.answer">
-                                <input @change="checkAnswer($event, question.uid)" :value="answer.answer" class="form-check-input" type="radio" :name="question.question" :id="answer.answer">
-                                <label class="form-check-label" for="answer.answer">
-                                    [[answer.answer]]
-                                </label>
-                                <br>
+                    {% comment %} {% for categorys  in  categories  %} {% endcomment %}
+                        <input type="hidden" value="{{category}}" name="category_record" id="category_record">
+                        <div v-for=" question in questions">
+                            
+                            <div style="width:100%;"> 
+                                <span style="font-weight: bold; margin-left: 0%;">
+                                    {{category}}:
+                                </span>
+                                <span style="margin-left:2%;">
+                                    [[question.question]]
+                                </span>
+                                <span style="font-weight: bold; margin-left:96%">
+                                    [ [[question.marks]] ]
+                                </span>
                             </div>
+                            <div>
+                                <div class="form-check" v-for="answer in question.answer">
+                                    <input @change="checkAnswer($event, question.uid)" :value="answer.answer" class="form-check-input" type="radio" :name="question.question" :id="answer.answer">
+                                    <label class="form-check-label" for="answer.answer">
+                                        [[answer.answer]]
+                                    </label>
+                                    <br>
+                                </div>
+                            </div>
+                            <p>hello</p>
+                            <hr>
                         </div>
-                        <p>hello</p>
-                        <hr>
-                    </div>
+                    {% comment %} {% endfor %} {% endcomment %}
                 </div>
                 <button type="submit" class="btn btn-primary" value='category' style="width:200px; margin-left: 45%;">Submit</button>
             </div>

@@ -11,7 +11,7 @@ urlpatterns = [
     path('contact', views.contact, name='contact'),
     path('add_category',views.add_category,name='add_category'),
     path('add_question', views.add_question, name='add_question'),
-    path('add-record', views.add_record, name='add_record'),
+    # path('add-record', views.add_record, name='add_record'),
     
     # learning about the quiz app
     path('get-category',views.get_category,name='get_category'),

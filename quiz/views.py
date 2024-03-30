@@ -80,10 +80,8 @@ def add_question(request):
                 (request.POST.get('answer4'), False),
             ]
             marks = request.POST.get('marks')
-            category=Category(category_name=category_name)
-            question = Question(category=category, question=question, marks=marks)
-            question.save()
-            category.save()
+            category, created = Category.objects.get_or_create(category_name=category_name)
+            question,created = Question.objects.get_or_create(category=category, question=question, marks=marks)
             
             for answer_individual, is_correct in answer_data:
                 answer=Answer(question=question,answer=answer_individual,is_correct=is_correct)
@@ -96,8 +94,7 @@ def add_category(request):
     if request.user.is_superuser:
         if request.method == 'POST':
             category_name = request.POST.get('new_category')
-            category=Category(category_name=category_name)
-            category.save()
+            category = Category(category_name=category_name)
         return render (request,'add_category.html')
     else: return render (request,'index.html')
 
@@ -112,21 +109,14 @@ def quiz(request):
     context = {'category':request.GET.get('category')}
     if request.method=='POST':
         category_name = request.POST.get('category_record')
-        return HttpResponse(category_name)
         current_user = request.user
         score=10
-        
-        record=Records(category_id=category_name,user_name=current_user,score=score)
-        # category.save()
-        record.save()
-        return render(request, 'about.html')
+        # checks if category already exist
+        category, created = Category.objects.get_or_create(category_name=category_name)
+        # save the new record
+        records = Records.objects.create(category=category, user_name=current_user, score=score)
+        return redirect(f"/about")
     return render(request, 'take_quiz.html',context)
-
-def add_record(request):
-    current_user = request.user
-    # category_id=request.fetch()
-    # record=Records(user_name=current_user,score=marks,category=category_id)
-    return HttpResponse(current_user)
 
 #for createing an api
 def get_quiz(request):

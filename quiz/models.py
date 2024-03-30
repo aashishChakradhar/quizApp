@@ -26,6 +26,12 @@ class Category(BaseModel):
     category_name = models.CharField(max_length=15, default='Uncatogarized')
     def __str__(self):
         return self.category_name
+class Records(BaseModel):
+    category=models.ForeignKey(Category,related_name='category_records',on_delete=models.CASCADE)
+    user_name=models.CharField(max_length=150)
+    score=models.IntegerField(default=0)
+    def __str__(self):
+        return (self.user_name)
     
 class Question(BaseModel):
     category = models.ForeignKey(Category, related_name='category', on_delete=models.CASCADE)
@@ -54,9 +60,3 @@ class Answer(BaseModel):
     def __str__(self):
         return self.answer
     
-class Records(BaseModel):
-    user_name=models.CharField(max_length=150)
-    category=models.ForeignKey(Category,related_name='category_records',on_delete=models.CASCADE)
-    score=models.IntegerField(default=0)
-    def __str__(self):
-        return (self.user_name)
