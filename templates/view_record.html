@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}
+    view-records
+{% endblock title %}
+{% block body %}
+    <div style="width:30%; text-align: left; margin-left:35%;">
+        <table>
+            <tr>
+                <th></th>
+                <th>
+                    <h3>Records</h3>
+                </th>
+                <th></th>
+            </tr>
+            <tr>
+                <th style="width:140px">
+                    User Name
+                </th>
+
+                <th style="width:100px">
+                    Your Score
+                </th>
+
+                <th style="width:100px">
+                    Topic 
+                </th>
+
+                <th style="width:200px">
+                    Submission Date:
+                </th>
+            </tr>
+            {% for record in records %}
+                <tr>
+                    <td>
+                        {{record.user_name}}
+                    </td>
+                    <td>
+                        {{record.score}}
+                    </td>
+                    <td>
+                        {{record.category}}
+                    </td>
+                    <td>
+                        {{record.created_at}}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock body %}

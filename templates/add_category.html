@@ -13,8 +13,8 @@
         <h1 style= "text-align: center">
             Add New Topic
         </h1>
-        <a class="btn btn-lg btn-primary" style="margin-left: 76%" href="/add_question" role="button">Add Question</a>
-        <form method="POST" action="/add_category">
+        
+        <form method="POST" action="/add-category">
             {% csrf_token %}
             <div class="mb-3">
                 <label for="category" class="form-label">New Topic</label>

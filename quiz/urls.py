@@ -6,7 +6,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('login', views.loginUser, name='login'),
     path('logout', views.logoutUser, name='logout'),
-    path('signup', views.register, name='signup'),
+    path('signup', views.signup, name='signup'),
     
     path('index', views.index, name='index'),
     path('about', views.about, name='about'),
@@ -19,7 +19,10 @@ urlpatterns = [
     
     # learning about the quiz app
     path('get-category',views.get_category,name='get_category'),
-    path('get-records',views.get_record,name='get_records'),
     path('api/get-quiz/',views.get_quiz,name='get_quiz'), #not webpage in program but to check the question in json format
     path('quiz/',views.take_quiz,name='take_quiz'),
+    
+    path('view-record',views.view_record,name='view_record'),
+    path('view-category',views.view_category,name='view_category'),
+    path('view-question',views.view_question,name='view_question'),
 ]

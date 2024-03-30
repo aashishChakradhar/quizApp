@@ -9,7 +9,7 @@ import random
 
 # Create your views here.
 
-def register(request):
+def signup(request):
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -20,7 +20,7 @@ def register(request):
         user.first_name=firstName
         user.last_name=lastName
         user.save()
-    return render (request,'register.html')
+    return render (request,'signup.html')
 def loginUser(request):
     # user: @ashish00
     # password: 123@Happy@123
@@ -31,13 +31,11 @@ def loginUser(request):
         # check if user is valid
         user = authenticate(username=username, password=password)
         if user is not None:# if the user is logged in
-            # A backend authenticated the credentials
             login(request,user)
             return redirect("/")
         else:# if the user is not logged in
-            # No backend authenticated the credentials
-            return render (request,"login.html")
-    return render (request,'login.html')
+            return render (request,"signin.html")
+    return render (request,'signin.html')
 def logoutUser(request):
     logout(request)
     return redirect ('/login')
@@ -61,67 +59,6 @@ def contact(request):
         messages.success(request, "Your Message Has Been Revieved!")
     return render (request,'contact.html')
 
-def add_category(request):
-    if request.user.is_superuser:
-        if request.method == 'POST':
-            category_name = request.POST.get('new_category')
-            category = Category(category_name=category_name)
-        return render (request,'add_category.html')
-    else: return render (request,'index.html')
-def add_question(request):
-    if request.user.is_superuser:
-        context = {'categories':Category.objects.all()}
-        if request.method == 'POST':
-            category_name = request.POST.get('category')
-            question = request.POST.get('question')
-            answer_data=[
-                (request.POST.get('answer1'), True),
-                (request.POST.get('answer2'), False),
-                (request.POST.get('answer3'), False),
-                (request.POST.get('answer4'), False),
-            ]
-            marks = request.POST.get('marks')
-            category, created = Category.objects.get_or_create(category_name=category_name)
-            question,created = Question.objects.get_or_create(category=category, question=question, marks=marks)
-            
-            for answer_individual, is_correct in answer_data:
-                answer=Answer(question=question,answer=answer_individual,is_correct=is_correct)
-                answer.save()
-            messages.success(request, "Your Question Has Been Successfully Added!")
-        return render (request,'add_question.html',context)
-    else: return render (request,'permission.html')
-
-
-def delete_category(request):
-    if request.user.is_superuser:
-        context = {'categories':Category.objects.all()}
-        if request.GET.get('category'):
-            category_name = request.GET.get('category')
-            instance = Category.objects.filter(category_name=category_name)
-            if instance.exists():
-                instance.delete()
-                messages.success(request, "Your Category Has Been Successfully Deleted!")
-            else:
-                messages.success(request, "Category Doesnot Exists!")
-        return render(request,"get_category.html",context)
-    else: 
-        messages.success(request, "Delete Fail: User is not a superuser")
-        return render(request,"permission.html")
-def delete_question(request):
-    if request.user.is_superuser:
-        context = {'questions':Question.objects.all()}
-        if request.GET.get('question'):
-            question_del = request.GET.get('question')
-            instance = Question.objects.filter(question=question_del)
-            if instance.exists():
-                instance.delete()
-                messages.success(request, "Your Question Has Been Successfully Deleted!")
-            else:
-                return HttpResponse("Question does not exist!")
-        return render(request,"delete_question.html",context)
-    else: 
-        messages.success(request, "Delete Fail: User is not a superuser")
-        return render(request,"permission.html")
 
 #learnig about the app
 def get_category(request):
@@ -167,13 +104,117 @@ def get_quiz(request):
         print(e)
     return HttpResponse('Error Occured')
 
-def get_record(request):
+
+# only admin operations
+
+def add_category(request):
+    if request.user.is_superuser:
+        if request.method == 'POST':
+            category_name = request.POST.get('new_category')
+            category, created = Category.objects.get_or_create(category_name=category_name)
+        return render (request,'add_category.html')
+    else:
+        messages.success(request, "Add Fail: User is not a superuser")
+        return render (request,'permission.html')
+def add_question(request):
+    if request.user.is_superuser:
+        context = {'categories':Category.objects.all()}
+        if request.method == 'POST':
+            category_name = request.POST.get('category')
+            question = request.POST.get('question')
+            answer_data=[
+                (request.POST.get('answer1'), True),
+                (request.POST.get('answer2'), False),
+                (request.POST.get('answer3'), False),
+                (request.POST.get('answer4'), False),
+            ]
+            marks = request.POST.get('marks')
+            category, created = Category.objects.get_or_create(category_name=category_name)
+            question,created = Question.objects.get_or_create(category=category, question=question, marks=marks)
+            
+            for answer_individual, is_correct in answer_data:
+                answer=Answer(question=question,answer=answer_individual,is_correct=is_correct)
+                answer.save()
+            messages.success(request, "Your Question Has Been Successfully Added!")
+        return render (request,'add_question.html',context)
+    else:
+        messages.success(request, "Add Fail: User is not a superuser")
+        return render (request,'permission.html')
+
+def delete_category(request):
+    if request.user.is_superuser:
+        context = {'categories':Category.objects.all()}
+        if request.GET.get('category'):
+            category_name = request.GET.get('category')
+            instance = Category.objects.filter(category_name=category_name)
+            if instance.exists():
+                instance.delete()
+                messages.success(request, "Your Category Has Been Successfully Deleted!")
+            else:
+                messages.success(request, "Category Doesnot Exists!")
+        return render(request,"get_category.html",context)
+    else: 
+        messages.success(request, "Delete Fail: User is not a superuser")
+        return render(request,"permission.html")
+def delete_question(request):
+    if request.user.is_superuser:
+        context = {'questions':Question.objects.all()}
+        if request.GET.get('question'):
+            question_del = request.GET.get('question')
+            instance = Question.objects.filter(question=question_del)
+            if instance.exists():
+                instance.delete()
+                messages.success(request, "Your Question Has Been Successfully Deleted!")
+            else:
+                messages.success(request, "Question Doesnot Exist!")
+        return render(request,"delete_question.html",context)
+    else: 
+        messages.success(request, "Delete Fail: User is not a superuser")
+        return render(request,"permission.html")
+
+def view_record(request):
+    if request.user.is_superuser:
+        try:
+            main_context = {'records':Records.objects.all()}
+            if request.method=="POST":
+                user= request.POST.get('user')
+                category= request.POST.get('category')
+                time= request.POST.get('time')
+                
+                all_records = Records.objects.filter(user_name=user, category = category, created_at = time)
+                context = {'records': all_records}
+                return render(request, 'view_record.html', context)
+            return render(request,"records.html",main_context)
+        except Exception as e:
+            messages.error(request,str(e))
+            return render(request,"index.html")
+    else:
+        try:
+            current_user = request.user
+            filter_records=Records.objects.filter(user_name = current_user)
+            context = {'records': filter_records}
+            return render(request, 'view_record.html', context)
+        except Exception as e:
+            messages.success(request,e)
+            return render(request,"index.html")
+        
+def view_category(request):
     try:
-        current_user = request.user
-        all_records = Records.objects.all()
-        filter_record = all_records.filter(user_name=current_user)
-        context = {'records': filter_record}
-        return render(request, 'records.html', context)
+        all_category = Category.objects.all()
+        context = {'categories': all_category}
+        return render(request, 'view_category.html', context)
     except Exception as e:
-        print(e)
-    return HttpResponse('No records found!')
+        messages.success(request,e)
+        return render(request,"index.html")
+def view_question(request):
+    if request.user.is_superuser:
+        try:
+            all_question = Question.objects.all()
+            context = {'questions': all_question}
+            return render(request, 'view_question.html', context)
+        except Exception as e:
+            messages.success(request, e)
+        return render(request, 'index.html')
+    else: 
+        messages.success(request, "View Fail: User is not a superuser")
+        return render(request,"permission.html")
