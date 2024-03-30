@@ -8,7 +8,7 @@
         {% csrf_token %}
         <div class="form-group">
             <label>Select Your Question to Delete</label>
-            <select name="question" id="question" class="form-control">
+            <select name="question" id="question" class="form-control" style="margin-top: 4%;">
                 <option value="choose">Choose</option>
                 {% for question in questions %}
                 <option value="{{question.question}}">
@@ -16,8 +16,12 @@
                 </option>
                 {% endfor %}
             </select>
+        </div >
+
+        <div style="margin-top: 4%;">
+          <button class="btn btn-danger" style="background-color: #FFDEAD; border-color: #9A5928; color: #9A5928;">Submit</button>
         </div>
-        <button class="btn btn-danger">Submit</button>
+        
     </form>
   </div>
 </div>

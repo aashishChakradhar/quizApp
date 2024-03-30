@@ -7,8 +7,8 @@
     <form>
       {% csrf_token %}
       <div class="form-group">
-        <label>Select Your category for quiz</label>
-        <select name="category" id="category" class="form-control">
+        <label >Select Your category</label>
+        <select name="category" id="category" class="form-control" style="margin-top: 4%;">
           <option value="choose">Choose</option>
           {% for category in categories %}
           <option value="{{category.category_name}}">
@@ -17,7 +17,13 @@
           {% endfor %}
         </select>
       </div>
-      <button class="btn btn-danger">Submit</button>
+
+      <div style="margin-top: 4%;">
+        <button class="btn btn-danger" style="background-color: #FFDEAD; border-color: #9A5928; color: #9A5928;">
+          Submit
+        </button>
+      </div>
+
     </form>
   </div>
 </div>

@@ -105,7 +105,6 @@ def delete_category(request):
                 return HttpResponse("Category does not exist!")
         return render(request,"get_category.html",context)
     else: return HttpResponse('Delete Fail: User is not a superuser')
-    
 def delete_question(request):
     if request.user.is_superuser:
         context = {'questions':Question.objects.all()}
