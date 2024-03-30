@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}
+    records
+{% endblock title %}
+{% block body %}
+    <div>
+        records
+        {% for record in records %}
+            <br>
+            :{{record.user_name}}
+            :{{record.score}}
+            :{{record.category}}
+            :{{record.created_at}}
+        {% endfor %}
+    </div>
+{% endblock body %}

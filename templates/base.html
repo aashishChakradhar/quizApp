@@ -18,48 +18,86 @@
 
   <body>
     <div>
-      {% comment %} 
-        this section is used for headder  
-        padding-inline: 15px
-      {% endcomment %}
       <div  style="max-width: 98%; margin-left:1%; ">
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
           <div class="container-fluid" style="background-color : #9A5928;">
-
             <div >
               <a class="navbar-brand" href="/" style="color: #FFDEAD">My Quiz</a>
             </div>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon">
+              </span>
+            </button>
+
             <div class="collapse navbar-collapse" id="navbarSupportedContent" style="height:50px; max-width:100%;">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="min-width:100%; padding-top: 1%;">
-                <li class="nav-item" style="min-width: 4%">
-                  <a class="nav-link active" aria-current="page" href="/" style="color: aliceblue;">Home</a>
-                </li>
-                <li class="nav-item" style="min-width: 6%">
-                  <a class="nav-link" href="about" style="color: aliceblue;">About Us</a>
-                </li>
-                <li class="nav-item" style="min-width: 7%">
-                  <a class="nav-link" href="contact" style="color: aliceblue;">Contact Us</a>
-                </li>
-                <li class="nav-item" style="min-width: 6%">
-                  <a class="nav-link" href="get-category" style="color: aliceblue;">Quiz</a>
-                </li>
-                {% comment %} <li class="nav-item" style="width: max-content">
-                  <a class="nav-link" href="add_question" style="color: aliceblue;">Question</a>
-                </li> {% endcomment %}
-                <li style="margin-left: 70.5%;margin-bottom:1%">
-                  <a class="btn btn-lg btn-primary" style=" background-color: #FFDEAD; border-color: #9A5928; color: #9A5928; " href="/logout" role="button">
-                    Logout</a>
-                </li>
-              </ul>
+              {% if request.user.is_superuser %}
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="min-width:100%; padding-top: 1%;">
+                  <li class="nav-item" style="width: 4%">
+                    <a class="nav-link active" aria-current="page" href="/" style="color: aliceblue;">Home</a>
+                  </li>
+
+                  <li class="nav-item" style="width: 6%">
+                    <a class="nav-link" href="/about" style="color: aliceblue;">About Us</a>
+                  </li>
+
+                  <li class="nav-item" style="width: 7%">
+                    <a class="nav-link" href="/contact" style="color: aliceblue;">Contact Us</a>
+                  </li>
+
+                  <li class="nav-item" style="width: 7%">
+                    <a class="nav-link" href="/get-category" style="color: aliceblue;">Take Quiz</a>
+                  </li>
+
+                  <li class="nav-item" style="width: 9%">
+                    <a class="nav-link" href="/add-question" style="color: aliceblue;">Add Question</a>
+                  </li>
+
+                  <li class="nav-item" style="width: 9%">
+                    <a class="nav-link" href="/get-records" style="color: aliceblue;">Check Records</a>
+                  </li>
+                  
+                  <li style="width: 58%; margin-bottom:1%">
+                    <a type="submit" class="btn btn-primary" value='category' style="margin-left:91%; background-color: #FFDEAD; border-color: #9A5928; color: #9A5928;" href="/logout">Logout</a>
+                  </li>
+                </ul>
+              
+              {% else %}
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="min-width:100%; padding-top: 1%;">
+                  <li class="nav-item" style="width: 4%">
+                    <a class="nav-link active" aria-current="page" href="/" style="color: aliceblue;">Home</a>
+                  </li>
+
+                  <li class="nav-item" style="width: 6%">
+                    <a class="nav-link" href="/about" style="color: aliceblue;">About Us</a>
+                  </li>
+
+                  <li class="nav-item" style="width: 7%">
+                    <a class="nav-link" href="/contact" style="color: aliceblue;">Contact Us</a>
+                  </li>
+
+                  <li class="nav-item" style="width: 7%">
+                    <a class="nav-link" href="/get-category" style="color: aliceblue;">Take Quiz</a>
+                  </li>
+
+                  <li class="nav-item" style="width: 11%">
+                    <a class="nav-link" href="/get-records" style="color: aliceblue;">Check My Record</a>
+                  </li>
+                  
+                  <li style="width: 65%; margin-bottom:1%">
+                    <a type="submit" class="btn btn-primary" value='category' style="margin-left:92%; background-color: #FFDEAD; border-color: #9A5928; color: #9A5928;" href="/logout">Logout</a>
+                  </li>
+                </ul>
+
+              {% endif %}
             </div>
 
           </div>
         </nav>
       </div>
-
+      
+      
+      
       {% if messages %}
         {% for message in messages %}
           <div class="alert alert-warning alert-{{ message.tags }}dismissible fade show" role="alert">

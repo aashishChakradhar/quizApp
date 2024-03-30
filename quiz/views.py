@@ -47,8 +47,6 @@ def logoutUser(request):
 def index(request):
     if request.user.is_anonymous:
         return redirect("/login")
-    if request.user.is_superuser:
-        return render (request,"add_question.html")
     else:
         return render (request,"index.html")
 
@@ -88,7 +86,7 @@ def add_question(request):
                 answer.save()
             messages.success(request, "Your Question Has Been Successfully Added!")
         return render (request,'add_question.html',context)
-    else: return render (request,'index.html')
+    else: return render (request,'permission.html')
 
 def add_category(request):
     if request.user.is_superuser:
@@ -115,7 +113,7 @@ def quiz(request):
         category, created = Category.objects.get_or_create(category_name=category_name)
         # save the new record
         records = Records.objects.create(category=category, user_name=current_user, score=score)
-        return redirect(f"/about")
+        return redirect(f"/index")
     return render(request, 'take_quiz.html',context)
 
 #for createing an api
@@ -142,3 +140,14 @@ def get_quiz(request):
     except Exception as e:
         print(e)
     return HttpResponse('Error Occured')
+
+def get_record(request):
+    try:
+        current_user = request.user
+        all_records = Records.objects.all()
+        filter_record = all_records.filter(user_name=current_user)
+        context = {'records': filter_record}
+        return render(request, 'records.html', context)
+    except Exception as e:
+        print(e)
+    return HttpResponse('No records found!')
