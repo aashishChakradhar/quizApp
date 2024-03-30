@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 {% block title %}take_quiz{% endblock title %}
 {% block body %}
-
-{{categorys.category_name}} hello there {{categorys.category_name}} <br>
-
     <div id="app">
         <form method="POST" action="/quiz/">
             {% csrf_token %}
@@ -13,7 +10,6 @@
                         <h3>Choose the correct answer</h3>
                         <hr>
                     </div>
-                    {% comment %} {% for categorys  in  categories  %} {% endcomment %}
                         <input type="hidden" value="{{category}}" name="category_record" id="category_record">
                         <div v-for=" question in questions">
                             

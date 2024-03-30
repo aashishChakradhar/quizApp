@@ -8,7 +8,7 @@
       {% csrf_token %}
       <div class="form-group">
         <label>Select Your category for quiz</label>
-        <select name="category" class="form-control">
+        <select name="category" id="category" class="form-control">
           <option value="choose">Choose</option>
           {% for category in categories %}
           <option value="{{category.category_name}}">

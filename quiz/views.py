@@ -21,7 +21,6 @@ def register(request):
         user.last_name=lastName
         user.save()
     return render (request,'register.html')
-
 def loginUser(request):
     # user: @ashish00
     # password: 123@Happy@123
@@ -39,7 +38,6 @@ def loginUser(request):
             # No backend authenticated the credentials
             return render (request,"login.html")
     return render (request,'login.html')
-
 def logoutUser(request):
     logout(request)
     return redirect ('/login')
@@ -49,10 +47,8 @@ def index(request):
         return redirect("/login")
     else:
         return render (request,"index.html")
-
 def about(request):
     return render (request,'about.html')
-
 def contact(request):
     if request.method == "POST":
         fname = request.POST.get('fname')
@@ -65,6 +61,13 @@ def contact(request):
         messages.success(request, "Your Message Has Been Revieved!")
     return render (request,'contact.html')
 
+def add_category(request):
+    if request.user.is_superuser:
+        if request.method == 'POST':
+            category_name = request.POST.get('new_category')
+            category = Category(category_name=category_name)
+        return render (request,'add_category.html')
+    else: return render (request,'index.html')
 def add_question(request):
     if request.user.is_superuser:
         context = {'categories':Category.objects.all()}
@@ -88,22 +91,43 @@ def add_question(request):
         return render (request,'add_question.html',context)
     else: return render (request,'permission.html')
 
-def add_category(request):
+
+def delete_category(request):
     if request.user.is_superuser:
-        if request.method == 'POST':
-            category_name = request.POST.get('new_category')
-            category = Category(category_name=category_name)
-        return render (request,'add_category.html')
-    else: return render (request,'index.html')
+        context = {'categories':Category.objects.all()}
+        if request.GET.get('category'):
+            category_name = request.GET.get('category')
+            instance = Category.objects.filter(category_name=category_name)
+            if instance.exists():
+                instance.delete()
+                return HttpResponse("Category deleted successfully!")
+            else:
+                return HttpResponse("Category does not exist!")
+        return render(request,"get_category.html",context)
+    else: return HttpResponse('Delete Fail: User is not a superuser')
+    
+def delete_question(request):
+    if request.user.is_superuser:
+        context = {'questions':Question.objects.all()}
+        if request.GET.get('question'):
+            question_del = request.GET.get('question')
+            instance = Question.objects.filter(question=question_del)
+            if instance.exists():
+                instance.delete()
+                return HttpResponse("Question deleted successfully!")
+            else:
+                return HttpResponse("Question does not exist!")
+        return render(request,"get_question.html",context)
+    else: return HttpResponse('Delete Fail: User is not a superuser')
 
 #learnig about the app
 def get_category(request):
     context = {'categories':Category.objects.all()}
     if request.GET.get('category'):
         return redirect(f"/quiz/?category={request.GET.get('category')}")
-    else:return render(request,'quiz_category.html',context)
+    else:return render(request,'get_category.html',context)
 
-def quiz(request):
+def take_quiz(request):
     context = {'category':request.GET.get('category')}
     if request.method=='POST':
         category_name = request.POST.get('category_record')
@@ -114,7 +138,7 @@ def quiz(request):
         # save the new record
         records = Records.objects.create(category=category, user_name=current_user, score=score)
         return redirect(f"/index")
-    return render(request, 'take_quiz.html',context)
+    return render(request, 'get_quiz.html',context)
 
 #for createing an api
 def get_quiz(request):

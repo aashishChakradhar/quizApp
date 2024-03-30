@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}quiz_question{% endblock title %} 
+{% block body %}
+
+<div class="container mt-5 p-5">
+  <div class="col-md-6 mx-auto">
+    <form>
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Select Your Question to Delete</label>
+            <select name="question" id="question" class="form-control">
+                <option value="choose">Choose</option>
+                {% for question in questions %}
+                <option value="{{question.question}}">
+                {{question.question}}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <button class="btn btn-danger">Submit</button>
+    </form>
+  </div>
+</div>
+{% endblock body %}
