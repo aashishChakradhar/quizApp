@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}quiz_question{% endblock title %} 
+{% block title %}delete_question{% endblock title %} 
 {% block body %}
 
 <div class="container mt-5 p-5">
@@ -7,7 +7,7 @@
     <form>
         {% csrf_token %}
         <div class="form-group">
-            <label>Select Your Question to Delete</label>
+            <label>Select Your Question</label>
             <select name="question" id="question" class="form-control" style="margin-top: 4%;">
                 <option value="choose">Choose</option>
                 {% for question in questions %}

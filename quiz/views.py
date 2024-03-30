@@ -100,11 +100,13 @@ def delete_category(request):
             instance = Category.objects.filter(category_name=category_name)
             if instance.exists():
                 instance.delete()
-                return HttpResponse("Category deleted successfully!")
+                messages.success(request, "Your Category Has Been Successfully Deleted!")
             else:
-                return HttpResponse("Category does not exist!")
+                messages.success(request, "Category Doesnot Exists!")
         return render(request,"get_category.html",context)
-    else: return HttpResponse('Delete Fail: User is not a superuser')
+    else: 
+        messages.success(request, "Delete Fail: User is not a superuser")
+        return render(request,"permission.html")
 def delete_question(request):
     if request.user.is_superuser:
         context = {'questions':Question.objects.all()}
@@ -113,11 +115,13 @@ def delete_question(request):
             instance = Question.objects.filter(question=question_del)
             if instance.exists():
                 instance.delete()
-                return HttpResponse("Question deleted successfully!")
+                messages.success(request, "Your Question Has Been Successfully Deleted!")
             else:
                 return HttpResponse("Question does not exist!")
-        return render(request,"get_question.html",context)
-    else: return HttpResponse('Delete Fail: User is not a superuser')
+        return render(request,"delete_question.html",context)
+    else: 
+        messages.success(request, "Delete Fail: User is not a superuser")
+        return render(request,"permission.html")
 
 #learnig about the app
 def get_category(request):
@@ -125,7 +129,6 @@ def get_category(request):
     if request.GET.get('category'):
         return redirect(f"/quiz/?category={request.GET.get('category')}")
     else:return render(request,'get_category.html',context)
-
 def take_quiz(request):
     context = {'category':request.GET.get('category')}
     if request.method=='POST':
