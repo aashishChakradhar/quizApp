@@ -59,7 +59,6 @@ def contact(request):
         messages.success(request, "Your Message Has Been Revieved!")
     return render (request,'contact.html')
 
-
 #learnig about the app
 def get_category(request):
     context = {'categories':Category.objects.all()}
@@ -101,8 +100,8 @@ def get_quiz(request):
         payload = {'status':True,'data': data}
         return JsonResponse(payload)
     except Exception as e:
-        print(e)
-    return HttpResponse('Error Occured')
+        messages.error(request, str(e))
+        return render(request,"permission.html")
 
 
 # only admin operations
@@ -114,7 +113,7 @@ def add_category(request):
             category, created = Category.objects.get_or_create(category_name=category_name)
         return render (request,'add_category.html')
     else:
-        messages.success(request, "Add Fail: User is not a superuser")
+        messages.error(request, "Add Fail: User is not a superuser")
         return render (request,'permission.html')
 def add_question(request):
     if request.user.is_superuser:
@@ -138,7 +137,7 @@ def add_question(request):
             messages.success(request, "Your Question Has Been Successfully Added!")
         return render (request,'add_question.html',context)
     else:
-        messages.success(request, "Add Fail: User is not a superuser")
+        messages.error(request, "Add Fail: User is not a superuser")
         return render (request,'permission.html')
 
 def delete_category(request):
@@ -151,10 +150,10 @@ def delete_category(request):
                 instance.delete()
                 messages.success(request, "Your Category Has Been Successfully Deleted!")
             else:
-                messages.success(request, "Category Doesnot Exists!")
+                messages.error(request, "Category Doesnot Exists!")
         return render(request,"get_category.html",context)
     else: 
-        messages.success(request, "Delete Fail: User is not a superuser")
+        messages.error(request, "Delete Fail: User is not a superuser")
         return render(request,"permission.html")
 def delete_question(request):
     if request.user.is_superuser:
@@ -166,22 +165,25 @@ def delete_question(request):
                 instance.delete()
                 messages.success(request, "Your Question Has Been Successfully Deleted!")
             else:
-                messages.success(request, "Question Doesnot Exist!")
+                messages.error(request, "Question Doesnot Exist!")
         return render(request,"delete_question.html",context)
     else: 
-        messages.success(request, "Delete Fail: User is not a superuser")
+        messages.error(request, "Delete Fail: User is not a superuser")
         return render(request,"permission.html")
 
 def view_record(request):
     if request.user.is_superuser:
         try:
-            main_context = {'records':Records.objects.all()}
+            main_context = {
+                'records':Records.objects.all(),
+                'users':User.objects.all(),
+                'categories': Category.objects.all(),
+            }
             if request.method=="POST":
                 user= request.POST.get('user')
-                category= request.POST.get('category')
+                category_form= request.POST.get('category')
                 time= request.POST.get('time')
-                
-                all_records = Records.objects.filter(user_name=user, category = category, created_at = time)
+                all_records = Records.objects.filter(user_name=user, category = category_form)
                 context = {'records': all_records}
                 return render(request, 'view_record.html', context)
             return render(request,"records.html",main_context)
@@ -195,16 +197,16 @@ def view_record(request):
             context = {'records': filter_records}
             return render(request, 'view_record.html', context)
         except Exception as e:
-            messages.success(request,e)
+            messages.error(request,str(e))
             return render(request,"index.html")
-        
+
 def view_category(request):
     try:
         all_category = Category.objects.all()
         context = {'categories': all_category}
         return render(request, 'view_category.html', context)
     except Exception as e:
-        messages.success(request,e)
+        messages.error(request,str(e))
         return render(request,"index.html")
 def view_question(request):
     if request.user.is_superuser:
@@ -213,8 +215,8 @@ def view_question(request):
             context = {'questions': all_question}
             return render(request, 'view_question.html', context)
         except Exception as e:
-            messages.success(request, e)
+            messages.error(request, str(e))
         return render(request, 'index.html')
     else: 
-        messages.success(request, "View Fail: User is not a superuser")
+        messages.error(request, "View Fail: User is not a superuser")
         return render(request,"permission.html")

@@ -10,21 +10,9 @@
             <label >Select user</label>
             <select name="user" id="user" class="form-control" style="margin-top: 4%;">
             <option value="choose">Choose</option>
-            {% for record in records %}
-            <option value="{{record.user_name}}">
-                {{record.user_name}}
-            </option>
-            {% endfor %}
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label >Select time</label>
-            <select name="time" id="time" class="form-control" style="margin-top: 4%;">
-            <option value="choose">Choose</option>
-            {% for record in records %}
-            <option value="{{record.created_at}}">
-                {{record.created_at}}
+            {% for user in users %}
+            <option value="{{user.username}}">
+                {{user.username}}
             </option>
             {% endfor %}
             </select>
@@ -34,9 +22,9 @@
             <label >Select category</label>
             <select name="category" id="category" class="form-control" style="margin-top: 4%;">
             <option value="choose">Choose</option>
-            {% for record in records %}
-            <option value="{{record.category}}">
-                {{record.category}}
+            {% for categorys in categories %}
+            <option value="{{categorys.uid}}">
+                {{categorys.category_name}}
             </option>
             {% endfor %}
             </select>
@@ -51,3 +39,16 @@
     </div>
 </div>
 {% endblock body %}
+
+{% comment %} 
+        <div class="form-group">
+            <label >Select time</label>
+            <select name="time" id="time" class="form-control" style="margin-top: 4%;">
+            <option value="choose">Choose</option>
+            {% for record in records %}
+            <option value="{{record.created_at}}">
+                {{record.created_at}}
+            </option>
+            {% endfor %}
+            </select>
+        </div> {% endcomment %}
