@@ -74,7 +74,6 @@ def take_quiz(request):
 
             total_attempted_marks = request.POST.get('total_attempted_marks')
             total_marks_obtained = request.POST.get('total_marks_obtained')
-            
             score=request.POST.get('score')
             # checks if category already exist
             category, created = Category.objects.get_or_create(category_name=category_name)
