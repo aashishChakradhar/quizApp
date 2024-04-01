@@ -67,16 +67,25 @@ def get_category(request):
     else:return render(request,'get_category.html',context)
 def take_quiz(request):
     context = {'category':request.GET.get('category')}
-    if request.method=='POST':
-        category_name = request.POST.get('category_record')
-        current_user = request.user
-        score=10
-        # checks if category already exist
-        category, created = Category.objects.get_or_create(category_name=category_name)
-        # save the new record
-        records = Records.objects.create(category=category, user_name=current_user, score=score)
-        return redirect(f"/index")
-    return render(request, 'get_quiz.html',context)
+    try:
+        if request.method=='POST':
+            category_name = request.POST.get('category_record')
+            current_user = request.user
+
+            total_attempted_marks = request.POST.get('total_attempted_marks')
+            total_marks_obtained = request.POST.get('total_marks_obtained')
+            
+            score=request.POST.get('score')
+            # checks if category already exist
+            category, created = Category.objects.get_or_create(category_name=category_name)
+            # save the new record
+            records = Records.objects.create(category=category, user_name=current_user, score=total_marks_obtained)
+            messages.success(request,"Your Score Has Been Successfully Added!")
+            return redirect(f"/get-category")
+        return render(request, 'get_quiz.html',context)
+    except Exception as e:
+        messages.error(request,str(e))
+        return render(request, 'get_quiz.html',context)
 
 #for createing an api
 def get_quiz(request):
@@ -85,23 +94,27 @@ def get_quiz(request):
         if request.GET.get('category'):
             question_objs=question_objs.filter(category__category_name__icontains=request.GET.get('category'))
         question_objs=list(question_objs)    
+        
         data=[]
         random.shuffle(question_objs)
-        
+        count = 0
         for question_obj in question_objs:
-            data.append({
-                "uid":question_obj.uid,
-                "category":question_obj.category.category_name,
-                "question":question_obj.question,
-                "marks":question_obj.marks,
-                "answer":question_obj.get_answers(),
-            })
+            count += 1 
+            if count <= 10:
+                data.append({
+                    "uid":question_obj.uid,
+                    "category":question_obj.category.category_name,
+                    "question":question_obj.question,
+                    "marks":question_obj.marks,
+                    "answer":question_obj.get_answers(),
+                })
+            else: break
             
         payload = {'status':True,'data': data}
         return JsonResponse(payload)
     except Exception as e:
         messages.error(request, str(e))
-        return render(request,"permission.html")
+        return render(request,"index.html")
 
 
 # only admin operations
@@ -117,28 +130,32 @@ def add_category(request):
         return render (request,'permission.html')
 def add_question(request):
     if request.user.is_superuser:
-        context = {'categories':Category.objects.all()}
-        if request.method == 'POST':
-            category_name = request.POST.get('category')
-            question = request.POST.get('question')
-            answer_data=[
-                (request.POST.get('answer1'), True),
-                (request.POST.get('answer2'), False),
-                (request.POST.get('answer3'), False),
-                (request.POST.get('answer4'), False),
-            ]
-            marks = request.POST.get('marks')
-            category, created = Category.objects.get_or_create(category_name=category_name)
-            question,created = Question.objects.get_or_create(category=category, question=question, marks=marks)
-            
-            for answer_individual, is_correct in answer_data:
-                answer=Answer(question=question,answer=answer_individual,is_correct=is_correct)
-                answer.save()
-            messages.success(request, "Your Question Has Been Successfully Added!")
-        return render (request,'add_question.html',context)
+        try:
+            context = {'categories':Category.objects.all()}
+            if request.method == 'POST':
+                category_name = request.POST.get('category')
+                question = request.POST.get('question')
+                answer_data=[
+                    (request.POST.get('answer1'), True),
+                    (request.POST.get('answer2'), False),
+                    (request.POST.get('answer3'), False),
+                    (request.POST.get('answer4'), False),
+                ]
+                marks = request.POST.get('marks')
+                category, created = Category.objects.get_or_create(category_name=category_name)
+                question,created = Question.objects.get_or_create(category=category, question=question, marks=marks)
+                
+                for answer_individual, is_correct in answer_data:
+                    answer=Answer(question=question,answer=answer_individual,is_correct=is_correct)
+                    answer.save()
+                messages.success(request, "Your Question Has Been Successfully Added!")
+            return render (request,'add_question.html',context)
+        except Exception as e:
+            messages.error(request, str(e))
+            return render (request,'add_question.html',context)
     else:
         messages.error(request, "Add Fail: User is not a superuser")
-        return render (request,'permission.html')
+        return render (request,'index.html')
 
 def delete_category(request):
     if request.user.is_superuser:
@@ -172,33 +189,39 @@ def delete_question(request):
         return render(request,"permission.html")
 
 def view_record(request):
-    if request.user.is_superuser:
-        try:
-            main_context = {
-                'records':Records.objects.all(),
-                'users':User.objects.all(),
-                'categories': Category.objects.all(),
-            }
+    try:
+        if request.user.is_superuser:
             if request.method=="POST":
                 user= request.POST.get('user')
                 category_form= request.POST.get('category')
                 time= request.POST.get('time')
-                all_records = Records.objects.filter(user_name=user, category = category_form)
-                context = {'records': all_records}
-                return render(request, 'view_record.html', context)
-            return render(request,"records.html",main_context)
-        except Exception as e:
-            messages.error(request,str(e))
-            return render(request,"index.html")
-    else:
-        try:
+                if (user == 'all' and category_form == 'all'):
+                    all_records=Records.objects.all()
+                elif(user == 'all' and category_form != 'all'):
+                    all_records = Records.objects.filter(category = category_form)
+                elif(user != 'all' and category_form == 'all'):
+                    all_records = Records.objects.filter(user_name=user) 
+                else:
+                    all_records = Records.objects.filter(user_name=user, category = category_form)
+                context = {
+                    'records':all_records,
+                    'users':User.objects.all(),
+                    'categories': Category.objects.all(),
+                }
+            else:
+                context = {
+                    'records':Records.objects.all(),
+                    'users':User.objects.all(),
+                    'categories': Category.objects.all(),
+                }
+        else:
             current_user = request.user
             filter_records=Records.objects.filter(user_name = current_user)
             context = {'records': filter_records}
-            return render(request, 'view_record.html', context)
-        except Exception as e:
-            messages.error(request,str(e))
-            return render(request,"index.html")
+        return render(request, 'view_record.html', context)
+    except Exception as e:
+        messages.error(request,str(e))
+        return render(request,"index.html")
 
 def view_category(request):
     try:

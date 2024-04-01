@@ -155,6 +155,8 @@
             return {
                 category: '{{category}}',
                 questions: [],
+                totalAttemptedMarks: 0,
+                totalMarksObtained: 0,
             }
         },
         methods: {
@@ -166,8 +168,11 @@
                     console.log(result)
                     _this.questions = result.data
                 })
+                .catch(error => {
+                  console.error('Error:', error);
+                }); 
             },
-            checkAnswer(event,uid){
+            {% comment %} checkAnswer(event,uid,marks){
               var obtained=0
                 this.questions.map(question=>{
                     answer=question.answer
@@ -184,7 +189,25 @@
                     }
                 })
                 console.log(event.target.value,uid)
-            }
+            } {% endcomment %}
+
+            checkAnswer(event, uid, marks) {
+              var selectedAnswer = event.target.value;
+              var isCorrect = false;
+              this.questions.forEach(question => {
+                  if (question.uid === uid) {
+                      question.answer.forEach(answer => {
+                          if (answer.answer === selectedAnswer && answer.is_correct) {
+                              isCorrect = true;
+                          }
+                      });
+                  }
+              });
+              if (isCorrect) {
+                  this.totalMarksObtained += parseInt(marks);
+              }
+              this.totalAttemptedMarks += parseInt(marks);
+          }
         },
         created() {
             this.getQuestions()
