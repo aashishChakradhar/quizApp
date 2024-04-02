@@ -20,10 +20,17 @@ def signup(request):
         user.first_name=firstName
         user.last_name=lastName
         user.save()
+        user = authenticate(username=username, password=password)
+        if user is not None:# if the user is logged in
+            login(request,user)
+            return redirect("/")
+        else:# if the user is not logged in
+            return render (request,"signin.html")
     return render (request,'signup.html')
+
 def loginUser(request):
-    # user: @ashish00
-    # password: 123@Happy@123
+    # user: student, admin
+    # password: student, admin
     
     if request.method == "POST":
         username = request.POST.get('username')
