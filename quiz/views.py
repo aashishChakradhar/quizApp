@@ -16,33 +16,54 @@ def signup(request):
         email = request.POST.get('email')
         firstName = request.POST.get('firstName')
         lastName = request.POST.get('lastName')
-        user = User.objects.create_user(username, email, password)
-        user.first_name=firstName
-        user.last_name=lastName
-        user.save()
-        user = authenticate(username=username, password=password)
-        if user is not None:# if the user is logged in
-            login(request,user)
-            return redirect("/")
-        else:# if the user is not logged in
-            return render (request,"signin.html")
+        
+        # creating user
+        try:
+            user = User.objects.create_user(username,email,password)
+        except Exception as e:
+            messages.error(request,str(e))
+            return render (request,'signup.html')
+        
+        # additional user details
+        try:
+            user.first_name=firstName
+            user.last_name=lastName
+            user.save()
+        except Exception as e:
+            messages.error(request,str(e))
+            return render (request,'signup.html')
+        
+        # login the created user
+        try:
+            user = authenticate(username=username, password=password)
+            if user is not None:# if the user is logged in
+                login(request,user)
+                return redirect("/")
+            else:# if the user is not logged in
+                return render (request,"signin.html")
+        except Exception as e:
+            messages.error(request,str(e))
+            return render (request,'signup.html')
+
     return render (request,'signup.html')
 
 def loginUser(request):
     # user: student, admin
     # password: student, admin
-    
-    if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        # check if user is valid
-        user = authenticate(username=username, password=password)
-        if user is not None:# if the user is logged in
-            login(request,user)
-            return redirect("/")
-        else:# if the user is not logged in
-            return render (request,"signin.html")
-    return render (request,'signin.html')
+    try:
+        if request.method == "POST":
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            # check if user is valid
+            user = authenticate(username=username, password=password)
+            if user is not None:# if the user is logged in
+                login(request,user)
+                return redirect("/")
+            else:# if the user is not logged in
+                return render (request,"signin.html")
+        return render (request,'signin.html')
+    except Exception as e:
+        messages.error(request,str(e))
 def logoutUser(request):
     logout(request)
     return redirect ('/login')
@@ -53,7 +74,11 @@ def index(request):
     else:
         return render (request,"index.html")
 def about(request):
-    return render (request,'about.html')
+    user_name = request.user
+    context = {
+        'details':User.objects.filter(username=user_name)
+    }
+    return render (request,'about.html',context)
 def contact(request):
     if request.method == "POST":
         fname = request.POST.get('fname')
