@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import validate_email
 import random
 import uuid
 

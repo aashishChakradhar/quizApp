@@ -7,6 +7,7 @@ from datetime import datetime
 from quiz.models import *
 import random
 
+
 # Create your views here.
 
 def signup(request):
@@ -14,6 +15,7 @@ def signup(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         email = request.POST.get('email')
+
         firstName = request.POST.get('firstName')
         lastName = request.POST.get('lastName')
         
@@ -46,6 +48,8 @@ def signup(request):
             return render (request,'signup.html')
 
     return render (request,'signup.html')
+
+
 
 def loginUser(request):
     # user: student, admin
