@@ -96,15 +96,34 @@ def about(request):
     return render (request,'about.html',context)
 def contact(request):
     if request.method == "POST":
-        fname = request.POST.get('fname')
-        lname = request.POST.get('lname')
-        phone = request.POST.get('phone')
-        email = request.POST.get('email')
-        comment = request.POST.get('comment')
-        contact = Contact(fname = fname, lname = lname, email = email, phone=phone, comment = comment, date = datetime.today())
-        contact.save()
-        messages.success(request, "Your Message Has Been Revieved!")
-    return render (request,'contact.html')
+        try:
+            fname = request.POST.get('fname')
+            lname = request.POST.get('lname')
+            phone = request.POST.get('phone')
+            email = request.POST.get('email')
+
+            # check validations
+            if(not check.valid_name(fname)):
+                raise ValueError("Error: Invalid First Name")
+            if(not check.valid_name(lname)):
+                raise ValueError("Error: Invalid Last Name")
+            if(not check.valid_email(email)):
+                raise ValueError("Error: Invalid Email")
+            if(not check.validate_phone(phone)):
+                raise ValueError("Error: Invalid Mobile Number")
+
+            comment = request.POST.get('comment')
+            contact = Contact(fname = fname, lname = lname, email = email, phone=phone, comment = comment, date = datetime.today())
+            contact.save()
+            messages.success(request, "Your Message Has Been Revieved!")
+        except ValueError as e:
+            messages.error(request,str(e))
+            return render (request,'contact.html')
+        except Exception as e:
+            messages.error(request,str(e))
+            return render (request,'contact.html')
+    else:
+        return render (request,'contact.html')
 
 #learnig about the app
 def get_category(request):

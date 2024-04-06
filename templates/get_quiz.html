@@ -11,7 +11,7 @@
                         <hr>
                     </div>
                         <input type="hidden" value="{{category}}" name="category_record" id="category_record">
-                        <div v-for=" question in questions">
+                        <div v-for="(question, index) in questions" v-if="index < 10">
                             
                             <div style="width:100%;"> 
                                 <span style="font-weight: bold; margin-left: 0%;">
