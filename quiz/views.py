@@ -12,47 +12,47 @@ import quiz.check as check
 
 def signup(request):
     if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        email = request.POST.get('email')
-        firstName = request.POST.get('firstName')
-        lastName = request.POST.get('lastName')
-        if(not check.valid_email(email)):
-            messages.error(request,"Error: Invalid Email")
-            return redirect('signup')
-        if(not check.valid_username(username)):
-            messages.error(request,"Error: Invalid Username")
-            return redirect('signup')
-        
-        # creating user
         try:
+            # read from form
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            email = request.POST.get('email')
+            firstName = request.POST.get('firstName')
+            lastName = request.POST.get('lastName')
+            
+            # check validation
+            if(not check.valid_name(firstName)):
+                raise ValueError("Error: Invalid First Name")
+            if(not check.valid_name(lastName)):
+                raise ValueError("Error: Invalid Last Name")
+            if(not check.valid_email(email)):
+                raise ValueError("Error: Invalid Email")
+            if(not check.valid_username(username)):
+                raise ValueError("Error: Invalid Username")
+
+            # creating user
             user = User.objects.create_user(username,email,password)
-        except Exception as e:
-            messages.error(request,str(e))
-            return render (request,'signup.html')
-        
-        # additional user details
-        try:
+            
+            # additional user details
             user.first_name=firstName
             user.last_name=lastName
             user.save()
-        except Exception as e:
-            messages.error(request,str(e))
-            return render (request,'signup.html')
-        
-        # login the created user
-        try:
+            
+            # login the created user
             user = authenticate(username=username, password=password)
             if user is not None:# if the user is logged in
                 login(request,user)
                 return redirect("/")
             else:# if the user is not logged in
                 return render (request,"signin.html")
-        except Exception as e:
+        except ValueError as e:
             messages.error(request,str(e))
             return render (request,'signup.html')
-
-    return render (request,'signup.html')
+        except Exception as e:
+            messages.error(request, "An error occurred during signup. Please try again.")
+            return render (request,'signup.html')
+    else:
+        return render (request,'signup.html')
 
 def loginUser(request):
     # user: student, admin
