@@ -21,6 +21,9 @@
         padding-left: 10%;
         font-weight: bold;
     }
+    .second-column{
+        font-weight: lighter;
+    }
 </style>
 {% endblock head %}
 
@@ -31,15 +34,33 @@
         my profile
     </div>
     <div class = "details">
-        {% for details in details %}
-            User Name: {{details.username}}
-            <br>
-            First Name:{{details.first_name}}
-            <br>
-            Last Name:{{details.last_name}}
-            <br>
-            Email:{{details.email}}
-        {% endfor %}
+        <table>
+            <thead>
+            <th style="width:150px"></th>
+            <th></th>
+            </thead>
+            <tbody>
+                {% for details in details %}
+                    <tr>
+                        <td>User Name</td>
+                        <td class="second-column">{{details.username}}</td>
+                    </tr>
+                    <tr>
+                        <td>First Name</td>
+                        <td class="second-column">{{details.first_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Last Name</td>
+                        <td class="second-column">{{details.last_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td class="second-column">{{details.email}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
     </div>
 </div>
 {% endblock body %}
