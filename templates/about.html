@@ -1,19 +1,45 @@
 {% extends "base.html" %}
+{% block head %}
+<style>
+    .profile{
+        background-color: rgba(182, 229, 229, 0.5);
+        color: #002b50;
+        width: 50%;
+        height: 500px;
+        margin-left: 30%;
+        margin-top: 5%;
+        border-radius: 10px;
+    }
+    .heading{
+        text-align: center;
+        font-weight: bolder;
+        font-size: 50px;
+        padding-bottom: 10%;
+    }
+    .details{
+        font-size: 20px;
+        padding-left: 10%;
+        font-weight: bold;
+    }
+</style>
+{% endblock head %}
+
 {% block body %}
 
-<div style=" background-color: #b6e5e5; color: #002b50; width: 50%; margin-left: 30%; margin-top: 5%;">
-    <h1 align= 'center'>
-        My Profile
-    </h1>
-    {% for details in details %}
-        User Name: {{details.username}}
-        <br>
-        First Name:{{details.first_name}}
-        <br>
-        Last Name:{{details.last_name}}
-        <br>
-        Email:{{details.email}}
-    {% endfor %}
-
+<div class = "profile">
+    <div class="heading">
+        my profile
+    </div>
+    <div class = "details">
+        {% for details in details %}
+            User Name: {{details.username}}
+            <br>
+            First Name:{{details.first_name}}
+            <br>
+            Last Name:{{details.last_name}}
+            <br>
+            Email:{{details.email}}
+        {% endfor %}
+    </div>
 </div>
 {% endblock body %}

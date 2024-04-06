@@ -53,12 +53,11 @@ def signup(request):
             return render (request,'signup.html')
     else:
         return render (request,'signup.html')
-
 def loginUser(request):
     # user: student, admin
     # password: student, admin
-    try:
-        if request.method == "POST":
+    if request.method == "POST":
+        try:
             username = request.POST.get('username')
             password = request.POST.get('password')
             # check if user is valid
@@ -67,12 +66,21 @@ def loginUser(request):
                 login(request,user)
                 return redirect("/")
             else:# if the user is not logged in
-                return render (request,"signin.html")
+                raise ValueError("Error: Invalid Credentials")
+        except ValueError as e:
+            messages.error(request,str(e))
+            return render (request,"signin.html")
+        except Exception as e:
+            messages.error(request,f"Error: {str(e)}")
+            return render (request,"signin.html")
+    else:
         return render (request,'signin.html')
-    except Exception as e:
-        messages.error(request,str(e))
 def logoutUser(request):
-    logout(request)
+    try:
+        logout(request)
+        messages.success(request,"Successfully Logged out")
+    except Exception as e:
+        messages.error(request,f"Error: {str(e)}")
     return redirect ('/login')
 
 def index(request):
@@ -113,11 +121,12 @@ def take_quiz(request):
 
             total_attempted_marks = request.POST.get('total_attempted_marks')
             total_marks_obtained = request.POST.get('total_marks_obtained')
-            score=request.POST.get('score')
+            total_percentage = request.POST.get('total_percentage')
+            # score=request.POST.get('score')
             # checks if category already exist
             category, created = Category.objects.get_or_create(category_name=category_name)
             # save the new record
-            records = Records.objects.create(category=category, user_name=current_user, score=total_marks_obtained)
+            records = Records.objects.create(category=category, user_name=current_user, score=total_percentage)
             messages.success(request,"Your Score Has Been Successfully Added!")
             return redirect(f"/get-category")
         return render(request, 'get_quiz.html',context)
@@ -193,7 +202,7 @@ def add_question(request):
             messages.error(request, str(e))
             return render (request,'add_question.html',context)
     else:
-        messages.error(request, "Add Fail: User is not a superuser")
+        messages.error(request, "Add Fail: User is not a Superuser")
         return render (request,'index.html')
 
 def delete_category(request):

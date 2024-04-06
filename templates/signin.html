@@ -96,40 +96,44 @@
     </script>
   
   <body class="text-center">
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-warning alert-{{ message.tags }}dismissible fade show" role="alert">
-          {{ message }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      {% endfor %}
-    {% endif %}
-    <main class="form-signin">
-      <form action="/login" method="POST">
-        {% csrf_token %}
-        <img src="/static/image/login.png" alt="login"  />
-        <h1 class="h3 mb-3 fw-normal">Log In</h1>
+    <div class="col">
+      <div>
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-warning alert-{{ message.tags }}dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+      </div>
+      <main class="form-signin">
+        <form action="/login" method="POST">
+          {% csrf_token %}
+          <img src="/static/image/login.png" alt="login"  />
+          <h1 class="h3 mb-3 fw-normal">Log In</h1>
 
-        <div class="form-floating">
-          <input type="text" class="form-control" name="username" id="username" placeholder="User Name" required />
-          <label for="username">User Name</label>
-        </div>
-        <div class="form-floating">
-          <input type="password" class="form-control" name="password" id="password" placeholder="Password" required/>
-          <label for="password">Password</label>
+          <div class="form-floating">
+            <input type="text" class="form-control" name="username" id="username" placeholder="User Name" required />
+            <label for="username">User Name</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password" required/>
+            <label for="password">Password</label>
+            
+          </div>
+          <div id="options">
+            <label>
+              <input type="checkbox" onclick="myFunction()"> Show Password
+            </label>
+          </div>
           
-        </div>
-        <div id="options">
-          <label>
-            <input type="checkbox" onclick="myFunction()"> Show Password
-          </label>
-        </div>
-        
-        <button class="w-100 btn btn-lg btn-primary" style="margin-bottom: 10px; background-color: #002b50; border-color: #002b50 ; color: #ffffff;" type="submit">Log In</button>
-        <a class="w-100 btn btn-lg btn-primary" href="/signup" role="button" style="background-color: #002b50; border-color: #002b50 ; color: #ffffff;">Create Account</a>
-        <p class="mt-5 mb-3 text-muted">&copy; 2024-Aashish_Chakradhar</p>
-      </form>
-    </main>
+          <button class="w-100 btn btn-lg btn-primary" style="margin-bottom: 10px; background-color: #002b50; border-color: #002b50 ; color: #ffffff;" type="submit">Log In</button>
+          <a class="w-100 btn btn-lg btn-primary" href="/signup" role="button" style="background-color: #002b50; border-color: #002b50 ; color: #ffffff;">Create Account</a>
+          <p class="mt-5 mb-3 text-muted">&copy; 2024-Aashish_Chakradhar</p>
+        </form>
+      </main>
+    </div>
 
     <script src="{% static './js/bootrap.bundle.js' %}"> </script>
   </body>
