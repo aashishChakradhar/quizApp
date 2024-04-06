@@ -6,7 +6,7 @@ from django.contrib import messages
 from datetime import datetime
 from quiz.models import *
 import random
-
+import quiz.check as check
 
 # Create your views here.
 
@@ -15,9 +15,14 @@ def signup(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         email = request.POST.get('email')
-
         firstName = request.POST.get('firstName')
         lastName = request.POST.get('lastName')
+        if(not check.valid_email(email)):
+            messages.error(request,"Error: Invalid Email")
+            return redirect('signup')
+        if(not check.valid_username(username)):
+            messages.error(request,"Error: Invalid Username")
+            return redirect('signup')
         
         # creating user
         try:
@@ -48,8 +53,6 @@ def signup(request):
             return render (request,'signup.html')
 
     return render (request,'signup.html')
-
-
 
 def loginUser(request):
     # user: student, admin
@@ -159,6 +162,7 @@ def add_category(request):
         if request.method == 'POST':
             category_name = request.POST.get('new_category')
             category, created = Category.objects.get_or_create(category_name=category_name)
+            messages.success(request, "Add Success: Category Added Successfully")
         return render (request,'add_category.html')
     else:
         messages.error(request, "Add Fail: User is not a superuser")
