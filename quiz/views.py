@@ -37,6 +37,7 @@ def signup(request):
             user.first_name=firstName
             user.last_name=lastName
             user.save()
+            messages.success(request, "User Created Successfully")
             
             # login the created user
             user = authenticate(username=username, password=password)
@@ -82,6 +83,7 @@ def logoutUser(request):
     except Exception as e:
         messages.error(request,f"Error: {str(e)}")
     return redirect ('/login')
+
 def create_superuser(request):
     if request.user.is_superuser:
         if request.method == "POST":
@@ -110,20 +112,12 @@ def create_superuser(request):
                 user.first_name=firstName
                 user.last_name=lastName
                 user.save()
-                
-                # login the created user
-                user = authenticate(username=username, password=password)
-                if user is not None:# if the user is logged in
-                    login(request,user)
-                    return redirect("/")
-                else:# if the user is not logged in
-                    return render (request,"create_superuser.html")
+                messages.success(request, "User Created Successfully")
             except ValueError as e:
                 messages.error(request,str(e))
-                return render (request,"create_superuser.html")
             except Exception as e:
                 messages.error(request, "An error occurred during signup. Please try again.")
-                return render (request,"create_superuser.html")
+            return render (request,"create_superuser.html")
         else:
             return render (request,"create_superuser.html")
     else:
