@@ -93,7 +93,9 @@ def create_superuser(request):
                 email = request.POST.get('email')
                 firstName = request.POST.get('firstName')
                 lastName = request.POST.get('lastName')
-                is_superuser = request.POST.get('is_superuser')
+                is_superuser = bool(request.POST.get('is_superuser'))
+                # is_superuser = (is_superuser_str)
+                # return HttpResponse (is_superuser)
                 # check validation
                 if(not check.valid_name(firstName)):
                     raise ValueError("Error: Invalid First Name")
@@ -105,14 +107,16 @@ def create_superuser(request):
                     raise ValueError("Error: Invalid Username")
 
                 # creating superuser
-                user = User.objects.create_user(username,email,password)
-                user.is_superuser = is_superuser
-                
+                user = User.objects.create_user(username,email,password,is_superuser=is_superuser)
+                if is_superuser:
+                    user.is_staff = True  # Optionally, make the user staff as well
+                user.save()
                 # additional user details
                 user.first_name=firstName
                 user.last_name=lastName
                 user.save()
-                messages.success(request, "User Created Successfully")
+                if(is_superuser):messages.success(request, "Admin Created Successfully")
+                elif(not is_superuser):messages.success(request, "User Created Successfully")
             except ValueError as e:
                 messages.error(request,str(e))
             except Exception as e:

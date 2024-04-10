@@ -1,23 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block title %}create-superuser{% endblock title %}
 {% block head %}
   <link rel="stylesheet" type='text/css' href="{% static 'form.css' %}" />
 {% endblock head %}
 {% block body %}
 <div class="texts-center">
       <div class="col">
-        <div style="padding-top: 100px;">
-        {% if messages %}
-          {% for message in messages %}
-            <div class="alert alert-warning alert-{{ message.tags }}dismissible fade show" role="alert">
-              {{ message }}
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-          {% endfor %}
-        {% endif %}
-        </div>
         <main class="form-signin">
-          <form action="/signup" method="POST">
+          <form action="/create-superuser" method="POST">
               {% csrf_token %}
               <img src="/static/image/login.png" alt="login"  />
               <h1 class="h3 mb-3 fw-normal">Register a Teacher</h1>
@@ -43,14 +34,18 @@
               </div>
 
               <div class="form-floating">
-                <input type="password" class="form-control" name="password" id="password" placeholder="Password" required minlength="5"/>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Password"  minlength="6" required/>
                 <label for="password">Password</label>
               </div>
 
               <div class = "form-floating">
-                <input type="checkbox" value="True" name="is_superuser" id="is_superuser">Create Superuser
+                <label for="is_superuser" style= "padding-top: 0%; padding-left:20px;">Create Superuser:</label>    
+                <input type="checkbox" value="True" name="is_superuser" id="is_superuser" checked>
               </div>
-            <button class="w-100 btn btn-lg btn-primary" style="margin-bottom: 10px; background-color: #002b50; border-color: #002b50 ; color: #ffffff;" type="submit">Sign Up</button>
+            <button class="w-100 btn btn-lg btn-primary" 
+            style="margin-top: 10px; margin-bottom: 10px; background-color: #002b50; border-color: #002b50 ; color: #ffffff;" 
+            type="submit">Sign Up</button>
+
             <p class="mt-5 mb-3 text-muted">&copy; 2024-Aashish_Chakradhar</p>
           </form>
         </main>
