@@ -33,7 +33,7 @@ class Category(BaseModel):
 class Records(BaseModel):
     category=models.ForeignKey(Category,related_name='category_records',on_delete=models.CASCADE)
     user_name= models.ForeignKey(User, on_delete=models.CASCADE)
-    score=models.DecimalField(default=0, max_digits=6, decimal_places=3, validators=[MinValueValidator(0), MaxValueValidator(999.999)])
+    score=models.DecimalField(default=0, max_digits=6, decimal_places=3, validators=[MinValueValidator(0), MaxValueValidator(100.000)])
     
     
 class Question(BaseModel):

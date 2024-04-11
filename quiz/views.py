@@ -6,10 +6,11 @@ from django.contrib import messages
 from datetime import datetime
 from quiz.models import *
 import random
-import quiz.check as check
+import quiz.check as check #custom model containing verification related models
 
 # Create your views here.
 
+# login and sign up related views
 def signup(request):
     if request.method == "POST":
         try:
@@ -83,7 +84,6 @@ def logoutUser(request):
     except Exception as e:
         messages.error(request,f"Error: {str(e)}")
     return redirect ('/login')
-
 def create_superuser(request):
     if request.user.is_superuser:
         if request.method == "POST":
@@ -127,6 +127,7 @@ def create_superuser(request):
     else:
         return render(request,"/")
         
+# basic pages of website
 def index(request):
     if request.user.is_anonymous:
         return redirect("/login")
@@ -169,7 +170,7 @@ def contact(request):
     else:
         return render (request,'contact.html')
 
-#learnig about the app
+# main operations related to working of quiz app
 def get_category(request):
     context = {'categories':Category.objects.all()}
     if request.GET.get('category'):
@@ -197,7 +198,7 @@ def take_quiz(request):
         messages.error(request,str(e))
         return render(request, 'get_quiz.html',context)
 
-#for createing an api
+#for reading datas from question form
 def get_quiz(request):
     try:
         question_objs=Question.objects.all()
@@ -226,9 +227,8 @@ def get_quiz(request):
         messages.error(request, str(e))
         return render(request,"index.html")
 
-
 # only admin operations
-
+# adding stuff
 def add_category(request):
     if request.user.is_superuser:
         if request.method == 'POST':
@@ -268,6 +268,7 @@ def add_question(request):
         messages.error(request, "Add Fail: User is not a Superuser")
         return render (request,'index.html')
 
+# deleting stuff
 def delete_category(request):
     if request.user.is_superuser:
         context = {'categories':Category.objects.all()}
@@ -299,6 +300,7 @@ def delete_question(request):
         messages.error(request, "Delete Fail: User is not a superuser")
         return render(request,"permission.html")
 
+# viewing stuff
 def view_record(request):
     try:
         if request.user.is_superuser:
@@ -333,7 +335,6 @@ def view_record(request):
     except Exception as e:
         messages.error(request,str(e))
         return render(request,"index.html")
-
 def view_category(request):
     try:
         all_category = Category.objects.all()
