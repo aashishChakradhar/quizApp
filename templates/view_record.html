@@ -16,7 +16,7 @@
                                 <select name="user" id="user" class="form-control">
                                     <option value="all">All</option>
                                     {% for user in users %}
-                                        <option value="{{ user.username }}">
+                                        <option value="{{ user.id }}">
                                             {{ user.username }}
                                         </option>
                                     {% endfor %}
@@ -46,58 +46,64 @@
 
 
     <div style="width:70%; text-align: left; margin-left:25%;">
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th>
-                        <h3>Records</h3>
-                    </th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <th style="width:12%">
-                        S N
-                    </th>
-                    <th style="width:30%">
-                        User Name
-                    </th>
-
-                    <th style="width:23%">
-                        Your Score(%)
-                    </th>
-
-                    <th style="width:18%">
-                        Topic 
-                    </th>
-
-                    <th style="width:17%">
-                        Submission Date:
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for record in records %}
+        {%if records%}
+            <table>
+                <thead>
                     <tr>
-                        <td>
-                            {{ forloop.counter }}
-                        </td>
-                        <td>
-                            {{record.user_name}}
-                        </td>
-                        <td style="padding-left:6%;">
-                            {{record.score}}
-                        </td>
-                        <td>
-                            {{record.category}}
-                        </td>
-                        <td>
-                            {{record.created_at}}
-                        </td>
+                        <th></th>
+                        <th></th>
+                        <th>
+                            <h3>Records</h3>
+                        </th>
+                        <th></th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                    <tr>
+                        <th style="width:12%">
+                            S N
+                        </th>
+                        <th style="width:30%">
+                            User Name
+                        </th>
+
+                        <th style="width:23%">
+                            Your Score(%)
+                        </th>
+
+                        <th style="width:18%">
+                            Topic 
+                        </th>
+
+                        <th style="width:17%">
+                            Submission Date:
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {% for record in records %}
+                        <tr>
+                            <td>
+                                {{ forloop.counter }}
+                            </td>
+                            <td>
+                                {{record.user_name}}
+                            </td>
+                            <td style="padding-left:6%;">
+                                {{record.score}}
+                            </td>
+                            <td>
+                                {{record.category}}
+                            </td>
+                            <td>
+                                {{record.created_at}}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        {%else%}
+        <h3 style="margin-left: 250px;">Records Not Found</h3>
+        {%endif%}
     </div>
 {% endblock body %}
