@@ -7,7 +7,7 @@
     <form>
       {% csrf_token %}
       <div class="form-group">
-        <label >Select Your category</label>
+        <label >Select Your Topic</label>
         <select name="category" id="category" class="form-control" style="margin-top: 4%;">
           <option value="choose">Choose</option>
           {% for category in categories %}

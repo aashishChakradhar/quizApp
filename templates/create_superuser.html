@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}create-superuser{% endblock title %}
+{% block title %}create-user{% endblock title %}
 {% block head %}
   <link rel="stylesheet" type='text/css' href="{% static 'form.css' %}" />
 {% endblock head %}
@@ -8,7 +8,7 @@
 <div class="texts-center">
       <div class="col">
         <main class="form-signin">
-          <form action="/create-superuser" method="POST">
+          <form action="/create-user" method="POST">
               {% csrf_token %}
               <img src="/static/image/login.png" alt="login"  />
               <h1 class="h3 mb-3 fw-normal">Register a User</h1>
