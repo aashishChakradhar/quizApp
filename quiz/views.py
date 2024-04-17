@@ -144,7 +144,6 @@ def delete_user(request):
                     messages.error(request, "User does not exist")
                 return redirect("delete_user")
             else:
-                current_user = request.user
                 users = User.objects.filter(is_superuser = False)
                 context = {"users": users}
                 return render(request, "delete_user.html",context)
@@ -196,28 +195,31 @@ def change_password(request):
                 return render (request,'contact.html')
         else:
             return render (request,'contact.html')
-
+# reset the password
 def reset_password(request):
     if request.user.is_anonymous:
         return redirect("/login")
     else:
-        if request.method == "POST":
-            try:
-                change_user = request.POST.get('username')
-                new_password = "happy123"
-                user = User.onjects.filter(user = username)
-                user.set_password(new_password) # set new password
-                user.save()
-                update_session_auth_hash(request, user) #keeps user loggedin
-                messages.success(request, "Your Password Has Been Reset Successfully!")
-                return redirect('index') # goto homepage
-            except User.DoesNotExist:
-                messages.error(request, "Error: User does not exist")
-            except Exception as e:
-                messages.error(request,str(e))
-            return render (request,'reset_password.html')
+        if request.user.is_superuser:
+            if request.method == "POST":
+                try:
+                    username = request.POST.get('username')
+                    new_password = "happy123"
+                    user = User.objects.get(username = username)
+                    user.set_password(new_password) # set new password
+                    user.save()
+                    messages.success(request, f"Password for {username} Has Been Successfully Reset to: {new_password}")
+                    return redirect('index') # goto homepage
+                except User.DoesNotExist:
+                    messages.error(request, f"Error: User {username} does not exist")
+                except Exception as e:
+                    messages.error(request,str(e))
+                return render (request,'reset_password.html')
+            else:
+                return render (request,'reset_password.html')
         else:
-            return render (request,'reset_password.html')
+            messages.error(request, "Reset Password Fail: User is not a Superuser")
+            return render (request,'index.html')
 
 # main operations related to working of quiz app
 def get_category(request):
