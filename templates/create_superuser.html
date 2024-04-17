@@ -11,7 +11,7 @@
           <form action="/create-superuser" method="POST">
               {% csrf_token %}
               <img src="/static/image/login.png" alt="login"  />
-              <h1 class="h3 mb-3 fw-normal">Register a Teacher</h1>
+              <h1 class="h3 mb-3 fw-normal">Register a User</h1>
 
               <div class="form-floating">
                 <input type="text" class="form-control" name="firstName" id="firstName" placeholder="First Name" style="text-transform: uppercase;" required/>
@@ -39,7 +39,7 @@
               </div>
 
               <div class = "form-floating">
-                <label for="is_superuser" style= "padding-top: 0%; padding-left:20px;">Create Superuser:</label>    
+                <label for="is_superuser" style= "padding-top: 0%; padding-left:20px;">Register as Teacher</label>    
                 <input type="checkbox" value="True" name="is_superuser" id="is_superuser" checked>
               </div>
             <button class="w-100 btn btn-lg btn-primary" 

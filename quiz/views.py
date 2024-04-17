@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.db.models import Q
 from django.contrib import messages
 from datetime import datetime
 from quiz.models import *
@@ -126,7 +127,25 @@ def create_superuser(request):
             return render (request,"create_superuser.html")
     else:
         return render(request,"/")
-        
+def delete_user(request):
+    if request.user.is_superuser:
+        if request.method == "POST":
+            try:
+                del_user = request.POST.get('username')
+                users = User.objects.get(username = del_user)
+                users.delete()
+                messages.success(request, "User deleted successfully")
+            except User.DoesNotExist:
+                messages.error(request, "User does not exist")
+            return redirect("delete_user")
+        else:
+            current_user = request.user
+            users = User.objects.filter(is_superuser = False)
+            context = {"users": users}
+            return render(request, "delete_user.html",context)
+    else:
+        return redirect('home')
+
 # basic pages of website
 def index(request):
     if request.user.is_anonymous:
