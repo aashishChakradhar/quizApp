@@ -41,15 +41,18 @@ def logoutUser(request):
     except Exception as e:
         messages.error(request,f"Error: {str(e)}")
     return redirect ('/login')
-def signup(request):
+
+def create_user(request):
     if request.method == "POST":
         try:
-            # read from form
+            # read input from form
             username = request.POST.get('username')
             password = request.POST.get('password')
             email = request.POST.get('email')
             firstName = request.POST.get('firstName')
             lastName = request.POST.get('lastName')
+            is_superuser = bool(request.POST.get('is_superuser'))
+            is_staff = bool(request.POST.get('is_staff'))
             
             # check validation
             if(not check.valid_name(firstName)):
@@ -62,73 +65,38 @@ def signup(request):
                 raise ValueError("Error: Invalid Username")
 
             # creating user
-            user = User.objects.create_user(username,email,password)
+            user = User.objects.create_user(username,email,password,is_superuser=is_superuser)
             
             # additional user details
             user.first_name=firstName
             user.last_name=lastName
+            user.is_staff = is_staff
             user.save()
             messages.success(request, "User Created Successfully")
             
+            if request.user.is_anonymous:
             # login the created user
-            user = authenticate(username=username, password=password)
-            if user is not None:# if the user is logged in
-                login(request,user)
-                return redirect("/")
-            else:# if the user is not logged in
-                return render (request,"signin.html")
+                user = authenticate(username=username, password=password)
+                if user is not None:# if the user is logged in
+                    login(request,user)
+                    return redirect("/")
+                else:# if the user is not logged in
+                    return render (request,"signin.html")
+            
+            # display success messages    
+            if(is_superuser):messages.success(request, "Admin Created Successfully")
+            elif(is_staff):messages.success(request, "Teacher Created Successfully")
+            elif(not is_staff):messages.success(request, "User Created Successfully")
+                
         except ValueError as e:
             messages.error(request,str(e))
-            return render (request,'signup.html')
         except Exception as e:
-            messages.error(request, "An error occurred during signup. Please try again.")
-            return render (request,'signup.html')
+            messages.error(request, str(e))
+        return render (request,'create_user.html')
     else:
-        return render (request,'signup.html')
-def create_user(request):
-    if request.user.is_anonymous:
-        return redirect("/login")
-    else:
-        if request.user.is_superuser:
-            if request.method == "POST":
-                try:
-                    username = request.POST.get('username')
-                    password = request.POST.get('password')
-                    email = request.POST.get('email')
-                    firstName = request.POST.get('firstName')
-                    lastName = request.POST.get('lastName')
-                    is_superuser = bool(request.POST.get('is_superuser'))
-                    
-                    # check validation
-                    if(not check.valid_name(firstName)):
-                        raise ValueError("Error: Invalid First Name")
-                    if(not check.valid_name(lastName)):
-                        raise ValueError("Error: Invalid Last Name")
-                    if(not check.valid_email(email)):
-                        raise ValueError("Error: Invalid Email")
-                    if(not check.valid_username(username)):
-                        raise ValueError("Error: Invalid Username")
+        return render (request,'create_user.html')
 
-                    # creating superuser
-                    user = User.objects.create_user(username,email,password,is_superuser=is_superuser)
-                    if is_superuser:
-                        user.is_staff = True  # Optionally, make the user staff as well
-                    user.save()
-                    # additional user details
-                    user.first_name=firstName
-                    user.last_name=lastName
-                    user.save()
-                    if(is_superuser):messages.success(request, "Admin Created Successfully")
-                    elif(not is_superuser):messages.success(request, "User Created Successfully")
-                except ValueError as e:
-                    messages.error(request,str(e))
-                except Exception as e:
-                    messages.error(request, "An error occurred during signup. Please try again.")
-                return render (request,"create_superuser.html")
-            else:
-                return render (request,"create_superuser.html")
-        else:
-            return render(request,"/")
+
 def delete_user(request):
     if request.user.is_anonymous:
         return redirect("/login")

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block title %}register{% endblock title %}
+{% block head %}
+  <link rel="stylesheet" type='text/css' href="{% static 'form.css' %}" />
+{% endblock head %}
+{% block body %}
+  <div class="texts-center">
+    <div class="col">
+      <main class="form-signin">
+        <form action="/create-user" method="POST">
+          {% csrf_token %}
+          <img src="/static/image/login.png" alt="login"  />
+          <h1 class="h3 mb-3 fw-normal">Create Account</h1>
+
+          <div class="form-floating">
+            <input type="text" class="form-control" name="firstName" id="firstName" placeholder="First Name" style="text-transform: uppercase;" required/>
+            <label for="firstName">First Name</label>
+          </div>
+
+          <div class="form-floating">
+            <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Last Name" style="text-transform: uppercase;" required />
+            <label for="lastName">Last Name</label>
+          </div>
+
+          <div class="form-floating">
+            <input type="text" class="form-control" name="username" id="username" placeholder="username" required/>
+            <label for="username">User Name</label>
+          </div>
+
+          <div class="form-floating">
+            <input type="email" class="form-control" name="email" id="email" placeholder="email" required/>
+            <label for="email">E-mail</label>
+          </div>
+
+          <div class="form-floating">
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password" required minlength="5"/>
+            <label for="password">Password</label>
+          </div>
+
+          {% if request.user.is_superuser  %}
+            <div class = "form-floating">
+              <label for="is_superuser" style= "padding-top: 0%; padding-left:20px;">Register as Teacher and Admin</label>    
+              <input type="radio" value="True" name="is_superuser" id="is_superuser" checked>
+              <input type="hidden" value="True" name="is_staff" id="is_staff">
+            </div>
+            <div class = "form-floating">
+              <label for="is_staff" style= "padding-top: 0%; padding-left:20px;">Register as Teacher</label>    
+              <input type="radio" value="True" name="is_staff" id="is_staff" checked>
+            </div>
+            <div class = "form-floating">
+              <label for="is_staff" style= "padding-top: 0%; padding-left:20px;">Register as Student</label>    
+              <input type="radio" value="False" name="is_staff" id="is_staff" checked>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" style="margin-bottom: 10px; background-color: #002b50; border-color: #002b50 ; color: #ffffff;" type="submit">Create</button>
+          {% else %}
+            <input type="hidden" value="False" name="is_superuser" id="is_superuser">
+            <input type="hidden" value="False" name="is_staff" id="is_staff">
+            <button class="w-100 btn btn-lg btn-primary" style="margin-bottom: 10px; background-color: #002b50; border-color: #002b50 ; color: #ffffff;" type="submit">Sign Up</button>
+            <a class="w-100 btn btn-lg btn-primary" href="/login" role="button" style = "background-color: #002b50; border-color: #002b50 ; color: #ffffff;">Already Have Account</a>
+          {% endif %}
+          
+          
+          
+          <p class="mt-5 mb-3 text-muted">&copy; 2024-Aashish_Chakradhar</p>
+        </form>
+      </main>
+    </div>
+  </div>
+{% endblock body %}
