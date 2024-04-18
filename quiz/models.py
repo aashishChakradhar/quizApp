@@ -6,16 +6,16 @@ import random
 import uuid
 
 # Create your models here.
-class Contact(models.Model):
-    fname = models.CharField(max_length=25)
-    lname = models.CharField(max_length=25)
-    phone = models.CharField(max_length=10)
-    email = models.CharField(max_length=50)
-    comment = models.TextField()
-    date = models.DateField()
+# class Contact(models.Model):
+#     fname = models.CharField(max_length=25)
+#     lname = models.CharField(max_length=25)
+#     phone = models.CharField(max_length=10)
+#     email = models.CharField(max_length=50)
+#     comment = models.TextField()
+#     date = models.DateField()
         
-    def __str__(self):
-        return self.fname
+#     def __str__(self):
+#         return self.fname
 
 # learning about the quiz app
 class BaseModel(models.Model):

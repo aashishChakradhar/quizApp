@@ -3,7 +3,7 @@ from quiz.models import *
 
 # Register your models here.
 
-admin.site.register(Contact)
+# admin.site.register(Contact)
 # admin.site.register(Question)
 
 # learning about the quiz app
