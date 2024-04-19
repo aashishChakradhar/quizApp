@@ -42,6 +42,7 @@ def logoutUser(request):
         messages.error(request,f"Error: {str(e)}")
     return redirect ('/login')
 
+# user actions
 def create_user(request):
     if request.method == "POST":
         # for teacher and student
@@ -102,9 +103,9 @@ def create_user(request):
             messages.error(request,str(e))
         except Exception as e:
             messages.error(request, str(e))
-        return render (request,'create_user.html')
+        return render (request,'user_create.html')
     else:
-        return render (request,'create_user.html')
+        return render (request,'user_create.html')
 def delete_user(request):
     if request.user.is_anonymous:
         return redirect("/login")
@@ -113,16 +114,29 @@ def delete_user(request):
             if request.method == "POST":
                 try:
                     del_user = request.POST.get('username')
-                    users = User.objects.get(username = del_user)
-                    users.delete()
+                    users = User.objects.filter(username = del_user).delete()
                     messages.success(request, "User deleted successfully")
                 except User.DoesNotExist:
                     messages.error(request, "User does not exist")
                 return redirect("delete_user")
             else:
                 users = User.objects.filter(is_superuser = False)
-                context = {"users": users}
-                return render(request, "delete_user.html",context)
+                context = {"users": users,
+                        "action":"delete"
+                        }
+                return render(request, "user_action.html",context)
+        else:
+            return redirect('home')
+def view_user(request):
+    if request.user.is_anonymous:
+        return redirect("/login")
+    else:
+        if request.user.is_superuser:
+            users = User.objects.all()
+            context = {"users": users,
+                        "action":"view"
+                        }
+            return render(request, "user_action.html",context)
         else:
             return redirect('home')
 
@@ -165,12 +179,12 @@ def change_password(request):
                     raise ValueError("Error: Invalid Old Password")
             except ValueError as e:
                 messages.error(request,str(e))
-                return render (request,'contact.html')
+                return render (request,'password_change.html')
             except Exception as e:
                 messages.error(request,str(e))
-                return render (request,'contact.html')
+                return render (request,'password_change.html')
         else:
-            return render (request,'contact.html')
+            return render (request,'password_change.html')
 # reset the password
 def reset_password(request):
     if request.user.is_anonymous:
@@ -190,9 +204,9 @@ def reset_password(request):
                     messages.error(request, f"Error: User {username} does not exist")
                 except Exception as e:
                     messages.error(request,str(e))
-                return render (request,'reset_password.html')
+                return render (request,'password_reset.html')
             else:
-                return render (request,'reset_password.html')
+                return render (request,'password_reset.html')
         else:
             messages.error(request, "Reset Password Fail: User is not a Superuser")
             return render (request,'index.html')
@@ -205,7 +219,7 @@ def get_category(request):
         context = {'categories':Category.objects.all()}
         if request.GET.get('category'):
             return redirect(f"/quiz/?category={request.GET.get('category')}")
-        else:return render(request,'get_category.html',context)
+        else:return render(request,'category_get.html',context)
 def take_quiz(request):
     if request.user.is_anonymous:
         return redirect("/login")
@@ -226,10 +240,10 @@ def take_quiz(request):
                 records = Records.objects.create(category=category, user_name=current_user, score=total_percentage)
                 messages.success(request,"Your Score Has Been Successfully Added!")
                 return redirect(f"/get-category")
-            return render(request, 'get_quiz.html',context)
+            return render(request, 'question_get.html',context)
         except Exception as e:
             messages.error(request,str(e))
-            return render(request, 'get_quiz.html',context)
+            return render(request, 'question_get.html',context)
 
 #for reading datas from question form
 def get_quiz(request):
@@ -274,7 +288,7 @@ def add_category(request):
                 category_name = request.POST.get('new_category')
                 category, created = Category.objects.get_or_create(category_name=category_name)
                 messages.success(request, "Add Success: Category Added Successfully")
-            return render (request,'add_category.html')
+            return render (request,'category_add.html')
         else:
             messages.error(request, "Add Fail: User is not a superuser")
             return render (request,'permission.html')
@@ -302,10 +316,10 @@ def add_question(request):
                         answer=Answer(question=question,answer=answer_individual,is_correct=is_correct)
                         answer.save()
                     messages.success(request, "Your Question Has Been Successfully Added!")
-                return render (request,'add_question.html',context)
+                return render (request,'question_add.html',context)
             except Exception as e:
                 messages.error(request, str(e))
-                return render (request,'add_question.html',context)
+                return render (request,'question_add.html',context)
         else:
             messages.error(request, "Add Fail: User is not a Superuser")
             return render (request,'index.html')
@@ -325,7 +339,7 @@ def delete_category(request):
                     messages.success(request, "Your Category Has Been Successfully Deleted!")
                 else:
                     messages.error(request, "Category Doesnot Exists!")
-            return render(request,"get_category.html",context)
+            return render(request,"category_get.html",context)
         else: 
             messages.error(request, "Delete Fail: User is not a superuser")
             return render(request,"permission.html")
@@ -343,7 +357,7 @@ def delete_question(request):
                     messages.success(request, "Your Question Has Been Successfully Deleted!")
                 else:
                     messages.error(request, "Question Doesnot Exist!")
-            return render(request,"delete_question.html",context)
+            return render(request,"question_delete.html",context)
         else: 
             messages.error(request, "Delete Fail: User is not a superuser")
             return render(request,"permission.html")
@@ -382,7 +396,7 @@ def view_record(request):
                 current_user = request.user
                 filter_records=Records.objects.filter(user_name = current_user)
                 context = {'records': filter_records}
-            return render(request, 'view_record.html', context)
+            return render(request, 'record_view.html', context)
         except Exception as e:
             messages.error(request,str(e))
             return render(request,"index.html")
@@ -393,7 +407,7 @@ def view_category(request):
         try:
             all_category = Category.objects.all()
             context = {'categories': all_category}
-            return render(request, 'view_category.html', context)
+            return render(request, 'category_view.html', context)
         except Exception as e:
             messages.error(request,str(e))
             return render(request,"index.html")
@@ -405,7 +419,7 @@ def view_question(request):
             try:
                 all_question = Question.objects.all()
                 context = {'questions': all_question}
-                return render(request, 'view_question.html', context)
+                return render(request, 'question_view.html', context)
             except Exception as e:
                 messages.error(request, str(e))
             return render(request, 'index.html')
