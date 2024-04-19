@@ -60,7 +60,7 @@
                       <a class="nav-link" href="/view-record" >Check Records</a>
                     </li>
 
-                    <li class="nav-item" style="width: 10%">
+                    <li class="nav-item" style="width: 7%">
                       <a class="nav-link" href="/about" >My profile</a>
                     </li>
                     
@@ -99,15 +99,23 @@
                           <li><a class="nav-link" href="/reset-password" >Reset Password</a></li>
                         </ul>
                       </li>
+                      <li style="width: 5%; margin-left: 52%; margin-bottom:1%">
+                        <a type="submit" class="btn btn-primary" value='category' style="background-color: #002b50; border-color: #002b50 ; color: #ffffff;" href="/logout">Logout</a>
+                      </li>
                     {% else %}
                       <li class="nav-item" style="width: 11%">
                         <a class="nav-link" href="/change-password" >Change Password</a>
                       </li>
-                    {% endif %}                   
-
-                    <li style="width: 53%; margin-bottom:1%">
-                      <a type="submit" class="btn btn-primary" value='category' style="margin-left:89%; background-color: #002b50; border-color: #002b50 ; color: #ffffff;" href="/logout">Logout</a>
-                    </li>
+                      {% if request.user.is_staff %}
+                        <li style="width: 5%; margin-left: 50%; margin-bottom:1%">
+                          <a type="submit" class="btn btn-primary" value='category' style="background-color: #002b50; border-color: #002b50 ; color: #ffffff;" href="/logout">Logout</a>
+                        </li>
+                      {% else %}
+                        <li style="width: 5%; margin-left: 58%; margin-bottom:1%">
+                          <a type="submit" class="btn btn-primary" value='category' style="background-color: #002b50; border-color: #002b50 ; color: #ffffff;" href="/logout">Logout</a>
+                        </li>
+                      {% endif %}
+                    {% endif %}  
                   </ul>
               </div>
             </div>

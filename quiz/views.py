@@ -44,6 +44,7 @@ def logoutUser(request):
 
 def create_user(request):
     if request.method == "POST":
+        # for teacher and student
         try:
             # read input from form
             username = request.POST.get('username')
@@ -51,17 +52,18 @@ def create_user(request):
             email = request.POST.get('email')
             firstName = request.POST.get('firstName')
             lastName = request.POST.get('lastName')
-            is_superuser_str = request.POST.get('is_superuser')
-            is_staff_str = request.POST.get('is_staff')
-            
-            # checks the input from form and stores boolean result
-            is_superuser = (is_superuser_str.lower() == 'true')
-            is_staff = (is_staff_str.lower() == 'true')
-            
             status = request.POST.get('status')
-            print(status)
-            print(f"is_superuser: {is_superuser} {type(is_superuser)}")
-            print(is_staff)
+            
+            # checks the status of user to be created
+            if (status.lower() == 'admin'):
+                is_superuser =True 
+                is_staff =True
+            elif (status.lower() == 'teacher'):
+                is_superuser =False 
+                is_staff =True
+            elif (status.lower() == 'student'):
+                is_superuser =False 
+                is_staff =False
             
             # check validation
             if(not check.valid_name(firstName)):
@@ -94,7 +96,7 @@ def create_user(request):
             # display success messages    
             if(is_superuser):messages.success(request, "Admin Created Successfully")
             elif(is_staff):messages.success(request, "Teacher Created Successfully")
-            elif(not is_staff):messages.success(request, "User Created Successfully")
+            elif(not is_staff):messages.success(request, "Student Created Successfully")
                 
         except ValueError as e:
             messages.error(request,str(e))

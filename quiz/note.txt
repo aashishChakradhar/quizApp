@@ -1,3 +1,10 @@
+js: https://www.w3schools.com/js/default.asp
+css: https://www.w3schools.com/css/default.asp
+html: https://www.w3schools.com/html/default.asp
+django: https://www.w3schools.com/django/index.php
+vue js: https://www.w3schools.com/vue/index.php
+python: https://www.w3schools.com/python/default.asp
+
 # to create teacher    
     if request.user.is_superuser:
         if request.method == "POST":
