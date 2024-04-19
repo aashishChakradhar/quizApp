@@ -105,8 +105,6 @@ def create_user(request):
         return render (request,'create_user.html')
     else:
         return render (request,'create_user.html')
-
-
 def delete_user(request):
     if request.user.is_anonymous:
         return redirect("/login")

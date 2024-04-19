@@ -9,22 +9,37 @@
     <div class="texts-center">
         <div class="col">
             <main class="form-signin">
-                <h3>
-                    Select user(s) to delete:
-                </h3>
                 <form action="/delete-user" method="POST">
                     {% csrf_token %}
                     {% if users%}
-                        {% for user in users %}
-                            <div class = "form-floating">
-                                <h4>
-                                    <input type="checkbox" value={{user}} name="username" id="username">
-                                    <label for="username" style= "padding-top: 0%; padding-left:20px;">
-                                        {{user}} ({{user.first_name}} {{user.last_name}})
-                                    </label>    
-                                </h4>
-                            </div>
-                        {% endfor %}
+                        <table>
+                            <thead>
+                                <th style="width: 70px;">Select</th>
+                                <th style="width: 150px;">User Name</th>
+                                <th style="width: 200px;">First Name</th>
+                                <th style="width: 150px;">Last Name</th>
+                                <th style="width:100px">Teacher</th>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                    <tr>
+                                        <div class = "form-floating">
+                                            <td>
+                                                <input type="checkbox" value={{user}} name="username" id="username">
+                                            </td>
+                                            
+                                            <label for="username" style= "padding-top: 0%; padding-left:20px;">
+                                                <td>{{user}}</td>
+                                                <td>{{user.first_name}}</td>
+                                                <td>{{user.last_name}}</td>
+                                                <td>{{user.is_staff}}</td>
+                                            </label>    
+                                        </div>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
                     {% else%}
                         <h1>No user found</h1>
                     {% endif%}
