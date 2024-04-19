@@ -51,8 +51,17 @@ def create_user(request):
             email = request.POST.get('email')
             firstName = request.POST.get('firstName')
             lastName = request.POST.get('lastName')
-            is_superuser = bool(request.POST.get('is_superuser'))
-            is_staff = bool(request.POST.get('is_staff'))
+            is_superuser_str = request.POST.get('is_superuser')
+            is_staff_str = request.POST.get('is_staff')
+            
+            # checks the input from form and stores boolean result
+            is_superuser = (is_superuser_str.lower() == 'true')
+            is_staff = (is_staff_str.lower() == 'true')
+            
+            status = request.POST.get('status')
+            print(status)
+            print(f"is_superuser: {is_superuser} {type(is_superuser)}")
+            print(is_staff)
             
             # check validation
             if(not check.valid_name(firstName)):
@@ -72,7 +81,6 @@ def create_user(request):
             user.last_name=lastName
             user.is_staff = is_staff
             user.save()
-            messages.success(request, "User Created Successfully")
             
             if request.user.is_anonymous:
             # login the created user
