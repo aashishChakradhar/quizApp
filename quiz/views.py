@@ -237,7 +237,7 @@ def take_quiz(request):
                 # checks if category already exist
                 category, created = Category.objects.get_or_create(category_name=category_name)
                 # save the new record
-                records = Records.objects.create(category=category, user_name=current_user, score=total_percentage)
+                records = Records.objects.create(category=category, user=current_user, score=total_percentage)
                 messages.success(request,"Your Score Has Been Successfully Added!")
                 return redirect(f"/get-category")
             return render(request, 'question_get.html',context)
@@ -285,8 +285,9 @@ def add_category(request):
     else:
         if request.user.is_superuser:
             if request.method == 'POST':
+                current_user = request.user
                 category_name = request.POST.get('new_category')
-                category, created = Category.objects.get_or_create(category_name=category_name)
+                category, created = Category.objects.get_or_create(category_name=category_name,user=current_user)
                 messages.success(request, "Add Success: Category Added Successfully")
             return render (request,'category_add.html')
         else:
@@ -300,6 +301,7 @@ def add_question(request):
             try:
                 context = {'categories':Category.objects.all()}
                 if request.method == 'POST':
+                    current_user = request.user
                     category_name = request.POST.get('category')
                     question = request.POST.get('question')
                     answer_data=[
@@ -309,11 +311,11 @@ def add_question(request):
                         (request.POST.get('answer4'), False),
                     ]
                     marks = request.POST.get('marks')
-                    category, created = Category.objects.get_or_create(category_name=category_name)
-                    question,created = Question.objects.get_or_create(category=category, question=question, marks=marks)
+                    category, created = Category.objects.get_or_create(category_name=category_name,user=current_user)
+                    question,created = Question.objects.get_or_create(category=category, question=question, marks=marks,user=current_user)
                     
                     for answer_individual, is_correct in answer_data:
-                        answer=Answer(question=question,answer=answer_individual,is_correct=is_correct)
+                        answer=Answer(question=question,answer=answer_individual,is_correct=is_correct,user=current_user)
                         answer.save()
                     messages.success(request, "Your Question Has Been Successfully Added!")
                 return render (request,'question_add.html',context)
@@ -378,9 +380,9 @@ def view_record(request):
                     elif(user == 'all' and category_form != 'all'):
                         all_records = Records.objects.filter(category = category_form)
                     elif(user != 'all' and category_form == 'all'):
-                        all_records = Records.objects.filter(user_name=user) 
+                        all_records = Records.objects.filter(user=user) 
                     else:
-                        all_records = Records.objects.filter(user_name=user, category = category_form)
+                        all_records = Records.objects.filter(user=user, category = category_form)
                     context = {
                         'records':all_records,
                         'users':User.objects.all(),
@@ -394,7 +396,7 @@ def view_record(request):
                     }
             else:
                 current_user = request.user
-                filter_records=Records.objects.filter(user_name = current_user)
+                filter_records=Records.objects.filter(user = current_user)
                 context = {'records': filter_records}
             return render(request, 'record_view.html', context)
         except Exception as e:

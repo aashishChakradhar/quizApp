@@ -18,7 +18,7 @@
             {% csrf_token %}
             <div class="mb-3">
                 <label for="category" class="form-label">New Topic</label>
-                <input type="text" class="form-control" id="new_category" name="new_category" placeholder="New Topic" style="text-transform: uppercase;">
+                <input type="text" class="form-control" id="new_category" name="new_category" placeholder="New Topic" style="text-transform: uppercase;" required/>
             </div>
             <button type="submit" class="btn btn-primary" style="background-color: #002b50; border-color: #002b50 ; color: #ffffff;">Submit</button>
         </form>
