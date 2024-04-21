@@ -100,20 +100,29 @@
                           <li><a class="nav-link" href="/reset-password" >Reset Password</a></li>
                         </ul>
                       </li>
-                      <li style="width: 5%; margin-left: 52%; margin-bottom:1%">
-                        <a type="submit" class="btn btn-primary" value='category' style="background-color: #002b50; border-color: #002b50 ; color: #ffffff;" href="/logout">Logout</a>
+                      <li class="nav-item" style="width: 10%; margin-left: 41%;">
+                        <a class="nav-link active" aria-current="page" href="/about" >Howdy, {{user.username}}</a>
+                      </li>
+                      <li style="width: 5%;margin-bottom:1%">
+                        <a type="submit" class="btn btn-primary" style="background-color: #002b50; border-color: #002b50 ; color: #ffffff;" href="/logout">Logout</a>
                       </li>
                     {% else %}
                       <li class="nav-item" style="width: 11%">
                         <a class="nav-link" href="/change-password" >Change Password</a>
                       </li>
                       {% if request.user.is_staff %}
-                        <li style="width: 5%; margin-left: 50%; margin-bottom:1%">
-                          <a type="submit" class="btn btn-primary" value='category' style="background-color: #002b50; border-color: #002b50 ; color: #ffffff;" href="/logout">Logout</a>
+                        <li class="nav-item" style="width: 10%; margin-left: 40%;">
+                          <a class="nav-link active" aria-current="page" href="/about" >Howdy, {{user.username}}</a>
+                        </li>
+                        <li style="width: 5%;margin-bottom:1%">
+                          <a type="submit" class="btn btn-primary" style="background-color: #002b50; border-color: #002b50 ; color: #ffffff;" href="/logout">Logout</a>
                         </li>
                       {% else %}
-                        <li style="width: 5%; margin-left: 58%; margin-bottom:1%">
-                          <a type="submit" class="btn btn-primary" value='category' style="background-color: #002b50; border-color: #002b50 ; color: #ffffff;" href="/logout">Logout</a>
+                        <li class="nav-item" style="width: 10%; margin-left: 47%;">
+                          <a class="nav-link active" aria-current="page" href="/about" >Howdy, {{user.username}}</a>
+                        </li>
+                        <li style="width: 5%; margin-bottom:1%">
+                          <a type="submit" class="btn btn-primary" style="background-color: #002b50; border-color: #002b50 ; color: #ffffff;" href="/logout">Logout</a>
                         </li>
                       {% endif %}
                     {% endif %}  
@@ -140,7 +149,7 @@
           <ul class="nav justify-content-center border-bottom pb-3 mb-3">
             <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
             <li class="nav-item"><a href="view-record" class="nav-link px-2 text-muted">My Records</a></li>
-            <li class="nav-item"><a href="contact" class="nav-link px-2 text-muted">Contact</a></li>
+            <li class="nav-item"><a href="/get-category" class="nav-link px-2 text-muted">Take Quiz</a></li>
             <li class="nav-item"><a href="about" class="nav-link px-2 text-muted">My Profile</a></li>
           </ul>
           <p class="text-center text-muted">&copy; 2024 Aashish Chakradhar</p>

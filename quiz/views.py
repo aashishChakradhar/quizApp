@@ -23,6 +23,7 @@ def loginUser(request):
             user = authenticate(username=username, password=password)
             if user is not None:# if the user is logged in
                 login(request,user)
+                messages.success(request,f"Welcome {username}")
                 return redirect("/")
             else:# if the user is not logged in
                 raise ValueError("Error: Invalid Credentials")
@@ -48,11 +49,11 @@ def create_user(request):
         # for teacher and student
         try:
             # read input from form
-            username = request.POST.get('username')
+            username = request.POST.get('username').lower()
             password = request.POST.get('password')
             email = request.POST.get('email')
-            firstName = request.POST.get('firstName')
-            lastName = request.POST.get('lastName')
+            firstName = request.POST.get('firstName').upper()
+            lastName = request.POST.get('lastName').upper()
             status = request.POST.get('status')
             
             # checks the status of user to be created
@@ -193,7 +194,7 @@ def reset_password(request):
         if request.user.is_superuser:
             if request.method == "POST":
                 try:
-                    username = request.POST.get('username')
+                    username = request.POST.get('username').lower()
                     new_password = "happy123"
                     user = User.objects.get(username = username)
                     user.set_password(new_password) # set new password
@@ -286,7 +287,7 @@ def add_category(request):
         if (request.user.is_superuser or request.user.is_staff):
             if request.method == 'POST':
                 current_user = request.user
-                category_name = request.POST.get('new_category')
+                category_name = request.POST.get('new_category').upper()
                 category, created = Category.objects.get_or_create(category_name=category_name,user=current_user)
                 messages.success(request, "Add Success: Category Added Successfully")
             return render (request,'category_add.html')
@@ -302,13 +303,13 @@ def add_question(request):
                 context = {'categories':Category.objects.all()}
                 if request.method == 'POST':
                     current_user = request.user
-                    category_name = request.POST.get('category')
-                    question = request.POST.get('question')
+                    category_name = request.POST.get('category').upper()
+                    question = request.POST.get('question').upper()
                     answer_data=[
-                        (request.POST.get('answer1'), True),
-                        (request.POST.get('answer2'), False),
-                        (request.POST.get('answer3'), False),
-                        (request.POST.get('answer4'), False),
+                        (request.POST.get('answer1').upper(), True),
+                        (request.POST.get('answer2').upper(), False),
+                        (request.POST.get('answer3').upper(), False),
+                        (request.POST.get('answer4').upper(), False),
                     ]
                     marks = request.POST.get('marks')
                     category, created = Category.objects.get_or_create(category_name=category_name,user=current_user)
@@ -352,8 +353,7 @@ def delete_question(request):
         if (request.user.is_superuser or request.user.is_staff):
             if request.method == "POST":
                 try:
-                    question_del = request.POST.get('question')
-                    print(question_del)
+                    question_del = request.POST.get('question').upper()
                     instance = Question.objects.filter(uid=question_del).delete()
                     messages.success(request, "Your Question Has Been Successfully Deleted!")
                 except Question.DoesNotExist:
