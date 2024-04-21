@@ -283,7 +283,7 @@ def add_category(request):
     if request.user.is_anonymous:
         return redirect("/login")
     else:
-        if request.user.is_superuser:
+        if (request.user.is_superuser or request.user.is_staff):
             if request.method == 'POST':
                 current_user = request.user
                 category_name = request.POST.get('new_category')
@@ -297,7 +297,7 @@ def add_question(request):
     if request.user.is_anonymous:
         return redirect("/login")
     else:
-        if request.user.is_superuser:
+        if (request.user.is_superuser or request.user.is_staff):
             try:
                 context = {'categories':Category.objects.all()}
                 if request.method == 'POST':
@@ -331,7 +331,7 @@ def delete_category(request):
     if request.user.is_anonymous:
         return redirect("/login")
     else:
-        if request.user.is_superuser:
+        if (request.user.is_superuser or request.user.is_staff):
             context = {'categories':Category.objects.all()}
             if request.GET.get('category'):
                 category_name = request.GET.get('category')
@@ -349,17 +349,20 @@ def delete_question(request):
     if request.user.is_anonymous:
         return redirect("/login")
     else:
-        if request.user.is_superuser:
-            context = {'questions':Question.objects.all()}
-            if request.GET.get('question'):
-                question_del = request.GET.get('question')
-                instance = Question.objects.filter(question=question_del)
-                if instance.exists():
-                    instance.delete()
+        if (request.user.is_superuser or request.user.is_staff):
+            if request.method == "POST":
+                try:
+                    question_del = request.POST.get('question')
+                    print(question_del)
+                    instance = Question.objects.filter(uid=question_del).delete()
                     messages.success(request, "Your Question Has Been Successfully Deleted!")
-                else:
+                except Question.DoesNotExist:
                     messages.error(request, "Question Doesnot Exist!")
-            return render(request,"question_delete.html",context)
+                return redirect("delete_question")
+                        
+            else:
+                context = {'questions':Question.objects.all()}
+                return render(request,"question_delete.html",context)
         else: 
             messages.error(request, "Delete Fail: User is not a superuser")
             return render(request,"permission.html")
@@ -405,7 +408,7 @@ def view_record(request):
 def view_category(request):
     if request.user.is_anonymous:
         return redirect("/login")
-    else:
+    elif (request.user.is_superuser or request.user.is_staff):
         try:
             all_category = Category.objects.all()
             context = {'categories': all_category}
@@ -417,7 +420,7 @@ def view_question(request):
     if request.user.is_anonymous:
         return redirect("/login")
     else:
-        if request.user.is_superuser:
+        if (request.user.is_superuser or request.user.is_staff):
             try:
                 all_question = Question.objects.all()
                 context = {'questions': all_question}

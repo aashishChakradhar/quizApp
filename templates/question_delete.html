@@ -1,28 +1,59 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}delete_question{% endblock title %} 
+{% block head %}
+  <link rel="stylesheet" type='text/css' href="{% static 'form.css' %}" />
+{% endblock head %}
 {% block body %}
 
-<div class="container mt-5 p-5">
-  <div class="col-md-6 mx-auto">
-    <form>
-        {% csrf_token %}
-        <div class="form-group">
-            <label>Select Your Question</label>
-            <select name="question" id="question" class="form-control" style="margin-top: 4%;">
-                <option value="choose">Choose</option>
-                {% for question in questions %}
-                <option value="{{question.question}}">
-                {{question.question}}
-                </option>
-                {% endfor %}
-            </select>
-        </div >
+<div>
+    <div class="texts-center">
+        <div class="col">
+            <main class="form-signin">
+                    <form action="/delete-question" method="POST">
+                        {% csrf_token %}
+                        {% if questions%}
+                            <table>
+                                <thead>
+                                  <tr>
+                                    <th  style="width: 23%;">
+                                      <h3>Select </h3>
+                                    </th>
+                                    <th  style="width: 77%;">
+                                      <h3> Question(s) to Delete</h3>
+                                    </th>
+                                  </tr>
+                                  <tr>
+                                    <th>Select</th>
+                                    <th>Question</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    {% for question in questions %}
+                                        <tr>
+                                            <div class = "form-floating">
+                                                <td>
+                                                    <input type="checkbox" value={{question.uid}} name="question" id="question">
+                                                </td>
+                                                
+                                                <label for="question" style= "padding-top: 0%; padding-left:20px;">
+                                                    <td>{{question}}</td>
+                                                </label>    
+                                            </div>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            
+                        {% else%}
+                            <h1>No Question found</h1>
+                        {% endif%}
 
-        <div style="margin-top: 4%;">
-          <button class="btn btn-danger" style="background-color: #002b50; border-color: #002b50 ; color: #ffffff;">Submit</button>
+                        <button class="w-100 btn btn-lg btn-primary" style="margin-bottom: 10px;margin-top: 10px; background-color: #002b50; border-color: #002b50 ; color: #ffffff;" type="submit">Delete</button>
+                    </form>
+                    
+            </main>
         </div>
-        
-    </form>
-  </div>
+    </div>
 </div>
 {% endblock body %}
