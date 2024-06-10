@@ -2,6 +2,9 @@ from django.contrib import admin
 from django.urls import path
 from quiz import views
 
+'''
+    'name=' is used for reverse linking which is efficient for dynamic routing
+'''
 urlpatterns = [
     path('', views.index, name='index'),
     path('login', views.loginUser, name='login'),
@@ -10,8 +13,8 @@ urlpatterns = [
     path('delete-user', views.delete_user, name='delete_user'),
     path('view-user', views.view_user, name='view_user'),
     
-    path('index', views.index, name='index'),
-    path('about', views.about, name='about'),
+    # path('index', views.index, name='index'),
+    path('about', views.about, name='about_us'),
     path('change-password', views.change_password, name='change_password'),
     path('reset-password', views.reset_password, name='reset_password'),
     

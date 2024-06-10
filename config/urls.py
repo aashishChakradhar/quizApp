@@ -21,9 +21,12 @@ admin.site.site_header = "My Quiz Admin"
 admin.site.site_title = "Admin Portal"
 admin.site.index_title = "My Quiz"
 
+'''
+    namespace is assigned for dynamic routing
+'''
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('quiz.urls')),
+    path('', include(('quiz.urls', 'quiz'), namespace='quiz')),
 ]
 
