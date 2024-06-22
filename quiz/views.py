@@ -373,7 +373,7 @@ def view_record(request):
         return redirect("/login")
     else:
         try:
-            if request.user.is_superuser:
+            if request.user.is_staff:
                 if request.method=="POST":
                     user= request.POST.get('user')
                     category_form= request.POST.get('category')

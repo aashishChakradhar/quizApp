@@ -12,6 +12,7 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'image/question_bg.png' %}"/>
 
     <link rel="stylesheet" type='text/css' href="{% static './css/bootstrap.css' %}" />
+    <link rel="stylesheet" type='text/css' href="{% static 'profile.css' %}" />
 
     <title>
       {% block title %}
@@ -20,6 +21,7 @@
 
     {% block head %}
     {% endblock head %}
+
   </head>
 
   <body>
@@ -51,10 +53,11 @@
                     <li class="nav-item" style="width: 4%">
                       <a class="nav-link active" aria-current="page" href="{% url 'quiz:index' %}" >Home</a>
                     </li>
-
+                    {%if request.user.is_not_staff and request.user.is_not_admin%}
                     <li class="nav-item" style="width: 7%">
                       <a class="nav-link" href="{% url 'quiz:get_category' %}" >Take Quiz</a>
                     </li>
+                    {%endif%}
 
                     <li class="nav-item" style="width: 9%">
                       <a class="nav-link" href="{% url 'quiz:view_record' %}" >Check Records</a>
@@ -66,9 +69,9 @@
                     </li>
                     
                     {% if request.user.is_staff %}
-                      <li class="nav-item dropdown" style="width: 8%">
+                      <li class="nav-item dropdown" style="width: 11%">
                         <a class="nav-link dropdown-toggle"  href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Operations
+                          Quiz Operations
                         </a>
                         <ul class="dropdown-menu">
                           <li><a class="dropdown-item" href="/add-category">Add Category</a></li>
@@ -84,9 +87,8 @@
                         </ul>
                       </li>
                     {% endif %}
-
+                      
                     {% if request.user.is_superuser%}
-
                       <li class="nav-item dropdown" style="width: 9%">
                         <a class="nav-link dropdown-toggle"  href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                           User actions
@@ -101,32 +103,32 @@
                           <li><a class="nav-link" href="/reset-password" >Reset Password</a></li>
                         </ul>
                       </li>
-                      <li class="nav-item" style="width: 10%; margin-left: 41%;">
+                      <li class="nav-item" style="width: 10%; margin-left: 45%;">
                         <a class="nav-link active" aria-current="page" href="/about" >Howdy, {{user.username}}</a>
                       </li>
-                      <li style="width: 5%;margin-bottom:1%">
-                        <a type="submit" class="btn btn-primary" style="background-color: #002b50; border-color: #002b50 ; color: #ffffff;" href="/logout">Logout</a>
-                      </li>
-                    {% else %}
-                      <li class="nav-item" style="width: 11%">
+                      <li>
+                        <a type="submit" class="log_button btn btn-primary" href="/logout">Logout</a>
+                      </li>  
+                    
+                    {% elif request.user.is_staff %}
+                       <li class="nav-item" style="width: 11%">
                         <a class="nav-link" href="/change-password" >Change Password</a>
                       </li>
-                      {% if request.user.is_staff %}
-                        <li class="nav-item" style="width: 10%; margin-left: 40%;">
-                          <a class="nav-link active" aria-current="page" href="/about" >Howdy, {{user.username}}</a>
-                        </li>
-                        <li style="width: 5%;margin-bottom:1%">
-                          <a type="submit" class="btn btn-primary" style="background-color: #002b50; border-color: #002b50 ; color: #ffffff;" href="/logout">Logout</a>
-                        </li>
-                      {% else %}
-                        <li class="nav-item" style="width: 10%; margin-left: 47%;">
-                          <a class="nav-link active" aria-current="page" href="/about" >Howdy, {{user.username}}</a>
-                        </li>
-                        <li style="width: 5%; margin-bottom:1%">
-                          <a type="submit" class="btn btn-primary" style="background-color: #002b50; border-color: #002b50 ; color: #ffffff;" href="/logout">Logout</a>
-                        </li>
-                      {% endif %}
-                    {% endif %}  
+                      <li class="nav-item" style="width: 10%; margin-left: 45%;">
+                        <a class="nav-link active" aria-current="page" href="/about" >Howdy, {{user.username}}</a>
+                      </li>
+                      <li >
+                        <a type="submit" class="log_button btn btn-primary" href="/logout">Logout</a>
+                      </li>
+                    {% else %}
+                    <li class="nav-item" style="width: 10%; margin-left: 65%;">
+                        <a class="nav-link active" aria-current="page" href="/about" >Howdy, {{user.username}}</a>
+                      </li>
+                      <li >
+                        <a type="submit" class="log_button btn btn-primary" href="/logout">Logout</a>
+                      </li>
+                    {% endif %}
+                    
                   </ul>
               </div>
             </div>
