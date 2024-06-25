@@ -6,164 +6,278 @@
 
 <html lang="en">
   <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
 
-    <link rel="shortcut icon" type="image/png" href="{% static 'image/question_bg.png' %}"/>
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="{% static 'image/question_bg.png' %}"
+    />
 
-    <link rel="stylesheet" type='text/css' href="{% static './css/bootstrap.css' %}" />
-    <link rel="stylesheet" type='text/css' href="{% static 'profile.css' %}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static './css/bootstrap.css' %}"
+    />
+    <link rel="stylesheet" type="text/css" href="{% static 'profile.css' %}" />
 
-    <title>
-      {% block title %}
-      {% endblock %} | My Quiz
-    </title> 
+    <title>{% block title %} {% endblock %} | My Quiz</title>
 
-    {% block head %}
-    {% endblock head %}
-
+    {% block head %} {% endblock head %}
   </head>
 
   <body>
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-warning alert-{{ message.tags }}dismissible fade show" role="alert">
-          {{ message }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      {% endfor %}
-    {% endif %}
-    {% if user.is_authenticated %}
-      <div>
-        <div  style="max-width: 98%; margin-left:1%; ">
-          <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid" style="background-color : #b6e5e5;">
-              <div >
-                <a class="navbar-brand" href="/" style="color: #002b50">My Quiz</a>
-              </div>
-
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon">
-                </span>
-              </button>
-
-              <div class="collapse navbar-collapse" id="navbarSupportedContent" style="height:50px; max-width:100%;">
-                  {% comment %} Trying out reversing view and url{% endcomment %}
-                  <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="min-width:100%; padding-top: 1%; color: #002b50">
-                    <li class="nav-item" style="width: 4%">
-                      <a class="nav-link active" aria-current="page" href="{% url 'quiz:index' %}" >Home</a>
-                    </li>
-                    {%if request.user.is_not_staff and request.user.is_not_admin%}
-                    <li class="nav-item" style="width: 7%">
-                      <a class="nav-link" href="{% url 'quiz:get_category' %}" >Take Quiz</a>
-                    </li>
-                    {%endif%}
-
-                    <li class="nav-item" style="width: 9%">
-                      <a class="nav-link" href="{% url 'quiz:view_record' %}" >Check Records</a>
-                    </li>
-
-                    <li class="nav-item" style="width: 7%">
-                      
-                      <a class="nav-link" href="{% url 'quiz:about_us' %}">My profile</a>
-                    </li>
-                    
-                    {% if request.user.is_staff %}
-                      <li class="nav-item dropdown" style="width: 11%">
-                        <a class="nav-link dropdown-toggle"  href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Quiz Operations
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="/add-category">Add Category</a></li>
-                          <li><a class="dropdown-item" href="/add-question">Add Question</a></li>
-                          
-                          <li><hr class="dropdown-divider"></li>
-                          <li><a class="dropdown-item" href="/view-category">View Category</a></li>
-                          <li><a class="dropdown-item" href="/view-question">View Question</a></li>
-
-                          <li><hr class="dropdown-divider"></li>
-                          <li><a class="dropdown-item" href="/delete-category">Delete Category</a></li>
-                          <li><a class="dropdown-item" href="/delete-question">Delete Question</a></li>
-                        </ul>
-                      </li>
-                    {% endif %}
-                      
-                    {% if request.user.is_superuser%}
-                      <li class="nav-item dropdown" style="width: 9%">
-                        <a class="nav-link dropdown-toggle"  href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          User actions
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li><a class="nav-link" href="/create-user" >Create User</a></li>
-                          <li><a class="nav-link" href="/delete-user" >Delete User</a></li>
-                          <li><a class="nav-link" href="/view-user" >View User</a></li>
-                          
-                          <li><hr class="dropdown-divider"></li>
-                          <li><a class="nav-link" href="/change-password" >Change Password</a></li>
-                          <li><a class="nav-link" href="/reset-password" >Reset Password</a></li>
-                        </ul>
-                      </li>
-                      <li class="nav-item" style="width: 10%; margin-left: 45%;">
-                        <a class="nav-link active" aria-current="page" href="/about" >Howdy, {{user.username}}</a>
-                      </li>
-                      <li>
-                        <a type="submit" class="log_button btn btn-primary" href="/logout">Logout</a>
-                      </li>  
-                    
-                    {% elif request.user.is_staff %}
-                       <li class="nav-item" style="width: 11%">
-                        <a class="nav-link" href="/change-password" >Change Password</a>
-                      </li>
-                      <li class="nav-item" style="width: 10%; margin-left: 45%;">
-                        <a class="nav-link active" aria-current="page" href="/about" >Howdy, {{user.username}}</a>
-                      </li>
-                      <li >
-                        <a type="submit" class="log_button btn btn-primary" href="/logout">Logout</a>
-                      </li>
-                    {% else %}
-                    <li class="nav-item" style="width: 10%; margin-left: 65%;">
-                        <a class="nav-link active" aria-current="page" href="/about" >Howdy, {{user.username}}</a>
-                      </li>
-                      <li >
-                        <a type="submit" class="log_button btn btn-primary" href="/logout">Logout</a>
-                      </li>
-                    {% endif %}
-                    
-                  </ul>
-              </div>
+    {% if messages %} {% for message in messages %}
+    <div
+      class="alert alert-warning alert-{{ message.tags }}dismissible fade show"
+      role="alert"
+    >
+      {{ message }}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% endfor %} {% endif %} {% if user.is_authenticated %}
+    <div>
+      <div style="max-width: 98%; margin-left: 1%">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+          <div class="container-fluid" style="background-color: #b6e5e5">
+            <div>
+              <a class="navbar-brand" href="/" style="color: #002b50"
+                >My Quiz</a
+              >
             </div>
-          </nav>
-        </div>
+
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"> </span>
+            </button>
+
+            <div
+              class="collapse navbar-collapse"
+              id="navbarSupportedContent"
+              style="height: 50px; max-width: 100%"
+            >
+              {% comment %} Trying out reversing view and url{% endcomment %}
+              <ul
+                class="navbar-nav me-auto mb-2 mb-lg-0"
+                style="min-width: 100%; padding-top: 1%; color: #002b50"
+              >
+                <li class="nav-item" style="width: 4%">
+                  <a
+                    class="nav-link active"
+                    aria-current="page"
+                    href="{% url 'quiz:index' %}"
+                    >Home</a
+                  >
+                </li>
+                {%if request.user.is_not_staff and request.user.is_not_admin%}
+                <li class="nav-item" style="width: 7%">
+                  <a class="nav-link" href="{% url 'quiz:get_category' %}"
+                    >Take Quiz</a
+                  >
+                </li>
+                {%endif%}
+
+                <li class="nav-item" style="width: 9%">
+                  <a class="nav-link" href="{% url 'quiz:view_record' %}"
+                    >Check Records</a
+                  >
+                </li>
+
+                <li class="nav-item" style="width: 7%">
+                  <a class="nav-link" href="{% url 'quiz:about_us' %}"
+                    >My profile</a
+                  >
+                </li>
+
+                {% if request.user.is_staff %}
+                <li class="nav-item dropdown" style="width: 11%">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Quiz Operations
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item" href="/add-category"
+                        >Add Category</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="/add-question"
+                        >Add Question</a
+                      >
+                    </li>
+
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a class="dropdown-item" href="/view-category"
+                        >View Category</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="/view-question"
+                        >View Question</a
+                      >
+                    </li>
+
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a class="dropdown-item" href="/delete-category"
+                        >Delete Category</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="/delete-question"
+                        >Delete Question</a
+                      >
+                    </li>
+                  </ul>
+                </li>
+                {% endif %} {% if request.user.is_superuser%}
+                <li class="nav-item dropdown" style="width: 9%">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    User actions
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="nav-link" href="/create-user">Create User</a>
+                    </li>
+                    <li>
+                      <a class="nav-link" href="/delete-user">Delete User</a>
+                    </li>
+                    <li><a class="nav-link" href="/view-user">View User</a></li>
+
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a class="nav-link" href="/change-password"
+                        >Change Password</a
+                      >
+                    </li>
+                    <li>
+                      <a class="nav-link" href="/reset-password"
+                        >Reset Password</a
+                      >
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item" style="width: 10%; margin-left: 45%">
+                  <a class="nav-link active" aria-current="page" href="/about"
+                    >Howdy, {{user.username}}</a
+                  >
+                </li>
+                <li>
+                  <a
+                    type="submit"
+                    class="log_button btn btn-primary"
+                    href="/logout"
+                    >Logout</a
+                  >
+                </li>
+
+                {% elif request.user.is_staff %}
+                <li class="nav-item" style="width: 11%">
+                  <a class="nav-link" href="/change-password"
+                    >Change Password</a
+                  >
+                </li>
+                <li class="nav-item" style="width: 10%; margin-left: 45%">
+                  <a class="nav-link active" aria-current="page" href="/about"
+                    >Howdy, {{user.username}}</a
+                  >
+                </li>
+                <li>
+                  <a
+                    type="submit"
+                    class="log_button btn btn-primary"
+                    href="/logout"
+                    >Logout</a
+                  >
+                </li>
+                {% else %}
+                <li class="nav-item" style="width: 10%; margin-left: 65%">
+                  <a class="nav-link active" aria-current="page" href="/about"
+                    >Howdy, {{user.username}}</a
+                  >
+                </li>
+                <li>
+                  <a
+                    type="submit"
+                    class="log_button btn btn-primary"
+                    href="/logout"
+                    >Logout</a
+                  >
+                </li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        </nav>
       </div>
-    {% endif %}
-    
-    {% block body %}
-      {% comment %} 
-        this section is used for body 
-      {% endcomment %}
-    {% endblock %}
-    
-    {% if user.is_authenticated %}
-      {% comment %} 
-        this section is used for footer 
-      {% endcomment %}
-      <div class="container" style = "max-width: 100%;">
-        <footer class="py-3 my-4">
-          <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
-            <li class="nav-item"><a href="view-record" class="nav-link px-2 text-muted">My Records</a></li>
-            <li class="nav-item"><a href="/get-category" class="nav-link px-2 text-muted">Take Quiz</a></li>
-            <li class="nav-item"><a href="about" class="nav-link px-2 text-muted">My Profile</a></li>
-          </ul>
-          <p class="text-center text-muted">&copy; 2024 Aashish Chakradhar</p>
-        </footer>
-      </div>
+    </div>
+    {% endif %} {% block body %} {% comment %} this section is used for body {%
+    endcomment %} {% endblock %} {% if user.is_authenticated %} {% comment %}
+    this section is used for footer {% endcomment %}
+    <div class="container" style="max-width: 100%">
+      <footer class="py-3 my-4">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+          <li class="nav-item">
+            <a href="/" class="nav-link px-2 text-muted">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="view-record" class="nav-link px-2 text-muted"
+              >My Records</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="/get-category" class="nav-link px-2 text-muted"
+              >Take Quiz</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="about" class="nav-link px-2 text-muted">My Profile</a>
+          </li>
+        </ul>
+        <p class="text-center text-muted">&copy; 2024 Aashish Chakradhar</p>
+      </footer>
+    </div>
     {% endif %}
 
-    <script src="{% static './js/bootrap.bundle.js' %}"> </script>
-    
+    <script src="{% static './js/bootrap.bundle.js' %}"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
-    
+
     <script>
       function myFunction() {
         var x = document.getElementById("password");
@@ -196,7 +310,7 @@
               })
               .catch(error => {
                 console.error('Error:', error);
-              }); 
+              });
           },
           {% comment %} checkAnswer(event,uid,marks){
             var obtained=0
@@ -205,7 +319,7 @@
                   for(var i=0;i<answer?.length;i++){
                       if(answer[i].answer == event.target.value){
                           if(answer[i].is_correct){
-                            
+
                             console.log('Your answer is correct',obtained += question.marks)
                           }
                           else{
@@ -241,8 +355,5 @@
         },
         });
     </script>
-
   </body>
 </html>
-
-
