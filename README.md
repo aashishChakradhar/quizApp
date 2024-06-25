@@ -48,3 +48,6 @@ Welcome to the Quiz Website project! This repository contains a web application 
   <li>Answer the questions and submit the quiz.</li>
   <li>View your results once submitted.</li>
 </ol>
+
+<h2>License</h2>
+This project is licensed under the MIT License. See the <a href="LICENSE.md">LICENSE</a> file for more details.
