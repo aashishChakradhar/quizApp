@@ -1,58 +1,56 @@
-  .texts-center {
-        max-width: 98%;
-        margin-left:1%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        padding-top: 10px;
-        padding-bottom: 40px;
-        background-color: #b6e5e5;
-      }
-    
-      .form-signin {
-        width: 100%;
-        max-width: 400px;
-        padding: 0px;
-        margin: auto;
-      }
-      
-      .form-signin .checkbox {
-        font-weight: 400;
-      }
-      
-      .form-signin .form-floating:focus-within {
-        z-index: 2;
-      }
-      
-      .form-signin input {
-        margin-bottom: 10px;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-      }
-      
-      .form-signin input[type='password'] {
-        margin-bottom: 10px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-      }
-      
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-      
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-      img{
-        margin-left: 25%;
-        height:200px;
-        width:200px;
+.texts-center {
+  max-width: 98%;
+  margin-left: 1%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 40px;
+  background-color: #b6e5e5;
+}
 
-      }
-      
+.form-signin {
+  width: 100%;
+  max-width: 400px;
+  padding: 0px;
+  margin: auto;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input {
+  margin-bottom: 10px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+img {
+  margin-left: 25%;
+  height: 200px;
+  width: 200px;
+}

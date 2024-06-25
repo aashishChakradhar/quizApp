@@ -1,96 +1,69 @@
-{% extends "base.html" %}
-{% block title %}
-    view-records
-{% endblock title %}
-{% block body %}
+{% extends "base.html" %} {% block title %} view-records {% endblock title %} {%
+block body %}
 <div class="profile">
-    <div class="heading">
-        records
-    </div>
-    {% if request.user.is_staff  %}
-        <div class="details container p-5">
-            <form method="POST" action="/view-record">
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-6">
-                        <label for="user">Select user</label>
-                        <select name="user" id="user" class="form-control">
-                            <option value="all">All</option>
-                            {% for user in users %}
-                                <option value="{{ user.id }}">
-                                    {{ user.username }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="category">Select category</label>
-                        <select name="category" id="category" class="form-control">
-                            <option value="all">All</option>
-                            {% for category in categories %}
-                            <option value="{{ category.uid }}">{{ category.category_name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" class="basic_button btn btn-primary">Search</button>
-            </form>
-                
+  <div class="heading">records</div>
+  {% if request.user.is_staff %}
+  <div class="details container p-5">
+    <form method="POST" action="/view-record">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-md-6">
+          <label for="user">Select user</label>
+          <select name="user" id="user" class="form-control">
+            <option value="all">All</option>
+            {% for user in users %}
+            <option value="{{ user.id }}">{{ user.username }}</option>
+            {% endfor %}
+          </select>
         </div>
-    {% endif %}
+        <div class="col-md-6">
+          <label for="category">Select category</label>
+          <select name="category" id="category" class="form-control">
+            <option value="all">All</option>
+            {% for category in categories %}
+            <option value="{{ category.uid }}">
+              {{ category.category_name }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="basic_button btn btn-primary">Search</button>
+    </form>
+  </div>
+  {% endif %}
 
-    <div class="grids">
-        {%if records%}
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width:12%">
-                            S N
-                        </th>
-                        <th style="width:30%">
-                            User Name
-                        </th>
+  <div class="grids">
+    {%if records%}
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 12%">S N</th>
+          <th style="width: 30%">User Name</th>
 
-                        <th style="width:23%">
-                            Your Score(%)
-                        </th>
+          <th style="width: 23%">Your Score(%)</th>
 
-                        <th style="width:18%">
-                            Topic 
-                        </th>
+          <th style="width: 18%">Topic</th>
 
-                        <th style="width:17%">
-                            Submission Date:
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                    {% for record in records %}
-                        <tr>
-                            <td>
-                                {{ forloop.counter }}
-                            </td>
-                            <td>
-                                {{record.user}}
-                            </td>
-                            <td style="padding-left:6%;">
-                                {{record.score}}
-                            </td>
-                            <td>
-                                {{record.category}}
-                            </td>
-                            <td>
-                                {{record.created_at}}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            
-        {%else%}
-        <h3 style="margin-left: 250px;">Records Not Found</h3>
-        {%endif%}
-    </div>
+          <th style="width: 17%">Submission Date:</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in records %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{record.user}}</td>
+          <td style="padding-left: 6%">{{record.score}}</td>
+          <td>{{record.category}}</td>
+          <td>{{record.created_at}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {%else%}
+    <h3 style="margin-left: 250px">Records Not Found</h3>
+    {%endif%}
+  </div>
 </div>
 {% endblock body %}

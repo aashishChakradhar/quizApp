@@ -246,9 +246,8 @@
         </nav>
       </div>
     </div>
-    {% endif %} {% block body %} {% comment %} this section is used for body {%
-    endcomment %} {% endblock %} {% if user.is_authenticated %} {% comment %}
-    this section is used for footer {% endcomment %}
+    {% endif %} { % block body %}{% endblock %} {% if user.is_authenticated %}
+    {% comment %} this section is used for footer {% endcomment %}
     <div class="container" style="max-width: 100%">
       <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
@@ -289,71 +288,54 @@
       }
 
       var app = new Vue({
-        el: '#app',
-        delimiters: ['[[', ']]'],
+        el: "#app",
+        delimiters: ["[[", "]]"],
         data() {
-            return {
-                category: '{{category}}',
-                questions: [],
-                totalAttemptedMarks: 0,
-                totalMarksObtained: 0,
-            }
+          return {
+            category: "{{category}}",
+            questions: [],
+            totalAttemptedMarks: 0,
+            totalMarksObtained: 0,
+          };
         },
         methods: {
-          getQuestions(){
-              var _this = this
-              fetch(`/api/get-quiz/?category=${_this.category}`)
-              .then(response => response.json())
-              .then(result =>{
-                  console.log(result)
-                  _this.questions = result.data
+          getQuestions() {
+            var _this = this;
+            fetch(`/api/get-quiz/?category=${_this.category}`)
+              .then((response) => response.json())
+              .then((result) => {
+                console.log(result);
+                _this.questions = result.data;
               })
-              .catch(error => {
-                console.error('Error:', error);
+              .catch((error) => {
+                console.error("Error:", error);
               });
           },
-          {% comment %} checkAnswer(event,uid,marks){
-            var obtained=0
-              this.questions.map(question=>{
-                  answer=question.answer
-                  for(var i=0;i<answer?.length;i++){
-                      if(answer[i].answer == event.target.value){
-                          if(answer[i].is_correct){
-
-                            console.log('Your answer is correct',obtained += question.marks)
-                          }
-                          else{
-                              console.log('Your answer is incorrect')
-                          }
-                      }
-                  }
-              })
-              console.log(event.target.value,uid)
-          } {% endcomment %}
 
           checkAnswer(event, uid, marks) {
             var selectedAnswer = event.target.value;
             var isCorrect = false;
-            this.questions.forEach(question => {
-                if (question.uid === uid) {
-                    question.answer.forEach(answer => {
-                        if (answer.answer === selectedAnswer && answer.is_correct) {
-                            isCorrect = true;
-                        }
-                    });
-                }
+            this.questions.forEach((question) => {
+              if (question.uid === uid) {
+                question.answer.forEach((answer) => {
+                  if (answer.answer === selectedAnswer && answer.is_correct) {
+                    isCorrect = true;
+                  }
+                });
+              }
             });
             if (isCorrect) {
-                this.totalMarksObtained += parseInt(marks);
+              this.totalMarksObtained += parseInt(marks);
             }
             this.totalAttemptedMarks += parseInt(marks);
-            this.totalPercentage = (this.totalMarksObtained/this.totalAttemptedMarks)*100;
-          }
+            this.totalPercentage =
+              (this.totalMarksObtained / this.totalAttemptedMarks) * 100;
+          },
         },
         created() {
-            this.getQuestions()
+          this.getQuestions();
         },
-        });
+      });
     </script>
   </body>
 </html>

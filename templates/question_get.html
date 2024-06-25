@@ -1,50 +1,71 @@
-{% extends "base.html" %}
-{% block title %}take_quiz{% endblock title %}
-{% block body %}
-    <div id="app">
-        <form method="POST" action="/quiz/">
-            {% csrf_token %}
-            <div class="container mt-5 p-5 px-0">
-                <div style="min-width:500px; padding-inline: 10%;">
-                    <div style="text-align:center;">
-                        <h3>Choose the correct answer</h3>
-                        <hr>
-                    </div>
-                    <input type="hidden" value="{{category}}" name="category_record" id="category_record">
-                    <div v-for="(question, index) in questions" v-if="index < 10">
-                        
-                        <div style="width:100%;"> 
-                            <span style="font-weight: bold; margin-left: 0%;">
-                                {{category}}:
-                            </span>
-                            <span style="margin-left:2%;">
-                                [[question.question]]
-                            </span>
-                            <span style="font-weight: bold; margin-left:96%">
-                                [ [[question.marks]] ]
-                            </span>
-                        </div>
-                        <div>
-                            <div class="form-check" v-for="answer in question.answer">
-                                <input @change="checkAnswer($event,  question.uid, question.marks)" :value="answer.answer" class="form-check-input" type="radio" :name="question.question" :id="answer.answer">
-                                <label class="form-check-label" :for="answer.answer">
-                                    [[answer.answer]]
-                                </label>
-                                <br>
-                            </div>
-                        </div>
-                        <hr>
-                    </div>
-                </div>
-                <input type="hidden" v-model="totalMarksObtained" name="total_marks_obtained">
-                <input type="hidden" v-model="totalPercentage" name="total_percentage">
-                
-                <button type="submit" class="btn btn-primary" value='category' style=" background-color: #002b50; border-color: #002b50 ; color: #ffffff; width:200px; margin-left: 45%;">Submit</button>
+{% extends "base.html" %} {% block title %}take_quiz{% endblock title %} {%
+block body %}
+<div id="app">
+  <form method="POST" action="/quiz/">
+    {% csrf_token %}
+    <div class="container mt-5 p-5 px-0">
+      <div style="min-width: 500px; padding-inline: 10%">
+        <div style="text-align: center">
+          <h3>Choose the correct answer</h3>
+          <hr />
+        </div>
+        <input
+          type="hidden"
+          value="{{category}}"
+          name="category_record"
+          id="category_record"
+        />
+        <div v-for="(question, index) in questions" v-if="index < 10">
+          <div style="width: 100%">
+            <span style="font-weight: bold; margin-left: 0%">
+              {{category}}:
+            </span>
+            <span style="margin-left: 2%"> [[question.question]] </span>
+            <span style="font-weight: bold; margin-left: 96%">
+              [ [[question.marks]] ]
+            </span>
+          </div>
+          <div>
+            <div class="form-check" v-for="answer in question.answer">
+              <input
+                @change="checkAnswer($event,  question.uid, question.marks)"
+                :value="answer.answer"
+                class="form-check-input"
+                type="radio"
+                :name="question.question"
+                :id="answer.answer"
+              />
+              <label class="form-check-label" :for="answer.answer">
+                [[answer.answer]]
+              </label>
+              <br />
             </div>
-        </form>
+          </div>
+          <hr />
+        </div>
+      </div>
+      <input
+        type="hidden"
+        v-model="totalMarksObtained"
+        name="total_marks_obtained"
+      />
+      <input type="hidden" v-model="totalPercentage" name="total_percentage" />
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        value="category"
+        style="
+          background-color: #002b50;
+          border-color: #002b50;
+          color: #ffffff;
+          width: 200px;
+          margin-left: 45%;
+        "
+      >
+        Submit
+      </button>
     </div>
+  </form>
+</div>
 {% endblock body %}
-
-
-
-

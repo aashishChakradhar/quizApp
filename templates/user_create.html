@@ -1,85 +1,167 @@
-{% extends 'base.html' %}
-{%load static%}
-{% block title %}register{% endblock title %}
-{% block head %}
-  <link rel="stylesheet" type='text/css' href="{% static 'form.css' %}" />
-{% endblock head %}
-{% block body %}
-  <div class="texts-center">
-    <div class="col">
-      <main class="form-signin">
-        <form action="/create-user" method="POST">
-          {% csrf_token %}
-          <img src="/static/image/login.png" alt="login"  />
-          <h1 class="h3 mb-3 fw-normal">Create Account</h1>
+{% extends 'base.html' %} {%load static%} {% block title %}register{% endblock
+title %} {% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'form.css' %}" />
+{% endblock head %} {% block body %}
+<div class="texts-center">
+  <div class="col">
+    <main class="form-signin">
+      <form action="/create-user" method="POST">
+        {% csrf_token %}
+        <img src="/static/image/login.png" alt="login" />
+        <h1 class="h3 mb-3 fw-normal">Create Account</h1>
 
-          <div class="form-floating">
-            <input type="text" class="form-control" name="firstName" id="firstName" placeholder="First Name" required/>
-            <label for="firstName">First Name</label>
-          </div>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            name="firstName"
+            id="firstName"
+            placeholder="First Name"
+            required
+          />
+          <label for="firstName">First Name</label>
+        </div>
 
-          <div class="form-floating">
-            <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Last Name" required />
-            <label for="lastName">Last Name</label>
-          </div>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            name="lastName"
+            id="lastName"
+            placeholder="Last Name"
+            required
+          />
+          <label for="lastName">Last Name</label>
+        </div>
 
-          <div class="form-floating">
-            <input type="text" class="form-control" name="username" id="username" placeholder="username" required/>
-            <label for="username">User Name</label>
-          </div>
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control"
+            name="username"
+            id="username"
+            placeholder="username"
+            required
+          />
+          <label for="username">User Name</label>
+        </div>
 
-          <div class="form-floating">
-            <input type="email" class="form-control" name="email" id="email" placeholder="email" required/>
-            <label for="email">E-mail</label>
-          </div>
+        <div class="form-floating">
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            id="email"
+            placeholder="email"
+            required
+          />
+          <label for="email">E-mail</label>
+        </div>
 
-          <div class="form-floating">
-            <input type="password" class="form-control" name="password" id="password" placeholder="Password" required minlength="5"/>
-            <label for="password">Password</label>
-          </div>
+        <div class="form-floating">
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            id="password"
+            placeholder="Password"
+            required
+            minlength="5"
+          />
+          <label for="password">Password</label>
+        </div>
 
-          {% if not  user.is_authenticated %}
-            <div class = "form-floating">
-              <label for="status" style= "padding-top: 0%; padding-left:20px;">Register as Teacher</label>    
-              <input type="radio" value="teacher" name="status" id="status">
-            </div>
-            <div class = "form-floating">
-              <label for="status" style= "padding-top: 0%; padding-left:20px;">Register as Student</label>    
-              <input type="radio" value="student" name="status" id="status" checked>
-            </div>
-            <button class="w-100 btn btn-lg btn-primary" style="margin-bottom: 10px; background-color: #002b50; border-color: #002b50 ; color: #ffffff;" type="submit">Sign Up</button>
-            <a class="w-100 btn btn-lg btn-primary" href="/login" role="button" style = "background-color: #002b50; border-color: #002b50 ; color: #ffffff;">Already Have Account</a>
-          {% endif %}
+        {% if not user.is_authenticated %}
+        <div class="form-floating">
+          <label for="status" style="padding-top: 0%; padding-left: 20px"
+            >Register as Teacher</label
+          >
+          <input type="radio" value="teacher" name="status" id="status" />
+        </div>
+        <div class="form-floating">
+          <label for="status" style="padding-top: 0%; padding-left: 20px"
+            >Register as Student</label
+          >
+          <input
+            type="radio"
+            value="student"
+            name="status"
+            id="status"
+            checked
+          />
+        </div>
+        <button
+          class="w-100 btn btn-lg btn-primary"
+          style="
+            margin-bottom: 10px;
+            background-color: #002b50;
+            border-color: #002b50;
+            color: #ffffff;
+          "
+          type="submit"
+        >
+          Sign Up
+        </button>
+        <a
+          class="w-100 btn btn-lg btn-primary"
+          href="/login"
+          role="button"
+          style="
+            background-color: #002b50;
+            border-color: #002b50;
+            color: #ffffff;
+          "
+          >Already Have Account</a
+        >
+        {% endif %} {% if request.user.is_superuser %}
+        <div class="form-floating">
+          <label for="status" style="padding-top: 0%; padding-left: 20px"
+            >Register as Admin</label
+          >
+          <input type="radio" value="admin" name="status" id="status" />
+        </div>
 
-          {% if request.user.is_superuser  %}
-            <div class = "form-floating">
-              <label for="status" style= "padding-top: 0%; padding-left:20px;">Register as Admin</label>    
-              <input type="radio" value="admin" name="status" id="status">
-            </div>
-            
-            <div class = "form-floating">
-              <label for="status" style= "padding-top: 0%; padding-left:20px;">Register as Teacher</label>    
-              <input type="radio" value="teacher" name="status" id="status">
-            </div>
+        <div class="form-floating">
+          <label for="status" style="padding-top: 0%; padding-left: 20px"
+            >Register as Teacher</label
+          >
+          <input type="radio" value="teacher" name="status" id="status" />
+        </div>
 
-            <div class = "form-floating">
-              <label for="status" style= "padding-top: 0%; padding-left:20px;">Register as Student</label>    
-              <input type="radio" value="student" name="status" id="status" checked>
-            </div>
+        <div class="form-floating">
+          <label for="status" style="padding-top: 0%; padding-left: 20px"
+            >Register as Student</label
+          >
+          <input
+            type="radio"
+            value="student"
+            name="status"
+            id="status"
+            checked
+          />
+        </div>
 
-            <button class="w-100 btn btn-lg btn-primary" style="margin-bottom: 10px; background-color: #002b50; border-color: #002b50 ; color: #ffffff;" type="submit">Create</button>
-          {% endif %}
-          
-          
-          <p class="mt-5 mb-3 text-muted">&copy; 2024-Aashish_Chakradhar</p>
-        </form>
-      </main>
-    </div>
+        <button
+          class="w-100 btn btn-lg btn-primary"
+          style="
+            margin-bottom: 10px;
+            background-color: #002b50;
+            border-color: #002b50;
+            color: #ffffff;
+          "
+          type="submit"
+        >
+          Create
+        </button>
+        {% endif %}
+
+        <p class="mt-5 mb-3 text-muted">&copy; 2024-Aashish_Chakradhar</p>
+      </form>
+    </main>
   </div>
-{% endblock body %}
-
-{% comment %} <script>
-function status(){
-
-}
-</script> {% endcomment %}
+</div>
+{% endblock body %} {% comment %}
+<script>
+  function status() {}
+</script>
+{% endcomment %}

@@ -1,40 +1,35 @@
-{% extends "base.html" %}
-{% block title %}my-profile{% endblock title %}
+{% extends "base.html" %} {% block title %}my-profile{% endblock title %} {%
+block body %}
 
-{% block body %}
-
-<div class = "profile">
-    <div class="heading">
-        my profile
-    </div>
-    <div class = "details">
-        <table>
-            <thead>
-            <th style="width:150px"></th>
-            <th></th>
-            </thead>
-            <tbody>
-                {% for details in details %}
-                    <tr>
-                        <td>User Name</td>
-                        <td class="second-column">{{details.username}}</td>
-                    </tr>
-                    <tr>
-                        <td>First Name</td>
-                        <td class="second-column">{{details.first_name}}</td>
-                    </tr>
-                    <tr>
-                        <td>Last Name</td>
-                        <td class="second-column">{{details.last_name}}</td>
-                    </tr>
-                    <tr>
-                        <td>Email</td>
-                        <td class="second-column">{{details.email}}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        
-    </div>
+<div class="profile">
+  <div class="heading">my profile</div>
+  <div class="details">
+    <table>
+      <thead>
+        <th style="width: 150px"></th>
+        <th></th>
+      </thead>
+      <tbody>
+        {% for details in details %}
+        <tr>
+          <td>User Name</td>
+          <td class="second-column">{{details.username}}</td>
+        </tr>
+        <tr>
+          <td>First Name</td>
+          <td class="second-column">{{details.first_name}}</td>
+        </tr>
+        <tr>
+          <td>Last Name</td>
+          <td class="second-column">{{details.last_name}}</td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td class="second-column">{{details.email}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock body %}

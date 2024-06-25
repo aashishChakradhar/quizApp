@@ -1,63 +1,118 @@
-{% extends "base.html" %}
-{% block title %}add-question{% endblock title %} 
-{% block body %}
-    <style>
-        .form-label{font-weight:bold;}
-    </style>
+{% extends "base.html" %} {% block title %}add-question{% endblock title %} {%
+block body %}
+<style>
+  .form-label {
+    font-weight: bold;
+  }
+</style>
 
-    <div class="container-fluid " style="padding-inline: 15px">
-        <img src="/static/image/question_bg.png" style="height:300px; margin-left:40%" />
+<div class="container-fluid" style="padding-inline: 15px">
+  <img
+    src="/static/image/question_bg.png"
+    style="height: 300px; margin-left: 40%"
+  />
+</div>
+
+<div
+  class="container"
+  style="max-width: 50%; margin-bottom: 5%; margin-left: 25%"
+>
+  <h1 style="text-align: center">Add Question</h1>
+
+  <form method="POST" action="/add-question">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="category" class="form-label">Choose Topic</label>
+      <select name="category" class="form-control">
+        <option value="choose">Choose</option>
+        {% for category in categories %}
+        <option value="{{category.category_name}}">
+          {{category.category_name}}
+        </option>
+        {% endfor %}
+      </select>
     </div>
 
-    <div class="container" style=" max-width: 50%; margin-bottom:5%; margin-left:25%">
-        <h1 style= "text-align: center">
-            Add Question
-        </h1>
-        <form method="POST" action="/add-question">
-            {% csrf_token %}
-            
-            <div class="mb-3">
-                <label for="category" class="form-label">Choose Topic</label>
-                <select name="category" class="form-control">
-                    <option value="choose">Choose</option>
-                    {% for category in categories %}
-                    <option value="{{category.category_name}}">
-                        {{category.category_name}}
-                    </option>
-                    {% endfor %}
-                </select>
-            </div>
-            
-            <div class="mb-3">
-                <label for="question" class="form-label">Question</label>
-                <textarea class="form-control" id="question" name="question" placeholder="Write your question here.."rows="2"  required/></textarea>
-            </div>
-
-            <div class="mb-3">
-                <label for="correct_answer" class="form-label">Option 1(Correct Answer)</label>
-                <input type="text" class="form-control" id="answer1" name="answer1" placeholder="Option 1(Correct Answer)"  required/>
-            </div>
-
-            <div class="mb-3">
-                <label for="answer2" class="form-label">Option 2</label>
-                <input type="text" class="form-control" id="answer2" name="answer2" placeholder="Option 2"  required/>
-            </div>
-
-            <div class="mb-3">
-                <label for="answer3" class="form-label">Option 3</label>
-                <input type="text" class="form-control" id="answer3" name="answer3" placeholder="Option 3"  required/>
-            </div>
-
-            <div class="mb-3">
-                <label for="answer4" class="form-label">Option 4</label>
-                <input type="text" class="form-control" id="answer4" name="answer4" placeholder="Option 4"  required/>
-            </div>
-            <div class="mb-3">
-                <label for="marks" class="form-label">Marks</label>
-                <input type="number" class="form-control" id="marks" name="marks" placeholder="Marks"  required/>
-            </div>
-            
-            <button type="submit" class="btn btn-primary" style="background-color: #002b50; border-color: #002b50 ; color: #ffffff;">Submit</button>
-        </form>
+    <div class="mb-3">
+      <label for="question" class="form-label">Question</label>
+      <textarea
+        class="form-control"
+        id="question"
+        name="question"
+        placeholder="Write your question here.."
+        rows="2"
+        required
+      ></textarea>
     </div>
+
+    <div class="mb-3">
+      <label for="correct_answer" class="form-label"
+        >Option 1(Correct Answer)</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        id="answer1"
+        name="answer1"
+        placeholder="Option 1(Correct Answer)"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="answer2" class="form-label">Option 2</label>
+      <input
+        type="text"
+        class="form-control"
+        id="answer2"
+        name="answer2"
+        placeholder="Option 2"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="answer3" class="form-label">Option 3</label>
+      <input
+        type="text"
+        class="form-control"
+        id="answer3"
+        name="answer3"
+        placeholder="Option 3"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="answer4" class="form-label">Option 4</label>
+      <input
+        type="text"
+        class="form-control"
+        id="answer4"
+        name="answer4"
+        placeholder="Option 4"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="marks" class="form-label">Marks</label>
+      <input
+        type="number"
+        class="form-control"
+        id="marks"
+        name="marks"
+        placeholder="Marks"
+        required
+      />
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-primary"
+      style="background-color: #002b50; border-color: #002b50; color: #ffffff"
+    >
+      Submit
+    </button>
+  </form>
+</div>
 {% endblock body %}

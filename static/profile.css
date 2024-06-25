@@ -1,47 +1,46 @@
-.profile{
-    background-color: rgba(182, 229, 229, 0.5);
-    color: #002b50;
-    width: 50%;
-    height: 100%;
-    margin-left: 30%;
-    margin-top: 5%;
-    padding-bottom: 1rem;
-    border-radius: 10px;
+.profile {
+  background-color: rgba(182, 229, 229, 0.5);
+  color: #002b50;
+  width: 50%;
+  height: 100%;
+  margin-left: 30%;
+  margin-top: 5%;
+  padding-bottom: 1rem;
+  border-radius: 10px;
 }
-.heading{
-    text-align: center;
-    font-weight: bolder;
-    font-size: 50px;
-    padding-bottom: 1%;
+.heading {
+  text-align: center;
+  font-weight: bolder;
+  font-size: 50px;
+  padding-bottom: 1%;
 }
-.details{
-    font-size: 20px;
-    padding-left: 10%;
-    font-weight: bold;
-    
+.details {
+  font-size: 20px;
+  padding-left: 10%;
+  font-weight: bold;
 }
-.second-column{
-    font-weight: lighter;
-}
-
-.basic_button{
-    background-color: #002b50;
-    border-color: #002b50;
-    color: #ffffff;
-    width: 60%;
-    margin-top: 1rem;
+.second-column {
+  font-weight: lighter;
 }
 
-.log_button{
-    background-color: #002b50;
-    border-color: #002b50;
-    color: #ffffff;
-    width: 100%;
-    margin-bottom: 1rem;
+.basic_button {
+  background-color: #002b50;
+  border-color: #002b50;
+  color: #ffffff;
+  width: 60%;
+  margin-top: 1rem;
 }
 
-.grids{
-    width:100%;
-    text-align: left;
-    margin-left:5%;
+.log_button {
+  background-color: #002b50;
+  border-color: #002b50;
+  color: #ffffff;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.grids {
+  width: 100%;
+  text-align: left;
+  margin-left: 5%;
 }

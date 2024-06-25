@@ -1,47 +1,28 @@
-{% extends "base.html" %}
-{% block title %}
-    view-question
-{% endblock title %}
+{% extends "base.html" %} {% block title %} view-question {% endblock title %}
 {% block body %}
-    <div style="width:50%; text-align: left; margin-left:25%;">
-        <table>
-            <tr>
-                <th></th>
-                <th>
-                    <h3>Questions</h3>
-                </th>
-                <th></th>
-            </tr>
-            <tr>
-                <th style="width:100px">
-                    Category
-                </th>
-                <th style="width:500px">
-                    Question
-                </th>
-                <th style="width:200px">
-                    Created By
-                </th>
-                <th style="width:100px">
-                    Mark 
-                </th>
-            </tr>
-            {% for question in questions %}
-                <tr>
-                    <td>
-                        {{question.category}}
-                    </td>
-                    <td>
-                        {{question.question}}
-                    </td>
-                    <td>
-                        {{question.user}}
-                    </td>
-                    <td>
-                        {{question.marks}}
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
+<div style="width: 50%; text-align: left; margin-left: 25%">
+  <table>
+    <tr>
+      <th></th>
+      <th>
+        <h3>Questions</h3>
+      </th>
+      <th></th>
+    </tr>
+    <tr>
+      <th style="width: 100px">Category</th>
+      <th style="width: 500px">Question</th>
+      <th style="width: 200px">Created By</th>
+      <th style="width: 100px">Mark</th>
+    </tr>
+    {% for question in questions %}
+    <tr>
+      <td>{{question.category}}</td>
+      <td>{{question.question}}</td>
+      <td>{{question.user}}</td>
+      <td>{{question.marks}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
 {% endblock body %}

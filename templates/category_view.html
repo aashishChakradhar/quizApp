@@ -1,42 +1,26 @@
-{% extends "base.html" %}
-{% block title %}
-    view-category
-{% endblock title %}
+{% extends "base.html" %} {% block title %} view-category {% endblock title %}
 {% block body %}
-    <div style="width:30%; text-align: left; margin-left:40%;">
-        <table>
-            <tr>
-                <th></th>
-                <th>
-                    <h3>Categories</h3>
-                </th>
-            </tr>
-            <tr>
+<div style="width: 30%; text-align: left; margin-left: 40%">
+  <table>
+    <tr>
+      <th></th>
+      <th>
+        <h3>Categories</h3>
+      </th>
+    </tr>
+    <tr>
+      <th style="width: 150px">Category</th>
 
-                <th style="width:150px">
-                    Category 
-                </th>
-
-                <th style="width:200px">
-                    Created Date:
-                </th>
-                <th style="width:200px">
-                    Created By:
-                </th>
-            </tr>
-            {% for category in categories %}
-                <tr>
-                    <td>
-                        {{category}}
-                    </td>
-                    <td>
-                        {{category.created_at}}
-                    </td>
-                    <td>
-                        {{category.user}}
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
+      <th style="width: 200px">Created Date:</th>
+      <th style="width: 200px">Created By:</th>
+    </tr>
+    {% for category in categories %}
+    <tr>
+      <td>{{category}}</td>
+      <td>{{category.created_at}}</td>
+      <td>{{category.user}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
 {% endblock body %}
