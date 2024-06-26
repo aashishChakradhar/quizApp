@@ -1,5 +1,7 @@
 <h1>Quiz Website</h1>
-Welcome to the Quiz Website project! This repository contains a web application built using Django, designed to facilitate quizzes for different types of users: students, teachers, and admins. Below, you will find instructions on how to set up, run, and contribute to the project.
+Welcome to the Quiz Website project! This repository contains a web application built using Django, designed to 
+facilitate quizzes for different types of users: students, teachers, and admins. Below, you will find instructions 
+on how to set up, run, and contribute to the project.
 
 <h2> Features</h2>
 <ul>
@@ -51,3 +53,5 @@ Welcome to the Quiz Website project! This repository contains a web application 
 
 <h2>License</h2>
 This project is licensed under the MIT License. See the <a href="LICENSE.md">LICENSE</a> file for more details.
+
+<h3>Happy Codding!!</h3>
