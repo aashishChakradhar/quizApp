@@ -1,5 +1,4 @@
-{% extends "base.html" %} {% block title %}take_quiz{% endblock title %} {%
-block body %}
+{% extends "base.html" %} {% block title %}take_quiz{% endblock title %} {% block body %}
 <div id="app">
   <form method="POST" action="/quiz/">
     {% csrf_token %}

@@ -246,7 +246,7 @@
         </nav>
       </div>
     </div>
-    {% endif %} { % block body %}{% endblock %} {% if user.is_authenticated %}
+    {% endif %} {% block body %}{% endblock %} {% if user.is_authenticated %}
     {% comment %} this section is used for footer {% endcomment %}
     <div class="container" style="max-width: 100%">
       <footer class="py-3 my-4">
