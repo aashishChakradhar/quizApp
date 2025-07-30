@@ -28,5 +28,6 @@ admin.site.index_title = "My Quiz"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(('quiz.urls', 'quiz'), namespace='quiz')),
+    path('api/', include('quiz.api_urls'),namespace= 'quiz_api'),
 ]
 
