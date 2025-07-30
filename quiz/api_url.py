@@ -1,6 +1,6 @@
 from django.urls import path
-from . import api_views
-
+from quiz import api_views
+app_name = 'api'
 urlpatterns = [
     # Category Endpoints
     path('categories/', api_views.CategoryListAPIView.as_view(), name='category-list'),

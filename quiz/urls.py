@@ -5,6 +5,7 @@ from quiz import views
 '''
     'name=' is used for reverse linking which is efficient for dynamic routing
 '''
+app_name = 'quiz'
 urlpatterns = [
     path('', views.index, name='index'),
     path('login', views.loginUser, name='login'),
