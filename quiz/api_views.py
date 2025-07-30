@@ -38,7 +38,7 @@ class CategoryCreateAPIView(APIView):
 
 class QuestionListAPIView(APIView):
     def get(self, request):
-        questions = Question.objects.prefetch_related('answer_set').all()
+        questions = Question.objects.prefetch_related('question_answer').all()
         serializer = QuestionSerializer(questions, many=True)
         return Response(serializer.data, status=200)
 
