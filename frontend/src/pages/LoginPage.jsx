@@ -24,6 +24,6 @@ export default function LoginForm(props){
         <label htmlFor="password">Password
             <input type="password" name="password" id="password" value={password} onChange={e => setPassword(e.target.value)}/>
         </label>
-        <button type="submit">Submit</button>
+        <button type="submit">Login</button>
     </form>
 }
