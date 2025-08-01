@@ -1,8 +1,10 @@
 import './styles/App.css';
-// import Category from "./components/category.jsx";
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
+import Category from './pages/Category';
+import Test from './pages/Exam';
 import PrivateRoute from './routes/PrivateRoute';
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path='/test' element={< Test />} />
+        <Route path='/category' element={<Category />} />
       </Routes>
     </Router>
   );
