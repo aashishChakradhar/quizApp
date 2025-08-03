@@ -12,6 +12,14 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/dashboard"
           element={
             <PrivateRoute>
@@ -19,7 +27,15 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route path='/test' element={< Test />} />
+        <Route
+          path="/test"
+          element={
+            <PrivateRoute>
+              <Test />
+            </PrivateRoute>
+          }
+        />
+        {/* <Route path='/test' element={< Test />} /> */}
         <Route path='/category' element={<Category />} />
       </Routes>
     </Router>
