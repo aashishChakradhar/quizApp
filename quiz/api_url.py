@@ -16,6 +16,7 @@ urlpatterns = [
     # Question Endpoints
     path('questions/', api_views.QuestionListAPIView.as_view(), name='question-list'),
     path('questions/create/', api_views.QuestionCreateAPIView.as_view(), name='question-create'),
+    path('questions/submit-test/', api_views.QuestionSubmitAPIView.as_view(), name='question-submit'),
     # (Optional: path for creating questions could go here)
 
     # Record Endpoints

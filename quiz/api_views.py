@@ -52,6 +52,57 @@ class QuestionCreateAPIView(APIView):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
+class QuestionSubmitAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        print("logged user",request.user)
+        try:
+            data = request.data.get('answers',[])
+            print(data)
+            if not data:
+                Records.objects.create(
+                    user=request.user,
+                    category=None,
+                    score=0
+                )
+                return Response({"error": "No answers submitted."}, status=status.HTTP_200_OK)
+            totalScore = 0
+            category = None
+            for item in data:
+                questionId = item.get("question")
+                answerId = item.get("selected_answer")
+                print("question Id:",questionId)
+                print(answerId)
+                try:
+                    question = Question.objects.get(uid = questionId)
+                    answer = Answer.objects.get(uid = answerId)
+                    print("question answer",question,answer)
+                    if answer.question != question:
+                        return Response({"error": "Answer does not match question."}, status=status.HTTP_400_BAD_REQUEST)
+                    if answer.is_correct:
+                        totalScore += question.marks
+                    if category is None:
+                        category = question.category
+                    print("score",totalScore)
+                except Question.DoesNotExist:
+                    return Response({"error": f"Question not found: {question}"}, status=status.HTTP_404_NOT_FOUND)
+                except Answer.DoesNotExist:
+                    return Response({"error": f"Answer not found: {answer}"}, status=status.HTTP_404_NOT_FOUND)
+            Records.objects.create(
+                user=request.user,
+                category=category,
+                score=totalScore
+            )
+            return Response({
+                "message": "Test submitted successfully.",
+                "score": float(totalScore)
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 class RecordsListAPIView(APIView):
     def get(self, request):
         records = Records.objects.select_related('user').all()
