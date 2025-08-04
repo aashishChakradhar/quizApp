@@ -1,11 +1,11 @@
-import './styles/App.css';
-
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import Dashboard from './pages/Dashboard';
-import Category from './pages/Category';
-import Test from './pages/Exam';
-import PrivateRoute from './routes/PrivateRoute';
+import "./styles/App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import Dashboard from "./pages/Dashboard";
+import Category from "./pages/Category";
+import RecordView from "./pages/Records";
+import Test from "./pages/Exam";
+import PrivateRoute from "./routes/PrivateRoute";
 function App() {
   return (
     <Router>
@@ -35,8 +35,22 @@ function App() {
             </PrivateRoute>
           }
         />
-        {/* <Route path='/test' element={< Test />} /> */}
-        <Route path='/category' element={<Category />} />
+        <Route
+          path="/records/view"
+          element={
+            <PrivateRoute>
+              <RecordView />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/category"
+          element={
+            <PrivateRoute>
+              <Category />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </Router>
   );
