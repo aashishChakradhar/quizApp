@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from .models import Category, Records, Question, Answer
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -7,9 +8,11 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class RecordsSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
+    category = serializers.StringRelatedField()
     class Meta:
         model = Records
-        fields = '__all__'
+        fields = ['uid', 'user', 'category', 'score', 'created_at' ]
 
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,3 +26,8 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ['uid', 'question', 'marks', 'category', 'question_answer']
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'first_name', 'last_name']
