@@ -5,11 +5,13 @@ import Dashboard from "./pages/Dashboard";
 import Category from "./pages/Category";
 import RecordView from "./pages/Records";
 import Test from "./pages/Exam";
+import Signup from "./pages/Signup";
 import PrivateRoute from "./routes/PrivateRoute";
 function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<LoginPage />} />
         <Route
           path="/"
