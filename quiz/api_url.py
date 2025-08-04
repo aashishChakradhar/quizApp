@@ -22,6 +22,7 @@ urlpatterns = [
     # Record Endpoints
     path('records/', api_views.RecordsListAPIView.as_view(), name='record-list'),
     path('records/create/', api_views.RecordsCreateAPIView.as_view(), name='record-create'),
+    path('records/view/',api_views.RecordsViewAPIView.as_view(), name='record-view'),
 
     # User Endpoints (Admin-only, optional)
     path('users/', api_views.UserListAPIView.as_view(), name='user-list'),
