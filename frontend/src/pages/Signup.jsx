@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 export default function Signup(props) {
   const [info, setInfo] = useState({});
@@ -95,6 +96,7 @@ export default function Signup(props) {
         />
       </label>
       <button type="submit">Signup</button>
+      <Link to="/login">Already have an account</Link>
     </form>
   );
 }
