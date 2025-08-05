@@ -2,8 +2,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
 from django.contrib.auth.models import User
-from .models import Category, Question, Answer, Records
-from .serializers import CategorySerializer, QuestionSerializer, RecordsSerializer, UserRegistrationSerializer
+from django.shortcuts import get_object_or_404
+from .models import Category, Question, Answer, Records, Exam
+from .serializers import CategorySerializer, QuestionSerializer, RecordsSerializer, UserRegistrationSerializer, ExamSerializer
 
 class RegistrationAPIView(APIView):
     def post(self,request):
@@ -45,6 +46,7 @@ class CategoryCreateAPIView(APIView):
         return Response(serializer.errors, status=400)
 
 class QuestionListAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         questions = Question.objects.prefetch_related('question_answer').all()
         serializer = QuestionSerializer(questions, many=True)
@@ -104,6 +106,21 @@ class QuestionSubmitAPIView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+class ExamListAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self,request):
+        exams = Exam.objects.filter(student = request.user)
+        serializer = ExamSerializer(exams, many=True)  
+        return Response(serializer.data, status=200) 
+
+class ExamQuestionAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self,request, exam_id):
+        exam = get_object_or_404(Exam, uid=exam_id, student=request.user)
+        questions = Question.objects.filter(category=exam.category)
+        serializer = QuestionSerializer(questions, many=True)
+        return Response(serializer.data)
 
 class RecordsListAPIView(APIView):
     def get(self, request):

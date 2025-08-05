@@ -18,7 +18,10 @@ urlpatterns = [
     path('questions/create/', api_views.QuestionCreateAPIView.as_view(), name='question-create'),
     path('questions/submit-test/', api_views.QuestionSubmitAPIView.as_view(), name='question-submit'),
     # (Optional: path for creating questions could go here)
-
+    path('exams/', api_views.ExamListAPIView.as_view(), name='exams'),
+    path('exams/<str:exam_id>/questions/',api_views.ExamQuestionAPIView.as_view(), name='take-exam'),
+    path('exams/<str:exam_id>/submit/',api_views.QuestionSubmitAPIView.as_view(), name='submit-exam'),
+    
     # Record Endpoints
     path('records/', api_views.RecordsListAPIView.as_view(), name='record-list'),
     path('records/create/', api_views.RecordsCreateAPIView.as_view(), name='record-create'),
