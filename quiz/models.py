@@ -66,3 +66,19 @@ class Answer(BaseModel):
     def __str__(self):
         return self.answer
     
+class Group(BaseModel):
+    user = models.ForeignKey(User, related_name="group_user", on_delete=models.CASCADE)
+    name = models.CharField(max_length=30)
+    def __str__(self):
+        return self.name
+
+class Exam(BaseModel):
+    teacher = models.ForeignKey(User, related_name = "creator", on_delete=models.CASCADE)
+    student = models.ForeignKey(User, related_name="examinee", on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    title = models.CharField(max_length=50)
+    group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True)
+    deadline = models.DateField()
+    submitted = models.DateField(null=True, blank=True)
+    def __str__(self):
+        return f"{self.title}  ({self.group})"
