@@ -1,7 +1,12 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
-from .models import Category, Records, Question, Answer
+from .models import Category, Records, Question, Answer, Exam
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'first_name', 'last_name']
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
@@ -47,13 +52,18 @@ class AnswerSerializer(serializers.ModelSerializer):
 class QuestionSerializer(serializers.ModelSerializer):
     question_answer = AnswerSerializer(many=True, read_only=True)
     category = CategorySerializer(read_only=True)
-    user = serializers.StringRelatedField(read_only=True)
+    # user = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Question
         fields = ['uid', 'question', 'marks', 'category', 'question_answer']
 
-class UserSerializer(serializers.ModelSerializer):
+class ExamSerializer(serializers.ModelSerializer):
+    teacher = serializers.StringRelatedField()
+    student = serializers.StringRelatedField()
+    category = serializers.StringRelatedField()
+    group = serializers.StringRelatedField()
+
     class Meta:
-        model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name']
+        model = Exam
+        fields = '__all__'
