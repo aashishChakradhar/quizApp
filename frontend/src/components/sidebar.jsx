@@ -7,7 +7,7 @@ export default function Sidebar(props) {
     navigate("/login");
   }
   return (
-    <sidebar>
+    <div id="sidebar">
       <ul>
         <li>
           <Link to="/test">Take exam</Link>
@@ -16,10 +16,13 @@ export default function Sidebar(props) {
           <Link to="/records/view">View Report</Link>
         </li>
         <li>
-          <Link to="/category">View Exam</Link>
+          <Link to="/category">View Category</Link>
+        </li>
+        <li>
+          <Link to="/exams">View Exam</Link>
         </li>
       </ul>
       <button onClick={handleLogout}>Logout</button>
-    </sidebar>
+    </div>
   );
 }
