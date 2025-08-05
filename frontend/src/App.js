@@ -4,9 +4,10 @@ import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import Category from "./pages/Category";
 import RecordView from "./pages/Records";
-import Test from "./pages/Exam";
+import Questions from "./pages/ExamForm";
 import Signup from "./pages/Signup";
 import PrivateRoute from "./routes/PrivateRoute";
+import ChooseExam from "./pages/ExamAlloc";
 function App() {
   return (
     <Router>
@@ -33,7 +34,7 @@ function App() {
           path="/test"
           element={
             <PrivateRoute>
-              <Test />
+              <Questions />
             </PrivateRoute>
           }
         />
@@ -50,6 +51,22 @@ function App() {
           element={
             <PrivateRoute>
               <Category />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/exams"
+          element={
+            <PrivateRoute>
+              <ChooseExam />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/exams/questions/:examid"
+          element={
+            <PrivateRoute>
+              <Questions />
             </PrivateRoute>
           }
         />
