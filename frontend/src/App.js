@@ -63,7 +63,7 @@ function App() {
           }
         />
         <Route
-          path="/exams/questions/:examid"
+          path="/exams/:examid/questions"
           element={
             <PrivateRoute>
               <Questions />
