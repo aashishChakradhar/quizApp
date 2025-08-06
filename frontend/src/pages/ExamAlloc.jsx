@@ -13,12 +13,12 @@ export default function ChooseExam(props) {
       .catch((err) => console.error(err));
   }, []);
   return (
-    <div id="exam-container">
+    <div id="display-container">
       <h2>Available exam</h2>
       <ul>
         {exams.map((exam, index) => (
           <li key={index}>
-            <Link to={`/exams/questions/${exam.uid}`}>
+            <Link to={`/exams/${exam.uid}/questions`}>
               {exam.title} {exam.student} {exam.category}
             </Link>
           </li>

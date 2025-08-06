@@ -4,19 +4,18 @@ import api from "../api/token.js";
 
 export default function Questions(props) {
   const { examid } = useParams();
-  const [questions, setquestions] = useState([]);
+  const [questions, setQuestions] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState({});
   useEffect(() => {
     if (examid) {
-      console.log("Fetching questions for exam:", examid);
       api
         .get(`${process.env.REACT_APP_API_URL}/exams/${examid}/questions/`)
-        .then((res) => setquestions(res.data))
+        .then((res) => setQuestions(res.data))
         .catch((err) => console.error("Error Loading Questions:", err));
     }
     api
       .get(`${process.env.REACT_APP_API_URL}/questions/`)
-      .then((res) => setquestions(res.data))
+      .then((res) => setQuestions(res.data))
       .catch((err) => console.error(err));
   }, []);
 
@@ -25,8 +24,6 @@ export default function Questions(props) {
       ...prev,
       [questionId]: answerId,
     }));
-    console.log(questionId);
-    console.log(answerId);
   };
 
   const handleSubmission = async (e) => {
@@ -56,14 +53,16 @@ export default function Questions(props) {
   };
 
   return (
-    <div id="testContainer">
+    <div id="display-container">
       <form method="post" onSubmit={handleSubmission}>
         <h1>Test</h1>
         <div>
-          {questions.map((question) => (
+          {questions.map((question, index) => (
             <div key={question.uid} className="question-block">
-              <h3>{question.question}</h3>
-              {question.question_answer.map((answer) => (
+              <h3>
+                {index + 1}. {question.question}
+              </h3>
+              {question.question_answer.map((answer, index) => (
                 <label key={answer.uid}>
                   <input
                     type="radio"
@@ -78,7 +77,9 @@ export default function Questions(props) {
             </div>
           ))}
         </div>
-        <button type="submit">Submit</button>
+        <button id="submit-btn" type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );
