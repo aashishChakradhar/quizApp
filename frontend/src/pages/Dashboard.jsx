@@ -8,7 +8,7 @@ export default function Dashboard() {
     navigate("/login");
   }
   return (
-    <div id="dashboard-container">
+    <div id="display-container">
       <h2>Welcome to Dashboard</h2>
       dashboar goes here
     </div>
