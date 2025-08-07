@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from .models import Category, Question, Answer, Records, Exam
 from .serializers import CategorySerializer, QuestionSerializer, RecordsSerializer, UserRegistrationSerializer, ExamSerializer
+import random
 
 class RegistrationAPIView(APIView):
     def post(self,request):
@@ -48,7 +49,8 @@ class CategoryCreateAPIView(APIView):
 class QuestionListAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
-        questions = Question.objects.prefetch_related('question_answer').all()
+        questions = list(Question.objects.prefetch_related('question_answer').all())
+        random.shuffle(questions)
         serializer = QuestionSerializer(questions, many=True)
         return Response(serializer.data, status=200)
 
@@ -118,7 +120,8 @@ class ExamQuestionAPIView(APIView):
 
     def get(self,request, exam_id):
         exam = get_object_or_404(Exam, uid=exam_id, student=request.user)
-        questions = Question.objects.filter(category=exam.category)
+        questions = list(Question.objects.filter(category=exam.category))
+        random.shuffle(questions)
         serializer = QuestionSerializer(questions, many=True)
         return Response(serializer.data)
 
