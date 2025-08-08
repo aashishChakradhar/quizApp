@@ -1,0 +1,113 @@
+:root {
+  --main-background: red;
+  --first: #d3f6f3;
+  --second: #f9fce1;
+  --third: #fee9b2;
+  --fourth: #fbd1b7;
+}
+
+body {
+  background-color: var(--first);
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--first);
+}
+
+header {
+  /* background-color: var(--third); */
+  margin: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  border: 2px black solid;
+  border-radius: 14px;
+}
+#title {
+  font-size: 3rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+#greeting {
+  flex: 1;
+  margin-right: 2rem;
+  display: flex;
+  text-align: right;
+  align-items: center;
+  justify-content: right;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+footer {
+  text-align: center;
+  font-weight: 700;
+}
+#sidebar {
+  background-color: var(--second);
+  border: 2px solid black;
+  border-radius: 14px;
+  padding: 0 2rem;
+  width: auto;
+  margin: 1rem 0.5rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+#sidebar > ul,
+#sidebar a {
+  margin: 1rem 0;
+  padding: 0;
+  list-style-type: none;
+  text-decoration: none;
+  color: black;
+  font-size: 1.2rem;
+  font-weight: 700;
+  flex: 1;
+}
+#sidebar li {
+  background-color: var(--first);
+  margin: 0.5rem 0;
+  border: 2px solid grey;
+  border-radius: 8px;
+  padding: 0.3rem 1rem;
+}
+#sidebar > button {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 1rem 0;
+  padding: 0.3rem;
+  width: 100%;
+  color: white;
+  background-color: red;
+  border: none;
+  border-radius: 4px;
+}
+#body-container {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+#display-container {
+  background-color: var(--second);
+  margin: 1rem 1rem 1rem 0.5rem;
+  border: 2px solid black;
+  border-radius: 14px;
+  flex: 1;
+  padding: 2rem;
+}
+#display-container button {
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 0.2rem 1rem;
+  margin: 2rem;
+  border-radius: 4px;
+}
+#submit-btn {
+  background: green;
+  color: white;
+  border: none;
+}
