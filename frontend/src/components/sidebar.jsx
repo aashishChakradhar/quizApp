@@ -10,14 +10,14 @@ export default function Sidebar(props) {
     <div id="sidebar">
       <ul>
         <li>
-          <Link to="/test">Take exam</Link>
+          <Link to="/dashboard">Dashboard</Link>
         </li>
         <li>
           <Link to="/records/view">View Report</Link>
         </li>
-        <li>
+        {/* <li>
           <Link to="/category">View Category</Link>
-        </li>
+        </li> */}
         <li>
           <Link to="/exams">View Exam</Link>
         </li>
