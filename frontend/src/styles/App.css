@@ -75,7 +75,8 @@ footer {
   border-radius: 8px;
   padding: 0.3rem 1rem;
 }
-#sidebar > button {
+#sidebar > button,
+#exit-button {
   font-size: 1.2rem;
   font-weight: 700;
   margin: 1rem 0;
@@ -99,6 +100,8 @@ footer {
   border-radius: 14px;
   flex: 1;
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
 }
 #display-container button {
   font-size: 1.2rem;
@@ -113,7 +116,6 @@ footer {
   border: none;
 }
 #display-container-question {
-  display: flex;
   flex-direction: row;
 }
 #sidebar-question {
@@ -123,8 +125,13 @@ footer {
   overflow: visible;
   max-width: 20%;
   margin: 0 1rem 0 0;
+  display: flex;
+  flex-direction: column;
 }
-#sidebar-question button {
+#question-index {
+  flex: 1;
+}
+#question-index button {
   font-size: 1.3rem;
   font-weight: 700;
   margin: 5px;
@@ -137,7 +144,6 @@ footer {
   flex-direction: column; /* stack elements vertically */
   align-items: center; /* horizontal center */
   justify-content: center; /* vertical center */
-  min-height: 100vh; /* take full height of viewport */
 }
 
 .question-block {
@@ -150,4 +156,22 @@ footer {
   border-radius: 10px;
   width: 40%;
   overflow: visible;
+}
+
+#filter {
+  text-align: right;
+}
+
+table {
+  border: 2px solid black;
+  border-collapse: collapse; /* removes spacing between cells */
+  margin: 1rem auto; /* centers table */
+  text-align: center;
+}
+
+th,
+td {
+  border: 1px solid black;
+  padding: 4px 1rem; /* reduce padding for compact look */
+  white-space: nowrap; /* prevents text from wrapping */
 }
