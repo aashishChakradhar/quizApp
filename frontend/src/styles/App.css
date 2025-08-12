@@ -91,7 +91,8 @@ footer {
   flex-direction: row;
   flex: 1;
 }
-#display-container {
+#display-container,
+#display-container-question {
   background-color: var(--second);
   margin: 1rem 1rem 1rem 0.5rem;
   border: 2px solid black;
@@ -110,4 +111,43 @@ footer {
   background: green;
   color: white;
   border: none;
+}
+#display-container-question {
+  display: flex;
+  flex-direction: row;
+}
+#sidebar-question {
+  border: 2px solid black;
+  border-radius: 14px;
+  padding: 1rem;
+  overflow: visible;
+  max-width: 20%;
+  margin: 0 1rem 0 0;
+}
+#sidebar-question button {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 5px;
+  width: 2rem;
+  border: 1px solid black;
+  border-radius: 8px;
+}
+#question-form {
+  display: flex; /* enables flexbox */
+  flex-direction: column; /* stack elements vertically */
+  align-items: center; /* horizontal center */
+  justify-content: center; /* vertical center */
+  min-height: 100vh; /* take full height of viewport */
+}
+
+.question-block {
+  display: flex;
+  flex-direction: column;
+  align-items: justify;
+  text-align: justify; /* center text inside */
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 40%;
+  overflow: visible;
 }
