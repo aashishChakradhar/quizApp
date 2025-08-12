@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/token.js";
 
 export default function Questions(props) {
@@ -67,6 +67,16 @@ export default function Questions(props) {
     }
   };
 
+  const navigate = useNavigate();
+  const handleExit = () => {
+    const shouldExit = window.confirm(
+      "Are you sure you want to exit? Your progress will be lost and exam will be invlid."
+    );
+    if (shouldExit) {
+      navigate("/exams");
+    }
+  };
+
   if (questions.length === 0) {
     return <p>Loading questions...</p>;
   }
@@ -77,26 +87,32 @@ export default function Questions(props) {
     <div id="display-container-question">
       {/* Sidebar for question numbers */}
       <div id="sidebar-question">
-        {questions.map((_, index) => (
-          <button
-            key={index}
-            style={{
-              color:
-                index === currentIndex || selectedAnswer[questions[index].uid]
-                  ? "white"
-                  : "black",
-              backgroundColor:
-                index === currentIndex
-                  ? "blue"
-                  : selectedAnswer[questions[index].uid]
-                  ? "lightgreen"
-                  : "white",
-            }}
-            onClick={() => goToQuestion(index)}
-          >
-            {index + 1}
-          </button>
-        ))}
+        <div id="question-index">
+          {questions.map((_, index) => (
+            <button
+              key={index}
+              style={{
+                color:
+                  index === currentIndex || selectedAnswer[questions[index].uid]
+                    ? "white"
+                    : "black",
+                backgroundColor:
+                  index === currentIndex
+                    ? "blue"
+                    : selectedAnswer[questions[index].uid]
+                    ? "lightgreen"
+                    : "white",
+              }}
+              onClick={() => goToQuestion(index)}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
+        <button id="exit-button" onClick={handleExit}>
+          {" "}
+          Exit Exam
+        </button>
       </div>
 
       {/* Main question area */}
