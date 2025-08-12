@@ -6,7 +6,7 @@ import Category from "./pages/Category";
 import RecordView from "./pages/Records";
 import Questions from "./pages/ExamForm";
 import Signup from "./pages/Signup";
-import PrivateRoute from "./routes/PrivateRoute";
+import PrivateRoute, { TakeExam } from "./routes/PrivateRoute";
 import ChooseExam from "./pages/ExamAlloc";
 function App() {
   return (
@@ -65,9 +65,9 @@ function App() {
         <Route
           path="/exams/:examid/questions"
           element={
-            <PrivateRoute>
+            <TakeExam>
               <Questions />
-            </PrivateRoute>
+            </TakeExam>
           }
         />
       </Routes>
