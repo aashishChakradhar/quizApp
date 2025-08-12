@@ -80,5 +80,6 @@ class Exam(BaseModel):
     group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True)
     deadline = models.DateField()
     submitted = models.DateField(null=True, blank=True)
+    active = models.BooleanField(default=True)
     def __str__(self):
         return f"{self.title}  ({self.group})"

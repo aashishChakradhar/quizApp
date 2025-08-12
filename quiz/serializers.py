@@ -63,6 +63,7 @@ class ExamSerializer(serializers.ModelSerializer):
     student = serializers.StringRelatedField()
     category = serializers.StringRelatedField()
     group = serializers.StringRelatedField()
+    active = serializers.BooleanField()
 
     class Meta:
         model = Exam

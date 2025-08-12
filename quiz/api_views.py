@@ -111,7 +111,7 @@ class QuestionSubmitAPIView(APIView):
 class ExamListAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self,request):
-        exams = Exam.objects.filter(student = request.user)
+        exams = Exam.objects.filter(student = request.user, active = True)
         serializer = ExamSerializer(exams, many=True)  
         return Response(serializer.data, status=200) 
 
