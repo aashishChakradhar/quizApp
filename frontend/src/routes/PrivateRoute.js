@@ -2,7 +2,7 @@ import { Navigate } from "react-router-dom";
 import { isAuthenticated } from "../services/authService";
 import Header from "../components/header";
 import Sidebar from "../components/sidebar";
-import Footer from "../components/footer";
+import QuestionNumber from "../components/questionNumber";
 
 export default function PrivateRoute({ children }) {
   if (!isAuthenticated()) {
@@ -11,9 +11,26 @@ export default function PrivateRoute({ children }) {
   return (
     <>
       <Header />
-      <Sidebar />
-      {children}
-      <Footer />
+      <div id="body-container">
+        <Sidebar />
+        {children}
+        {/* <Footer /> */}
+      </div>
+    </>
+  );
+}
+
+export function TakeExam({ children }) {
+  if (!isAuthenticated()) {
+    <Navigate to="/login" />;
+  }
+  return (
+    <>
+      <div id="body-container">
+        <QuestionNumber />
+        {children}
+        {/* <Footer /> */}
+      </div>
     </>
   );
 }
