@@ -1,19 +1,25 @@
-import { logout } from "../services/authService";
 import { useState, useEffect } from "react";
 import api from "../api/token.js";
+import LineGraph from "../components/linegraph";
 import BarGraph from "../components/bargraph";
-import { useNavigate, Link } from "react-router-dom";
 
 export default function Dashboard() {
   const [records, setRecords] = useState([]);
-  const [activeRecords, setActiveRecords] = useState([]);
+  const [categoryData, setCategoryData] = useState({});
+  const [graphType, setGraphType] = useState("line"); // default to line graph
+
   useEffect(() => {
-    api
-      .get(`${process.env.REACT_APP_API_URL}/records/view/`)
-      .then((res) => {
+    const fetchRecords = async () => {
+      try {
+        const res = await api.get(
+          `${process.env.REACT_APP_API_URL}/records/view/`
+        );
         setRecords(res.data);
+
         const current_year = new Date().getFullYear();
         const current_month = new Date().getMonth();
+
+        // Filter records for current month
         const filtered = res.data.filter((record) => {
           const recordDate = new Date(record.created_at);
           return (
@@ -21,22 +27,64 @@ export default function Dashboard() {
             recordDate.getFullYear() === current_year
           );
         });
-        // Transform records to add a "name" field for the chart X-axis
-        const transformed = filtered.map((record) => ({
-          name: `${record.category}`, // customize label
-          score: record.score,
-          uid: record.uid,
-        }));
 
-        setActiveRecords(transformed);
-      })
-      .catch((err) => console.error(err));
+        // Group records by category
+        const grouped = {};
+        filtered.forEach((record) => {
+          if (!grouped[record.category]) grouped[record.category] = [];
+          grouped[record.category].push({
+            name: new Date(record.created_at).toLocaleDateString(),
+            score: record.score,
+          });
+        });
+
+        // Optional: sort by date for smoother graphs
+        Object.keys(grouped).forEach((cat) => {
+          grouped[cat].sort((a, b) => new Date(a.name) - new Date(b.name));
+        });
+
+        setCategoryData(grouped);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchRecords();
   }, []);
+
+  const toggleGraph = () => {
+    setGraphType((prev) => (prev === "line" ? "bar" : "line"));
+  };
 
   return (
     <div id="display-container">
-      Track your Records
-      <BarGraph data={activeRecords} />
+      <h2>Track Your Records</h2>
+      <button
+        onClick={toggleGraph}
+        style={{
+          marginBottom: "1rem",
+          padding: "0",
+          width: "fit-content",
+          fontSize: "0.8rem",
+        }}
+      >
+        {graphType === "line" ? "Bar Graph" : "Line Graph"}
+      </button>
+
+      {Object.keys(categoryData).length === 0 && (
+        <p>No records for this month.</p>
+      )}
+
+      {Object.entries(categoryData).map(([category, data], index) => (
+        <div key={index} style={{ marginBottom: "2rem" }}>
+          <h3>{category}</h3>
+          {graphType === "line" ? (
+            <LineGraph data={data} />
+          ) : (
+            <BarGraph data={data} />
+          )}
+        </div>
+      ))}
     </div>
   );
 }
