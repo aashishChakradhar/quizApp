@@ -32,7 +32,7 @@ export default function RecordView(porps) {
   return (
     <div id="display-container">
       <div id="filter">
-        Filter:
+        Topics:
         <select
           style={{ marginRight: "auto" }}
           name="category"
@@ -40,7 +40,7 @@ export default function RecordView(porps) {
           value={selectedCategory}
           onChange={handleFilter}
         >
-          <option value="">-- All --</option>
+          <option value="">-- Topics --</option>
           {categories.map((category, index) => (
             <option key={index} value={category}>
               {category}

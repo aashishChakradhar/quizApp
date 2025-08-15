@@ -2,7 +2,6 @@ import { Navigate } from "react-router-dom";
 import { isAuthenticated } from "../services/authService";
 import Header from "../components/header";
 import Sidebar from "../components/sidebar";
-import QuestionNumber from "../components/questionNumber";
 
 export default function PrivateRoute({ children }) {
   if (!isAuthenticated()) {
@@ -26,11 +25,7 @@ export function TakeExam({ children }) {
   }
   return (
     <>
-      <div id="body-container">
-        <QuestionNumber />
-        {children}
-        {/* <Footer /> */}
-      </div>
+      <div id="body-container">{children}</div>
     </>
   );
 }
