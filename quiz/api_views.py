@@ -162,7 +162,7 @@ class RecordsCreateAPIView(APIView):
 class RecordsViewAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self,request):
-        records = Records.objects.filter(user=request.user).order_by('-created_at')
+        records = Records.objects.filter(user=request.user).order_by('-created_at')[:15]
         serializer = RecordsSerializer(records, many=True)
         return Response(serializer.data, status=200)
         
