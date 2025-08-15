@@ -57,26 +57,41 @@ export default function Dashboard() {
   };
 
   return (
-    <div id="display-container">
-      <h2>Track Your Records</h2>
-      <button
-        onClick={toggleGraph}
+    <div
+      id="display-container"
+      style={{ overflow: "scroll", height: "71.5vh" }}
+    >
+      <div
         style={{
-          marginBottom: "1rem",
-          padding: "0",
-          width: "fit-content",
-          fontSize: "0.8rem",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
-        {graphType === "line" ? "Bar Graph" : "Line Graph"}
-      </button>
+        <span style={{ fontSize: "1.5rem", fontWeight: "700" }}>
+          Track your record
+        </span>
+        <button
+          onClick={toggleGraph}
+          style={{
+            margin: "0",
+            padding: "4px",
+            fontSize: "0.8rem",
+            cursor: "pointer",
+            backgroundColor: "transparent",
+          }}
+        >
+          {graphType === "line" ? "Bar Graph" : "Line Graph"}
+        </button>
+      </div>
 
       {Object.keys(categoryData).length === 0 && (
         <p>No records for this month.</p>
       )}
 
       {Object.entries(categoryData).map(([category, data], index) => (
-        <div key={index} style={{ marginBottom: "2rem" }}>
+        <div key={index} style={{ marginBottom: "1rem" }}>
           <h3>{category}</h3>
           {graphType === "line" ? (
             <LineGraph data={data} />
