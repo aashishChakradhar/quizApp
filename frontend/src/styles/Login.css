@@ -1,0 +1,49 @@
+#sign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+#sign label > input {
+  height: 2.4rem;
+  font-size: 1.4rem;
+  margin: 1rem;
+  padding-left: 1.2rem;
+  padding-top: 0.5rem;
+  width: 100%;
+  border-radius: 8px;
+  border: 2px solid black;
+}
+#sign label {
+  position: relative;
+}
+#sign label > span {
+  position: absolute;
+  top: 3%;
+  left: 11%;
+  font-size: 0.9rem;
+  padding: 4px;
+  background: white;
+  border: 1px solid black;
+  border-radius: 8px;
+}
+#sign > button {
+  height: 2.3rem;
+  font-size: 1.2rem;
+  width: auto;
+  margin: 1rem;
+  border-radius: 8px;
+  border: 2px solid black;
+  background: none;
+  min-width: 10%;
+  &:hover {
+    transform: scale(1.04);
+    background-color: lightblue;
+  }
+}
+.input-group {
+  display: flex;
+  flex-direction: row;
+  gap: 3rem;
+}
