@@ -4,7 +4,7 @@ from rest_framework import status, permissions
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from .models import Category, Question, Answer, Records, Exam
-from .serializers import CategorySerializer, QuestionSerializer, RecordsSerializer, UserRegistrationSerializer, ExamSerializer
+from .serializers import UserSerializer,CategorySerializer, QuestionSerializer, RecordsSerializer, UserRegistrationSerializer, ExamSerializer
 import random
 
 class RegistrationAPIView(APIView):
@@ -29,6 +29,24 @@ class UserListAPIView(APIView):
             for user in users
         ]
         return Response(data, status=200)
+
+class ProfileAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = User.objects.get(id=request.user.id)
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=200)
+
+class UpdateProfileAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def patch(self,request):
+        user = request.user
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CategoryListAPIView(APIView):
     def get(self, request):

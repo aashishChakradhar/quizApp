@@ -29,6 +29,8 @@ urlpatterns = [
 
     # User Endpoints (Admin-only, optional)
     path('users/', api_views.UserListAPIView.as_view(), name='user-list'),
+    path('profile/', api_views.ProfileAPIView.as_view(), name='profile'),
+    path('update/', api_views.UpdateProfileAPIView.as_view(), name='update-profile'),
 
     path('register/',api_views.RegistrationAPIView.as_view(), name='create-user')
 ]

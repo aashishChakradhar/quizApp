@@ -12,7 +12,12 @@ export default function Header(props) {
         Quizzy Quiz
       </Link>
       <div id="greeting">
-        {greeting},{props.user}
+        {greeting} {props.user}
+      </div>
+      <div id="profile">
+        <Link to="/profile">
+          <span class="material-symbols-outlined">account_circle</span>
+        </Link>
       </div>
     </header>
   );
