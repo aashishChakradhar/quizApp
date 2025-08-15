@@ -1,3 +1,4 @@
+import "../styles/Login.css";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { login } from "../services/authService";
@@ -17,24 +18,26 @@ export default function LoginForm(props) {
     }
   };
   return (
-    <form action="" method="post" onSubmit={handleSubmit}>
-      <div>Login</div>
+    <form id="sign" action="" method="post" onSubmit={handleSubmit}>
+      <div id="title">Login</div>
       <label htmlFor="username">
-        Username
+        <span>Username</span>
         <input
           type="text"
           name="username"
           id="username"
+          placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
       </label>
       <label htmlFor="password">
-        Password
+        <span>Password</span>
         <input
           type="password"
           name="password"
           id="password"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />

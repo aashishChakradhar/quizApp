@@ -6,6 +6,7 @@ import Category from "./pages/Category";
 import RecordView from "./pages/Records";
 import Questions from "./pages/ExamForm";
 import Signup from "./pages/Signup";
+import Profile from "./pages/Profile";
 import PrivateRoute, { TakeExam } from "./routes/PrivateRoute";
 import ChooseExam from "./pages/ExamAlloc";
 function App() {
@@ -68,6 +69,14 @@ function App() {
             <TakeExam>
               <Questions />
             </TakeExam>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
           }
         />
       </Routes>

@@ -1,3 +1,4 @@
+import "../styles/Login.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -34,67 +35,80 @@ export default function Signup(props) {
     }
   }
   return (
-    <form method="post" onSubmit={handleSubmit}>
-      <label htmlFor="first_name">
-        <input
-          type="text"
-          name="first_name"
-          id="first_name"
-          placeholder="First Name"
-          value={info.first_name || ""}
-          onChange={handleChange}
-        />
-      </label>
-      <label htmlFor="last_name">
-        <input
-          type="text"
-          name="last_name"
-          id="last_name"
-          placeholder="Last Name"
-          value={info.last_name || ""}
-          onChange={handleChange}
-        />
-      </label>
-      <label htmlFor="email">
-        <input
-          type="email"
-          name="email"
-          id="email"
-          placeholder="example@email.com"
-          value={info.email || ""}
-          onChange={handleChange}
-        />
-      </label>
-      <label htmlFor="username">
-        <input
-          type="text"
-          name="username"
-          id="username"
-          placeholder="username"
-          value={info.username || ""}
-          onChange={handleChange}
-        />
-      </label>
-      <label htmlFor="password">
-        <input
-          type="password"
-          name="password"
-          id="password"
-          placeholder="password"
-          value={info.password || ""}
-          onChange={handleChange}
-        />
-      </label>
-      <label htmlFor="password2">
-        <input
-          type="password"
-          name="password2"
-          id="password2"
-          placeholder="confirm password"
-          value={info.password2 || ""}
-          onChange={handleChange}
-        />
-      </label>
+    <form id="sign" method="post" onSubmit={handleSubmit}>
+      <div id="title">Create an Account</div>
+      <div className="input-group">
+        <label htmlFor="first_name">
+          <span>First Name</span>
+          <input
+            type="text"
+            name="first_name"
+            id="first_name"
+            placeholder="First Name"
+            value={info.first_name || ""}
+            onChange={handleChange}
+          />
+        </label>
+        <label htmlFor="last_name">
+          <span>Last Name</span>
+          <input
+            type="text"
+            name="last_name"
+            id="last_name"
+            placeholder="Last Name"
+            value={info.last_name || ""}
+            onChange={handleChange}
+          />
+        </label>
+      </div>
+      <div className="input-group">
+        <label htmlFor="email">
+          <span>Email</span>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="example@email.com"
+            value={info.email || ""}
+            onChange={handleChange}
+          />
+        </label>
+        <label htmlFor="username">
+          <span>Username</span>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="username"
+            value={info.username || ""}
+            onChange={handleChange}
+          />
+        </label>
+      </div>
+      <div className="input-group">
+        <label htmlFor="password">
+          <span>Password</span>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="password"
+            value={info.password || ""}
+            onChange={handleChange}
+          />
+        </label>
+        <label htmlFor="password2">
+          <span>Confirm Password</span>
+          <input
+            type="password"
+            name="password2"
+            id="password2"
+            placeholder="confirm password"
+            value={info.password2 || ""}
+            onChange={handleChange}
+          />
+        </label>
+      </div>
       <button type="submit">Signup</button>
       <Link to="/login">Already have an account</Link>
     </form>
