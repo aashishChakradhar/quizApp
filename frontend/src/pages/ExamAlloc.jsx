@@ -15,11 +15,18 @@ export default function ChooseExam(props) {
   return (
     <div id="display-container">
       <h2>Available exam</h2>
-      <ul>
+      <ul style={{ listStyleType: "none" }}>
         {exams.map((exam, index) => (
           <li key={index}>
-            <Link to={`/exams/${exam.uid}/questions`}>
-              {exam.title} {exam.student} {exam.category}
+            <Link
+              to={`/exams/${exam.uid}/questions`}
+              style={{
+                fontSize: "1.2rem",
+                fontWeight: "700",
+                textDecoration: "none",
+              }}
+            >
+              {exam.category}: {exam.title}
             </Link>
           </li>
         ))}
