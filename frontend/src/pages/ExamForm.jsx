@@ -59,6 +59,7 @@ export default function Questions(props) {
       console.error("Submission failed:", err);
       alert("Submission failed");
     }
+    navigate("/dashboard");
   };
 
   const goToQuestion = (index) => {
