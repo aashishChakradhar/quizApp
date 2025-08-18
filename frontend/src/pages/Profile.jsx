@@ -50,13 +50,11 @@ export default function Profile(props) {
       <div id="title">My Account</div>
       <div id="info">
         <form id="details" method="post" onSubmit={handleSubmit}>
-          <span
-            className="material-symbols-outlined"
-            style={{ cursor: "pointer", marginLeft: "auto" }}
-            onClick={toggleEdit}
-          >
-            person_edit
-          </span>
+          <img
+            className="icon"
+            src="/icons/personEdit.svg"
+            style={{ marginLeft: "auto" }}
+          />
 
           <label htmlFor="first_name">
             <span>First Name:</span>
