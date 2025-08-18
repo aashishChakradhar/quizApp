@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../api/token.js";
+import api from "../../api/token.js";
 export default function RecordView(porps) {
   const [records, setRecords] = useState([]);
   const [filtered, setFiltered] = useState([]);

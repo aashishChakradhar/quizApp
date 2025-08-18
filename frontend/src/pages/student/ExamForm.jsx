@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import api from "../api/token.js";
+import api from "../../api/token.js";
 
 export default function Questions(props) {
   const { examid } = useParams();

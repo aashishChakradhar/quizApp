@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import api from "../api/token";
+import api from "../../api/token";
 
 export default function ChooseExam(props) {
   const [exams, setExams] = useState([]);

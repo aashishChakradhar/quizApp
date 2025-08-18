@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import api from "../api/token.js";
-import LineGraph from "../components/linegraph";
-import BarGraph from "../components/bargraph";
+import api from "../../api/token.js";
+import LineGraph from "../../components/linegraph";
+import BarGraph from "../../components/bargraph";
 
 export default function Dashboard() {
   const [records, setRecords] = useState([]);
