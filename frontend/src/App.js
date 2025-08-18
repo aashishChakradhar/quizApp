@@ -1,14 +1,14 @@
 import "./styles/App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/student/Dashboard";
 import Category from "./pages/Category";
-import RecordView from "./pages/Records";
-import Questions from "./pages/ExamForm";
+import RecordView from "./pages/student/Records";
+import Questions from "./pages/student/ExamForm";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
 import PrivateRoute, { TakeExam } from "./routes/PrivateRoute";
-import ChooseExam from "./pages/ExamAlloc";
+import ChooseExam from "./pages/student/ExamAlloc";
 function App() {
   return (
     <Router>
