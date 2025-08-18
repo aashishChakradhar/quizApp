@@ -1,13 +1,13 @@
 :root {
   --main-background: red;
-  --first: #d3f6f3;
-  --second: #f9fce1;
+  --primaryBackground: #d3f6f3;
+  --secondaryBackground: #f9fce1;
   --third: #fee9b2;
   --fourth: #fbd1b7;
 }
 
 body {
-  background-color: var(--first);
+  background-color: var(--primaryBackground);
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -16,7 +16,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: var(--first);
+  background-color: var(--primaryBackground);
 }
 
 header {
@@ -43,25 +43,22 @@ header {
   font-size: 1.3rem;
   font-weight: 700;
 }
-.material-symbols-outlined {
+#profile .icon {
   display: flex;
   flex-direction: column;
   height: 100%;
   align-items: center;
   justify-content: center;
 }
-#profile a {
-  text-decoration: none;
-}
-#profile a .material-symbols-outlined {
-  color: black;
+.icon {
+  width: 2.3rem;
 }
 footer {
   text-align: center;
   font-weight: 700;
 }
 #sidebar {
-  background-color: var(--second);
+  background-color: var(--secondaryBackground);
   border: 2px solid black;
   border-radius: 14px;
   padding: 0 2rem;
@@ -82,7 +79,7 @@ footer {
   flex: 1;
 }
 #sidebar li {
-  background-color: var(--first);
+  background-color: var(--primaryBackground);
   margin: 0.5rem 0;
   border: 2px solid grey;
   border-radius: 8px;
@@ -107,7 +104,7 @@ footer {
 }
 #display-container,
 #display-container-question {
-  background-color: var(--second);
+  background-color: var(--secondaryBackground);
   margin: 1rem 1rem 1rem 0.5rem;
   border: 2px solid black;
   border-radius: 14px;
@@ -211,7 +208,7 @@ td {
   position: absolute;
   top: -20%;
   left: 5%;
-  background-color: white;
+  background-color: var(--secondaryBackground);
 }
 #details > label > input {
   border-radius: 8px;

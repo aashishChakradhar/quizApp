@@ -32,7 +32,7 @@ export default function Header(props) {
       </div>
       <div id="profile">
         <Link to="/profile">
-          <span className="material-symbols-outlined">account_circle</span>
+          <img className="icon" src="/icons/accountCircle.svg" />
         </Link>
       </div>
     </header>
