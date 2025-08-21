@@ -40,4 +40,8 @@ urlpatterns = [
     path('exams/', api_views.ExamListAPIView.as_view(), name='exams'),
     path('exams/<str:exam_id>/questions/',api_views.ExamQuestionAPIView.as_view(), name='take-exam'),
     path('exams/<str:exam_id>/submit/',api_views.ExamSubmitAPIView.as_view(), name='submit-exam'),
+
+    # for teacher
+    path('teacher/create-group/',api_views.CreateStudentGroupAPIView.as_view(), name='student-group'),
+    path('teacher/create-exam/',api_views.CreateExamAPIView.as_view(), name='create-exam'),
 ]

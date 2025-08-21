@@ -3,9 +3,10 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
-from .models import Category, Question, Answer, Records, Exam
-from .serializers import UserSerializer,CategorySerializer, QuestionSerializer, RecordsSerializer, UserRegistrationSerializer, ExamSerializer
+from .models import Category, Question, Answer, Records, Exam, Group
+from .serializers import  StudentGroupSerializer, UserSerializer,CategorySerializer, QuestionSerializer,RecordsSerializer, UserRegistrationSerializer, ExamSerializer,ExamSubmitSerializer
 import random
+from datetime import datetime
 
 class RegistrationAPIView(APIView):
     def post(self,request):
@@ -109,7 +110,8 @@ class RecordsViewAPIView(APIView):
 class ExamListAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self,request):
-        exams = Exam.objects.filter(student = request.user, active = True)
+        group = Group.objects.filter(students = request.user)
+        exams = Exam.objects.filter(groups__in = group, active = True).distinct()
         serializer = ExamSerializer(exams, many=True)  
         return Response(serializer.data, status=200) 
 
@@ -117,7 +119,7 @@ class ExamQuestionAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self,request, exam_id):
-        exam = get_object_or_404(Exam, uid=exam_id, student=request.user)
+        exam = get_object_or_404(Exam, uid=exam_id, groups__students=request.user)
         questions = list(Question.objects.filter(category=exam.category))
         random.shuffle(questions)
         serializer = QuestionSerializer(questions, many=True)
@@ -171,3 +173,100 @@ class ExamSubmitAPIView(APIView):
 
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+# for teachers
+class CreateStudentGroupAPIView(APIView):
+    def get(self, request):
+        users = User.objects.all()
+        data = [
+            {
+                'uid': user.id,
+                'username': user.username,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'email': user.email,
+            }
+            for user in users
+        ]
+        return Response(data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        user_ids = request.data.get("students", [])
+        group_name = request.data.get("name")
+
+        if not group_name:
+            return Response({"error": "Group name is required"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        group = Group.objects.create(name=group_name)
+        
+        if user_ids:
+            users = User.objects.filter(id__in=user_ids)
+            group.students.set(users)
+        
+        serializer = StudentGroupSerializer(group)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class CreateExamAPIView(APIView):
+    #  permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        categories = Category.objects.all()
+        groups = Group.objects.all()
+
+        category_serializer = CategorySerializer(categories, many=True)
+        group_serializer = StudentGroupSerializer(groups, many=True)
+
+        return Response({
+            "categories": category_serializer.data,
+            "groups": group_serializer.data
+        }, status=200)
+    
+    def post(self, request):
+        """
+        Create a new exam with title, category, groups, total_points.
+        Expected payload:
+        {
+            "title": "Exam Title",
+            "category": "<category_id>",
+            "groups": ["<group_id1>", "<group_id2>"],  # Can be multiple
+            "total_points": 50
+        }
+        """
+        data = request.data
+        title = data.get("title")
+        category_id = data.get("category")
+        group_ids = data.get("groups", [])
+        total_points = data.get("total_points", 0)
+        deadline_str = data.get("deadline")
+
+        try:
+            deadline = datetime.strptime(deadline_str, "%d-%m-%Y").date()
+        except ValueError:
+            return Response({"error": "Invalid date format for deadline. Use YYYY-MM-DD."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not title or not category_id or not group_ids:
+            return Response({"error": "Title, category, and groups are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Fetch related objects
+        try:
+            category = Category.objects.get(uid=category_id)
+        except Category.DoesNotExist:
+            return Response({"error": "Category not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        groups = Group.objects.filter(uid__in=group_ids)
+        if not groups.exists():
+            return Response({"error": "One or more groups not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Create exam
+        exam = Exam.objects.create(
+            title=title,
+            category=category,
+            teacher=request.user,
+            total_points=total_points,
+            deadline = deadline
+        )
+        exam.groups.set(groups)
+        exam.save()
+
+        serializer = ExamSerializer(exam)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
