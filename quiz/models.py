@@ -67,19 +67,29 @@ class Answer(BaseModel):
         return self.answer
     
 class Group(BaseModel):
-    user = models.ForeignKey(User, related_name="group_user", on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
+    students = models.ManyToManyField(User, related_name="student_groups")
+
     def __str__(self):
         return self.name
 
 class Exam(BaseModel):
-    teacher = models.ForeignKey(User, related_name = "creator", on_delete=models.CASCADE)
-    student = models.ForeignKey(User, related_name="examinee", on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
-    group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True)
+    teacher = models.ForeignKey(User, related_name="created_exams", on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    groups = models.ManyToManyField(Group, related_name="exams")  # Assign exam to multiple groups
     deadline = models.DateField()
-    submitted = models.DateField(null=True, blank=True)
+    total_points = models.PositiveIntegerField(default=0)
     active = models.BooleanField(default=True)
+
     def __str__(self):
-        return f"{self.title}  ({self.group})"
+        return self.title
+
+class ExamSubmit(BaseModel):
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="submissions")
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name="submissions")
+    submission_date = models.DateField(auto_now_add=True)
+    score = models.PositiveIntegerField(default=0)  # ✅ Optional: store obtained marks
+
+    def __str__(self):
+        return f"{self.student.username} → {self.exam.title}"

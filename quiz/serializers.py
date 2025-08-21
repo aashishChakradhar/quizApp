@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
-from .models import Category, Records, Question, Answer, Exam
+from .models import Category, Records, Question, Answer, Exam, Group, ExamSubmit
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -58,13 +58,29 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = ['uid', 'question', 'marks', 'category', 'question_answer']
 
+class StudentGroupSerializer(serializers.ModelSerializer):
+    students = serializers.StringRelatedField(many=True)  # show usernames instead of IDs
+
+    class Meta:
+        model = Group
+        fields = ["uid", "name", "students"]
+
 class ExamSerializer(serializers.ModelSerializer):
-    teacher = serializers.StringRelatedField()
-    student = serializers.StringRelatedField()
+    teacher = serializers.StringRelatedField()  # username
     category = serializers.StringRelatedField()
-    group = serializers.StringRelatedField()
-    active = serializers.BooleanField()
+    groups = StudentGroupSerializer(many=True, read_only=True)  # nested groups
 
     class Meta:
         model = Exam
+        fields = '__all__'
+
+class ExamSubmitSerializer(serializers.ModelSerializer):
+    student = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(),
+        default=serializers.CurrentUserDefault()
+    )
+    exam = serializers.PrimaryKeyRelatedField(queryset=Exam.objects.all())
+
+    class Meta:
+        model = ExamSubmit
         fields = '__all__'
