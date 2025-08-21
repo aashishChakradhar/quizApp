@@ -123,7 +123,8 @@ footer {
 #submit-btn {
   background: green;
   color: white;
-  border: none;
+  border: 1px solid black;
+  cursor: pointer;
 }
 #display-container-question {
   flex-direction: row;
@@ -209,21 +210,35 @@ td {
   top: -20%;
   left: 5%;
   background-color: var(--secondaryBackground);
+  cursor: pointer;
 }
-#details > label > input {
+#details > label > input,
+#details > label > select {
   border-radius: 8px;
   height: 2.5rem;
   width: 100%;
   padding-left: 1rem;
   font-size: 1.2rem;
-}
-#details > #button-container > button {
-  margin-bottom: 0;
-  background-color: transparent;
-  width: 40%;
-  align-items: center;
+  border: 1px solid black;
+
+  /* 🔹 Force consistent box model */
+  box-sizing: border-box;
+
+  /* 🔹 Make sure both align vertically */
+  line-height: 2.5rem;
 }
 #button-container {
   display: flex;
+  justify-content: center;
+}
+#details > #button-container > button {
+  margin-bottom: 0;
+  width: 40%;
+  align-items: center;
+}
+.center-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
