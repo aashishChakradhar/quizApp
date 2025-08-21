@@ -21,7 +21,7 @@ export default function Header(props) {
       }
     };
     fetchUser();
-  });
+  }, []);
   return (
     <header>
       <Link id="title" to="/dashboard">
