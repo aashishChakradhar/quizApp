@@ -2,6 +2,7 @@ import { Navigate } from "react-router-dom";
 import { isAuthenticated } from "../services/authService";
 import Header from "../components/header";
 import Sidebar from "../components/sidebar";
+import TeacherSidebar from "../components/teacher-sidebar";
 
 export default function PrivateRoute({ children }) {
   if (!isAuthenticated()) {
@@ -26,6 +27,23 @@ export function TakeExam({ children }) {
   return (
     <>
       <div id="body-container">{children}</div>
+    </>
+  );
+}
+
+// for teacher
+export function TeacherPrivateRoute({ children }) {
+  if (!isAuthenticated()) {
+    <Navigate to="/login" />;
+  }
+  return (
+    <>
+      <Header />
+      <div id="body-container">
+        <TeacherSidebar />
+        {children}
+        {/* <Footer /> */}
+      </div>
     </>
   );
 }

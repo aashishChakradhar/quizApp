@@ -7,8 +7,13 @@ import RecordView from "./pages/student/Records";
 import Questions from "./pages/student/ExamForm";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
-import PrivateRoute, { TakeExam } from "./routes/PrivateRoute";
+import PrivateRoute, {
+  TakeExam,
+  TeacherPrivateRoute,
+} from "./routes/PrivateRoute";
 import ChooseExam from "./pages/student/ExamAlloc";
+import CreateGroup from "./pages/teacher/Group";
+import CreateExam from "./pages/teacher/CreateExam";
 function App() {
   return (
     <Router>
@@ -77,6 +82,23 @@ function App() {
             <PrivateRoute>
               <Profile />
             </PrivateRoute>
+          }
+        />
+        {/* for teacher */}
+        <Route
+          path="/teacher/create-group"
+          element={
+            <TeacherPrivateRoute>
+              <CreateGroup />
+            </TeacherPrivateRoute>
+          }
+        />
+        <Route
+          path="/teacher/create-exam"
+          element={
+            <TeacherPrivateRoute>
+              <CreateExam />
+            </TeacherPrivateRoute>
           }
         />
       </Routes>
